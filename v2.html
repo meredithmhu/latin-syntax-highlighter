@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="la">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Latin</title>
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+    }
+
+    body {
+      background: #e8dcc8;
+      font-family: Georgia, "Times New Roman", serif;
+      position: relative;
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    h1 {
+      font-size: 3.2rem;
+      font-weight: bold;
+      color: #1a1a1a;
+      letter-spacing: 0.01em;
+      line-height: 1.2;
+      margin: 0;
+      text-align: center;
+      position: absolute;
+      top: 52px;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      color: #555;
+      font-style: italic;
+      text-align: center;
+      position: absolute;
+      top: 130px;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .mode-toggle {
+      position: absolute;
+      top: 36px;
+      right: 44px;
+      background: none;
+      border: none;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 0.82rem;
+      color: rgba(26, 26, 26, 0.35);
+      cursor: pointer;
+      letter-spacing: 0.08em;
+      z-index: 10;
+      padding: 0;
+      transition: color 0.25s;
+    }
+
+    .mode-toggle:hover {
+      color: rgba(26, 26, 26, 0.65);
+    }
+
+    /* ── Slides ── */
+    .slides {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.85s cubic-bezier(0.76, 0, 0.24, 1),
+                  opacity  0.85s ease;
+    }
+
+    .slide.above  { transform: translateY(-100%); opacity: 0; }
+    .slide.active { transform: translateY(0);      opacity: 1; }
+    .slide.below  { transform: translateY(100%);  opacity: 0; }
+
+    /* ── Verse ── */
+    .verse {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .latin {
+      font-size: 1.6rem;
+      color: #1a1a1a;
+      letter-spacing: 0.04em;
+      margin: 0;
+    }
+
+    .english {
+      font-size: 1.6rem;
+      color: rgba(26, 26, 26, 0.42);
+      font-style: italic;
+      margin: 20px 0 0 0;
+    }
+
+    /* ── Hover: Latin glow ── */
+    .lat-word {
+      cursor: default;
+      transition: text-shadow 0.28s ease 0.07s;
+    }
+
+    .lat-word.lat-active {
+      text-shadow:
+        0 0  1px #fff,
+        0 0  3px #fff,
+        0 0  6px #fff,
+        0 0 12px rgba(255, 255, 255, 0.95),
+        0 0 22px rgba(255, 255, 255, 0.85),
+        0 0 40px rgba(255, 255, 255, 0.6),
+        0 0 65px rgba(255, 255, 255, 0.35);
+    }
+
+    /* ── Hover: English reveal ── */
+    .eng-word {
+      transition: text-shadow 0.65s ease 0.12s, color 0.65s ease 0.12s;
+    }
+
+    .eng-word.eng-active {
+      color: rgba(26, 26, 26, 0.75);
+      text-shadow:
+        0 0 0.5px rgba(26, 26, 26, 0.7),
+        0 0 0.5px rgba(26, 26, 26, 0.7);
+    }
+
+    /* ── Static mode ── */
+    body.static-mode {
+      overflow: auto;
+      height: auto;
+      min-height: 100vh;
+    }
+
+    body.static-mode .slides {
+      position: static;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 230px;
+      padding-bottom: 100px;
+      gap: 110px;
+      overflow: visible;
+    }
+
+    body.static-mode .slide {
+      position: static !important;
+      transform: none !important;
+      opacity: 1 !important;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>The Toothpaste Poem</h1>
+  <div class="subtitle">Apuleius &mdash; <em>Apologia</em>, Chapter 6</div>
+  <button class="mode-toggle" id="mode-toggle">show all</button>
+
+  <div class="slides" id="slides">
+
+    <div class="slide active" data-idx="0">
+      <div class="verse">
+        <p class="latin">
+          <span class="lat-word" data-group="a1">Calpurniane,</span>
+          <span class="lat-word" data-group="a2">salve</span>
+          <span class="lat-word" data-group="a3">properis</span>
+          <span class="lat-word" data-group="a3">versibus.</span>
+        </p>
+        <p class="english">
+          <span class="eng-word" data-group="a2">Greetings,</span>
+          <span class="eng-word" data-group="a1">Calpurnius</span>
+          <span class="eng-word" data-group="a3">with these swift verses.</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="slide below" data-idx="1">
+      <div class="verse">
+        <p class="latin">
+          <span class="lat-word" data-group="b1">Misi,</span>
+          <span class="lat-word" data-group="b2">ut</span>
+          <span class="lat-word" data-group="b2">petisti,</span>
+          <span class="lat-word" data-group="b3">munditias</span>
+          <span class="lat-word" data-group="b4">dentium</span>
+        </p>
+        <p class="english">
+          <span class="eng-word" data-group="b1">I sent,</span>
+          <span class="eng-word" data-group="b2">as you asked,</span>
+          <span class="eng-word" data-group="b1">to you,</span>
+          <span class="eng-word" data-group="b3">the cleaning supplies</span>
+          <span class="eng-word" data-group="b4">for your teeth.</span>
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ── Hover ─────────────────────────────────────────────────────────────────
+    document.getElementById('slides').addEventListener('mouseover', e => {
+      const word = e.target.closest('[data-group]');
+      if (!word) return;
+      const group = word.dataset.group;
+      const slide = word.closest('.slide');
+      slide.querySelectorAll('.lat-word, .eng-word').forEach(el =>
+        el.classList.remove('lat-active', 'eng-active')
+      );
+      slide.querySelectorAll(`.lat-word[data-group="${group}"]`).forEach(el =>
+        el.classList.add('lat-active')
+      );
+      slide.querySelectorAll(`.eng-word[data-group="${group}"]`).forEach(el =>
+        el.classList.add('eng-active')
+      );
+    });
+
+    document.getElementById('slides').addEventListener('mouseleave', () => {
+      document.querySelectorAll('.lat-active, .eng-active').forEach(el =>
+        el.classList.remove('lat-active', 'eng-active')
+      );
+    });
+
+    // ── Scroll navigation ─────────────────────────────────────────────────────
+    const slides    = Array.from(document.querySelectorAll('.slide'));
+    let current     = 0;
+    let animating   = false;
+    let scrollMode  = true;
+
+    function goTo(next) {
+      if (!scrollMode)                        return;
+      if (next < 0 || next >= slides.length) return;
+      if (next === current || animating)      return;
+
+      animating = true;
+      const goingDown = next > current;
+
+      slides[next].classList.remove('above', 'below', 'active');
+      slides[next].classList.add(goingDown ? 'below' : 'above');
+      slides[next].getBoundingClientRect(); // force reflow
+
+      slides[current].classList.remove('active');
+      slides[current].classList.add(goingDown ? 'above' : 'below');
+      slides[next].classList.remove('above', 'below');
+      slides[next].classList.add('active');
+
+      current = next;
+      setTimeout(() => { animating = false; }, 900);
+    }
+
+    window.addEventListener('wheel', e => {
+      if (e.deltaY > 0) goTo(current + 1);
+      else              goTo(current - 1);
+    }, { passive: true });
+
+    // ── Mode toggle ───────────────────────────────────────────────────────────
+    document.getElementById('mode-toggle').addEventListener('click', () => {
+      scrollMode = !scrollMode;
+      document.body.classList.toggle('static-mode', !scrollMode);
+      document.getElementById('mode-toggle').textContent = scrollMode ? 'show all' : 'scroll';
+
+      if (scrollMode) {
+        slides.forEach((s, i) => {
+          s.classList.remove('above', 'below', 'active');
+          if      (i < current)  s.classList.add('above');
+          else if (i === current) s.classList.add('active');
+          else                   s.classList.add('below');
+        });
+      }
+    });
+  </script>
+
+</body>
+</html>
