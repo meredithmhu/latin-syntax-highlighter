@@ -13,44 +13,11 @@
     body {
       background: #e8dcc8;
       font-family: Georgia, "Times New Roman", serif;
-      position: relative;
-      overflow: hidden;
-      height: 100vh;
     }
 
-    h1 {
-      font-size: 3.2rem;
-      font-weight: bold;
-      color: #1a1a1a;
-      letter-spacing: 0.01em;
-      line-height: 1.2;
-      margin: 0;
-      text-align: center;
-      position: absolute;
-      top: 52px;
-      left: 50%;
-      transform: translateX(-50%);
-      white-space: nowrap;
-      z-index: 10;
-      pointer-events: none;
-    }
-
-    .subtitle {
-      font-size: 1.1rem;
-      color: #555;
-      font-style: italic;
-      text-align: center;
-      position: absolute;
-      top: 130px;
-      left: 50%;
-      transform: translateX(-50%);
-      white-space: nowrap;
-      z-index: 10;
-      pointer-events: none;
-    }
-
+    /* ── Mode toggle ── */
     .mode-toggle {
-      position: absolute;
+      position: fixed;
       top: 36px;
       right: 44px;
       background: none;
@@ -60,7 +27,7 @@
       color: rgba(26, 26, 26, 0.35);
       cursor: pointer;
       letter-spacing: 0.08em;
-      z-index: 10;
+      z-index: 100;
       padding: 0;
       transition: color 0.25s;
     }
@@ -69,28 +36,128 @@
       color: rgba(26, 26, 26, 0.65);
     }
 
-    /* ── Slides ── */
-    .slides {
-      position: absolute;
-      inset: 0;
+    /* ════════════════════════════════════════
+       SCROLL MODE
+    ════════════════════════════════════════ */
+    body.scroll-mode {
       overflow: hidden;
+      height: 100vh;
     }
 
-    .slide {
+    body.scroll-mode h1 {
+      position: absolute;
+      top: 52px;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    body.scroll-mode .subtitle {
+      position: absolute;
+      top: 130px;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    body.scroll-mode .slides {
+      position: absolute;
+      inset: 0;
+    }
+
+    body.scroll-mode .slide {
       position: absolute;
       inset: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: transform 0.85s cubic-bezier(0.76, 0, 0.24, 1),
-                  opacity  0.85s ease;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.55s ease;
     }
 
-    .slide.above  { transform: translateY(-100%); opacity: 0; }
-    .slide.active { transform: translateY(0);      opacity: 1; }
-    .slide.below  { transform: translateY(100%);  opacity: 0; }
+    body.scroll-mode .slide.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
 
-    /* ── Verse ── */
+    /* ════════════════════════════════════════
+       NO-SCROLL MODE
+    ════════════════════════════════════════ */
+    body.noscroll-mode {
+      overflow: auto;
+      height: auto;
+      min-height: 100vh;
+    }
+
+    body.noscroll-mode h1 {
+      position: static;
+      transform: none;
+      white-space: normal;
+      pointer-events: auto;
+      padding-top: 72px;
+      margin-bottom: 12px;
+    }
+
+    body.noscroll-mode .subtitle {
+      position: static;
+      transform: none;
+      white-space: normal;
+      pointer-events: auto;
+      margin-bottom: 0;
+    }
+
+    body.noscroll-mode .slides {
+      position: static;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 90px;
+      padding-bottom: 120px;
+      gap: 120px;
+    }
+
+    body.noscroll-mode .slide {
+      position: static;
+      width: auto;
+      height: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.7s ease;
+    }
+
+    body.noscroll-mode .slide.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* ════════════════════════════════════════
+       SHARED
+    ════════════════════════════════════════ */
+    h1 {
+      font-size: 3.2rem;
+      font-weight: bold;
+      color: #1a1a1a;
+      letter-spacing: 0.01em;
+      line-height: 1.2;
+      margin: 0;
+      text-align: center;
+      z-index: 10;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      color: #555;
+      font-style: italic;
+      text-align: center;
+      z-index: 10;
+    }
+
     .verse {
       display: flex;
       flex-direction: column;
@@ -102,6 +169,20 @@
       color: #1a1a1a;
       letter-spacing: 0.04em;
       margin: 0;
+    }
+
+    .verse-wrapper {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.7em;
+    }
+
+    .line-num {
+      font-size: 0.85em;
+      color: rgba(26, 26, 26, 0.45);
+      padding-top: 0.18em;
+      flex-shrink: 0;
+      letter-spacing: 0;
     }
 
     .english {
@@ -139,80 +220,96 @@
         0 0 0.5px rgba(26, 26, 26, 0.7),
         0 0 0.5px rgba(26, 26, 26, 0.7);
     }
-
-    /* ── Static mode ── */
-    body.static-mode {
-      overflow: auto;
-      height: auto;
-      min-height: 100vh;
-    }
-
-    body.static-mode .slides {
-      position: static;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding-top: 230px;
-      padding-bottom: 100px;
-      gap: 110px;
-      overflow: visible;
-    }
-
-    body.static-mode .slide {
-      position: static !important;
-      transform: none !important;
-      opacity: 1 !important;
-      height: auto;
-    }
   </style>
 </head>
-<body>
+<body class="scroll-mode">
 
   <h1>The Toothpaste Poem</h1>
   <div class="subtitle">Apuleius &mdash; <em>Apologia</em>, Chapter 6</div>
-  <button class="mode-toggle" id="mode-toggle">show all</button>
+  <button class="mode-toggle" id="mode-toggle">no scroll</button>
 
   <div class="slides" id="slides">
 
     <div class="slide active" data-idx="0">
-      <div class="verse">
-        <p class="latin">
-          <span class="lat-word" data-group="a1">Calpurniane,</span>
-          <span class="lat-word" data-group="a2">salve</span>
-          <span class="lat-word" data-group="a3">properis</span>
-          <span class="lat-word" data-group="a3">versibus.</span>
-        </p>
-        <p class="english">
-          <span class="eng-word" data-group="a2">Greetings,</span>
-          <span class="eng-word" data-group="a1">Calpurnius</span>
-          <span class="eng-word" data-group="a3">with these swift verses.</span>
-        </p>
+      <div class="verse-wrapper">
+        <span class="line-num">(3)</span>
+        <div class="verse">
+          <p class="latin">
+            <span class="lat-word" data-group="a1">Calpurniane,</span>
+            <span class="lat-word" data-group="a2">salve</span>
+            <span class="lat-word" data-group="a3">properis</span>
+            <span class="lat-word" data-group="a3">versibus.</span>
+          </p>
+          <p class="english">
+            <span class="eng-word" data-group="a2">Greetings,</span>
+            <span class="eng-word" data-group="a1">Calpurnius</span>
+            <span class="eng-word" data-group="a3">with these swift verses.</span>
+          </p>
+        </div>
       </div>
     </div>
 
-    <div class="slide below" data-idx="1">
-      <div class="verse">
-        <p class="latin">
-          <span class="lat-word" data-group="b1">Misi,</span>
-          <span class="lat-word" data-group="b2">ut</span>
-          <span class="lat-word" data-group="b2">petisti,</span>
-          <span class="lat-word" data-group="b3">munditias</span>
-          <span class="lat-word" data-group="b4">dentium</span>
-        </p>
-        <p class="english">
-          <span class="eng-word" data-group="b1">I sent,</span>
-          <span class="eng-word" data-group="b2">as you asked,</span>
-          <span class="eng-word" data-group="b1">to you,</span>
-          <span class="eng-word" data-group="b3">the cleaning supplies</span>
-          <span class="eng-word" data-group="b4">for your teeth.</span>
-        </p>
+    <div class="slide" data-idx="1">
+      <div class="verse-wrapper">
+        <span class="line-num">(4)</span>
+        <div class="verse">
+          <p class="latin">
+            <span class="lat-word" data-group="b1">Misi,</span>
+            <span class="lat-word" data-group="b2">ut</span>
+            <span class="lat-word" data-group="b2">petisti,</span>
+            <span class="lat-word" data-group="b3">munditias</span>
+            <span class="lat-word" data-group="b4">dentium</span>
+          </p>
+          <p class="english">
+            <span class="eng-word" data-group="b1">I sent,</span>
+            <span class="eng-word" data-group="b2">as you asked,</span>
+            <span class="eng-word" data-group="b1">to you,</span>
+            <span class="eng-word" data-group="b3">the cleaning supplies</span>
+            <span class="eng-word" data-group="b4">for your teeth.</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide" data-idx="2">
+      <div class="verse-wrapper">
+        <span class="line-num">(5)</span>
+        <div class="verse">
+          <p class="latin">
+            <span class="lat-word" data-group="c1">nitelas</span>
+            <span class="lat-word" data-group="c2">oris</span>
+            <span class="lat-word" data-group="c3">ex</span>
+            <span class="lat-word" data-group="c4">Arabicis</span>
+            <span class="lat-word" data-group="c4">frugibus</span>
+          </p>
+          <p class="english">
+            <span class="eng-word" data-group="c1">Whitening agents</span>
+            <span class="eng-word" data-group="c2">of the mouth</span>
+            &mdash;
+            <span class="eng-word" data-group="c3">from</span>
+            <span class="eng-word" data-group="c4">Arabic plants.</span>
+          </p>
+        </div>
       </div>
     </div>
 
   </div>
 
   <script>
-    // ── Hover ─────────────────────────────────────────────────────────────────
+    // ── Max-width from first English line ────────────────────────────────────
+    window.addEventListener('load', () => {
+      const firstEng = document.querySelector('.slide[data-idx="0"] .english');
+      firstEng.style.display    = 'inline-block';
+      firstEng.style.whiteSpace = 'nowrap';
+      const w = Math.ceil(firstEng.getBoundingClientRect().width);
+      firstEng.style.display    = '';
+      firstEng.style.whiteSpace = '';
+      document.querySelectorAll('.verse').forEach(v => {
+        v.style.maxWidth = w + 'px';
+      });
+    });
+
+    // ── Hover ────────────────────────────────────────────────────────────────
     document.getElementById('slides').addEventListener('mouseover', e => {
       const word = e.target.closest('[data-group]');
       if (!word) return;
@@ -235,51 +332,80 @@
       );
     });
 
-    // ── Scroll navigation ─────────────────────────────────────────────────────
-    const slides    = Array.from(document.querySelectorAll('.slide'));
-    let current     = 0;
-    let animating   = false;
-    let scrollMode  = true;
+    // ── Scroll mode navigation ───────────────────────────────────────────────
+    const slides   = Array.from(document.querySelectorAll('.slide'));
+    let current    = 0;
+    let animating  = false;
+    let mode       = 'scroll'; // 'scroll' | 'noscroll'
 
     function goTo(next) {
-      if (!scrollMode)                        return;
+      if (mode !== 'scroll')                  return;
       if (next < 0 || next >= slides.length) return;
       if (next === current || animating)      return;
-
       animating = true;
-      const goingDown = next > current;
-
-      slides[next].classList.remove('above', 'below', 'active');
-      slides[next].classList.add(goingDown ? 'below' : 'above');
-      slides[next].getBoundingClientRect(); // force reflow
-
       slides[current].classList.remove('active');
-      slides[current].classList.add(goingDown ? 'above' : 'below');
-      slides[next].classList.remove('above', 'below');
       slides[next].classList.add('active');
-
       current = next;
-      setTimeout(() => { animating = false; }, 900);
+      setTimeout(() => { animating = false; }, 600);
     }
 
     window.addEventListener('wheel', e => {
+      if (mode !== 'scroll') return;
       if (e.deltaY > 0) goTo(current + 1);
       else              goTo(current - 1);
     }, { passive: true });
 
-    // ── Mode toggle ───────────────────────────────────────────────────────────
-    document.getElementById('mode-toggle').addEventListener('click', () => {
-      scrollMode = !scrollMode;
-      document.body.classList.toggle('static-mode', !scrollMode);
-      document.getElementById('mode-toggle').textContent = scrollMode ? 'show all' : 'scroll';
+    // ── No-scroll mode: fade in on scroll ───────────────────────────────────
+    let observer;
 
-      if (scrollMode) {
-        slides.forEach((s, i) => {
-          s.classList.remove('above', 'below', 'active');
-          if      (i < current)  s.classList.add('above');
-          else if (i === current) s.classList.add('active');
-          else                   s.classList.add('below');
+    function enterNoScroll() {
+      mode = 'scroll'; // temporarily, so goTo guards don't block
+      // Reset slide classes
+      slides.forEach(s => s.classList.remove('active', 'visible'));
+
+      document.body.classList.remove('scroll-mode');
+      document.body.classList.add('noscroll-mode');
+      mode = 'noscroll';
+
+      // First slide visible immediately
+      slides[0].classList.add('visible');
+
+      // Rest fade in as they enter the viewport
+      observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
         });
+      }, { threshold: 0.15 });
+
+      slides.slice(1).forEach(s => observer.observe(s));
+    }
+
+    function enterScroll() {
+      if (observer) { observer.disconnect(); observer = null; }
+
+      slides.forEach(s => s.classList.remove('active', 'visible'));
+
+      document.body.classList.remove('noscroll-mode');
+      document.body.classList.add('scroll-mode');
+      mode = 'scroll';
+
+      // Restore to whichever slide was most recently visible,
+      // clamped to valid index
+      slides[current].classList.add('active');
+    }
+
+    // ── Mode toggle ──────────────────────────────────────────────────────────
+    const toggleBtn = document.getElementById('mode-toggle');
+
+    toggleBtn.addEventListener('click', () => {
+      if (mode === 'scroll') {
+        enterNoScroll();
+        toggleBtn.textContent = 'scroll';
+      } else {
+        enterScroll();
+        toggleBtn.textContent = 'no scroll';
       }
     });
   </script>
