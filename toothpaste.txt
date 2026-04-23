@@ -20,3 +20,55 @@ nitelas -> Whitening agents
 oris -> of the mouth
 ex -> from
 Arabicis frugibus -> Arabic plants.
+
+6
+tenuem, candificum, nobilem pulvisculum,
+Delicate, glowing, shining glittery dust powder
+tenuem -> Delicate
+candificum -> glowing
+nobilem -> shining
+pulvisculum -> glittery dust powder
+
+7
+complanatorem tumidulae gingivulae,
+The 'leveler' of swollen gums,
+complanatorem -> The 'leveler'
+tumidulae gingivulae -> of swollen gums
+
+8
+converritorem pridianae reliquiae,
+The conqueror/street sweeper of yesterday’s leftovers
+converritorem -> The conqueror/street sweeper
+pridianae reliquiae -> of yesterday's leftovers
+
+9
+ne qua visatur tetra labes sordium,
+So that: no offensive stain of dirt may be seen
+ne qua -> so that
+tetra -> offensive
+labes -> stain
+sordium -> of dirt
+visatur -> may be seen
+
+10
+restrictis forte si labellis riseris.
+If by any chance you happen to laugh (with your lips pulled back).
+si -> if
+forte -> by any chance
+riseris -> you happen to laugh
+restrictis, labellis -> (with your lips pulled back).
+
+11
+Quaeso, quid habent isti versus re aut verbo pudendum, quid omnino quod philosophus suum nolit videri? 
+I ask (oh please), what do these verses have in subject or language that should make me ashamed; what, at all, do they have, which a philosopher would not want to seem his own? 
+Quaeso -> I ask (oh please)
+quid habent -> what do, have
+isti versus -> these verses
+verbo -> in subject or language
+pudendum -> that should make me ashamed; 
+quid omino -> what, at all, do they have
+quod -> which 
+philosophus -> a philosopher 
+nolit -> would not want
+videri -> to seem
+suum -> his own?

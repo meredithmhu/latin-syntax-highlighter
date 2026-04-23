@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="la">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perpetua's Diary</title>
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+    }
+
+    body {
+      background:
+        linear-gradient(rgba(200, 175, 148, 0.54), rgba(200, 175, 148, 0.54)),
+        url('marble.jpg') center / cover no-repeat;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    /* ── Site title ── */
+    .site-title {
+      position: fixed;
+      top: 14px;
+      left: 0; right: 0;
+      text-align: center;
+      z-index: 200;
+      pointer-events: none;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.18em;
+      color: rgba(26, 26, 26, 0.55);
+    }
+
+    /* ── Navbar ── */
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      display: flex;
+      justify-content: center;
+      padding-top: 46px;
+      pointer-events: none;
+    }
+
+    .nav-item {
+      position: relative;
+      display: inline-block;
+      pointer-events: auto;
+    }
+
+    .nav-label {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 18pt;
+      color: #1a1a1a;
+      letter-spacing: 0.04em;
+      cursor: default;
+      background-image: linear-gradient(currentColor, currentColor);
+      background-size: 0% 1px;
+      background-repeat: no-repeat;
+      background-position: left bottom;
+      transition: background-size 0.7s ease 0.3s;
+    }
+
+    .nav-item:hover .nav-label {
+      background-size: 100% 1px;
+    }
+
+    .nav-dropdown {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      min-width: 360px;
+      padding-top: 14px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease 0.85s;
+    }
+
+    .nav-dropdown-inner {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(40px) saturate(180%);
+      -webkit-backdrop-filter: blur(40px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 8px;
+      padding: 6px 0;
+      box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    }
+
+    .nav-item:hover .nav-dropdown {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .nav-dropdown-item {
+      display: block;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 0.92rem;
+      color: #1a1a1a;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      white-space: nowrap;
+      padding: 10px 22px;
+      cursor: pointer;
+      background-image: linear-gradient(currentColor, currentColor);
+      background-size: 0% 1px;
+      background-repeat: no-repeat;
+      background-position: 22px bottom;
+      transition: background-size 0.35s ease 0.05s;
+    }
+
+    .nav-dropdown-item:hover {
+      background-size: calc(100% - 44px) 1px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="site-title">Meredith's Latin Notebook</div>
+
+  <nav class="navbar">
+    <div class="nav-item">
+      <span class="nav-label">Latin Texts</span>
+      <div class="nav-dropdown">
+        <div class="nav-dropdown-inner">
+          <a href="v2.html" class="nav-dropdown-item">Apuleius &mdash; Apologia, Chapter 6 (The Toothpaste Poem)</a>
+          <a href="perpetua.html" class="nav-dropdown-item">Perpetua&rsquo;s Diary &mdash; Paragraphs 1 &amp; 2</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+</body>
+</html>

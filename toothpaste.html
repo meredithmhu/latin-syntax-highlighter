@@ -3,32 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Latin</title>
+  <title>The Toothpaste Poem</title>
   <style>
-    html, body {
-      margin: 0;
-      height: 100%;
-    }
+    html, body { margin: 0; height: 100%; }
 
     body {
       background:
         linear-gradient(rgba(200, 175, 148, 0.54), rgba(200, 175, 148, 0.54)),
         url('marble.jpg') center / cover no-repeat fixed;
       font-family: Georgia, "Times New Roman", serif;
-    }
-
-    /* ── Site title ── */
-    .site-title {
-      position: fixed;
-      top: 14px;
-      left: 0; right: 0;
-      text-align: center;
-      z-index: 200;
-      pointer-events: none;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 1.1rem;
-      letter-spacing: 0.18em;
-      color: rgba(26, 26, 26, 0.55);
     }
 
     /* ── Navbar ── */
@@ -38,16 +21,14 @@
       z-index: 200;
       display: flex;
       justify-content: center;
-      padding-top: 46px;
+      padding-top: 28px;
       pointer-events: none;
     }
-
     .nav-item {
       position: relative;
       display: inline-block;
       pointer-events: auto;
     }
-
     .nav-label {
       font-family: Georgia, "Times New Roman", serif;
       font-size: 18pt;
@@ -60,24 +41,18 @@
       background-position: left bottom;
       transition: background-size 0.7s ease 0.3s;
     }
-
-    .nav-item:hover .nav-label {
-      background-size: 100% 1px;
-    }
-
+    .nav-item:hover .nav-label { background-size: 100% 1px; }
     .nav-dropdown {
       position: absolute;
       top: 100%;
       left: 50%;
       transform: translateX(-50%);
       min-width: 360px;
-      /* padding-top bridges the visual gap — mouse stays within the element */
       padding-top: 14px;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.35s ease 0.85s;
     }
-
     .nav-dropdown-inner {
       background: rgba(255, 255, 255, 0.08);
       backdrop-filter: blur(40px) saturate(180%);
@@ -89,12 +64,7 @@
         0 8px 32px rgba(0, 0, 0, 0.08),
         inset 0 1px 0 rgba(255, 255, 255, 0.5);
     }
-
-    .nav-item:hover .nav-dropdown {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
+    .nav-item:hover .nav-dropdown { opacity: 1; pointer-events: auto; }
     .nav-dropdown-item {
       display: block;
       font-family: Georgia, "Times New Roman", serif;
@@ -111,16 +81,12 @@
       background-position: 22px bottom;
       transition: background-size 0.35s ease 0.05s;
     }
-
-    .nav-dropdown-item:hover {
-      background-size: calc(100% - 44px) 1px;
-    }
+    .nav-dropdown-item:hover { background-size: calc(100% - 44px) 1px; }
 
     /* ── Scheme toggle ── */
     .scheme-toggle {
       position: fixed;
-      top: 36px;
-      right: 44px;
+      top: 36px; right: 44px;
       background: none; border: none;
       font-family: Georgia, "Times New Roman", serif;
       font-size: 0.82rem;
@@ -135,158 +101,82 @@
     /* ── Mode toggle ── */
     .mode-toggle {
       position: fixed;
-      top: 62px;
-      right: 44px;
-      background: none;
-      border: none;
+      top: 62px; right: 44px;
+      background: none; border: none;
       font-family: Georgia, "Times New Roman", serif;
       font-size: 0.82rem;
       color: rgba(26, 26, 26, 0.35);
       cursor: pointer;
       letter-spacing: 0.08em;
-      z-index: 100;
-      padding: 0;
+      z-index: 100; padding: 0;
       transition: color 0.25s;
     }
-
-    .mode-toggle:hover {
-      color: rgba(26, 26, 26, 0.65);
-    }
+    .mode-toggle:hover { color: rgba(26, 26, 26, 0.65); }
 
     /* ════════════════════════════════════════
        SCROLL MODE
     ════════════════════════════════════════ */
-    body.scroll-mode {
-      overflow: hidden;
-      height: 100vh;
-    }
-
-    body.scroll-mode .slides {
-      position: absolute;
-      inset: 0;
-    }
-
+    body.scroll-mode { overflow: hidden; height: 100vh; }
+    body.scroll-mode .slides { position: absolute; inset: 0; }
     body.scroll-mode .slide {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
       padding-bottom: 18vh;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.6s ease;   /* fade-out speed */
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.6s ease;
     }
-
     body.scroll-mode .slide.active {
-      opacity: 1;
-      pointer-events: auto;
-      transition: opacity 3.8s ease;   /* fade-in — very slow, deliberate */
+      opacity: 1; pointer-events: auto;
+      transition: opacity 3.8s ease;
     }
 
     /* ════════════════════════════════════════
        NO-SCROLL MODE
     ════════════════════════════════════════ */
-    body.noscroll-mode {
-      overflow: auto;
-      height: auto;
-      min-height: 100vh;
-    }
-
+    body.noscroll-mode { overflow: auto; height: auto; min-height: 100vh; }
     body.noscroll-mode .slides {
       position: static;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding-top: 90px;
-      padding-bottom: 120px;
-      gap: 120px;
+      display: flex; flex-direction: column; align-items: center;
+      padding-top: 90px; padding-bottom: 120px; gap: 120px;
     }
-
     body.noscroll-mode .slide {
-      position: static;
-      width: auto;
-      height: auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
+      position: static; width: auto; height: auto;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
       transition: opacity 0.7s ease;
     }
-
-    body.noscroll-mode .slide.visible {
-      opacity: 1;
-      pointer-events: auto;
-    }
+    body.noscroll-mode .slide.visible { opacity: 1; pointer-events: auto; }
 
     /* ════════════════════════════════════════
        SHARED
     ════════════════════════════════════════ */
     h1 {
-      font-size: 3.2rem;
-      font-weight: bold;
-      color: #1a1a1a;
-      letter-spacing: 0.01em;
-      line-height: 1.2;
-      margin: 0;
-      text-align: center;
+      font-size: 3.2rem; font-weight: bold; color: #1a1a1a;
+      letter-spacing: 0.01em; line-height: 1.2;
+      margin: 0; text-align: center;
     }
-
     .subtitle {
-      font-size: 1.1rem;
-      color: #555;
-      font-style: italic;
-      text-align: center;
+      font-size: 1.1rem; color: #555;
+      font-style: italic; text-align: center;
     }
-
     .title-content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1.1rem;
+      display: flex; flex-direction: column;
+      align-items: center; gap: 1.1rem;
     }
-
-    .verse {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    .latin {
-      font-size: 2.4rem;
-      color: #1a1a1a;
-      letter-spacing: 0.04em;
-      margin: 0;
-    }
-
-    .verse-wrapper {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.7em;
-    }
-
+    .verse-wrapper { display: flex; align-items: flex-start; gap: 0.7em; }
     .line-num {
-      font-size: 0.85em;
-      color: rgba(26, 26, 26, 0.45);
-      padding-top: 0.18em;
-      flex-shrink: 0;
-      letter-spacing: 0;
+      font-size: 0.85em; color: rgba(26, 26, 26, 0.45);
+      padding-top: 0.18em; flex-shrink: 0; letter-spacing: 0;
     }
-
+    .verse { display: flex; flex-direction: column; align-items: flex-start; }
+    .latin  { font-size: 2.4rem; color: #1a1a1a; letter-spacing: 0.04em; margin: 0; }
     .english {
-      font-size: 2.4rem;
-      color: rgba(26, 26, 26, 0.42);
-      font-style: italic;
-      margin: 20px 0 0 0;
+      font-size: 2.4rem; color: rgba(26, 26, 26, 0.42);
+      font-style: italic; margin: 20px 0 0 0;
     }
 
     /* ── Hover: Latin glow ── */
-    .lat-word {
-      cursor: default;
-      transition: text-shadow 0.28s ease 0.07s;
-    }
-
+    .lat-word { cursor: default; transition: text-shadow 0.28s ease 0.07s; }
     .lat-word.lat-active {
       text-shadow:
         0 0  1px #fff,
@@ -300,26 +190,21 @@
 
     /* ── Hover: English reveal ── */
     .eng-word {
-      /* fade-out transitions (used when .eng-active is removed) */
       transition: color 0.35s ease, text-shadow 0.35s ease, background-size 0.15s ease;
       background-image: linear-gradient(rgba(26, 26, 26, 0.75), rgba(26, 26, 26, 0.75));
       background-size: 0% 1px;
       background-repeat: no-repeat;
       background-position: left bottom;
     }
-
     .eng-word.eng-active {
-      /* fade-in transitions (used when .eng-active is added) */
       transition: color 0.65s ease 0.12s, text-shadow 0.65s ease 0.12s, background-size 0.65s ease 0.12s;
       color: rgba(26, 26, 26, 0.75);
-      text-shadow:
-        0 0 0.5px rgba(26, 26, 26, 0.7),
-        0 0 0.5px rgba(26, 26, 26, 0.7);
+      text-shadow: 0 0 0.5px rgba(26, 26, 26, 0.7), 0 0 0.5px rgba(26, 26, 26, 0.7);
       background-size: 100% 1px;
     }
 
     /* ════════════════════════════════════════
-       MODE 1 — LIGHT
+       MODE — LIGHT
     ════════════════════════════════════════ */
     body.mode-light {
       background:
@@ -336,47 +221,40 @@
     }
 
     /* ════════════════════════════════════════
-       MODE 3 — DARK
+       MODE — DARK
     ════════════════════════════════════════ */
-    body.mode-dark {
-      background: #1c1a17;
-    }
-    body.mode-dark h1                  { color: rgba(255, 255, 255, 0.88); }
-    body.mode-dark .subtitle           { color: rgba(255, 255, 255, 0.48); }
-    body.mode-dark .latin              { color: rgba(255, 255, 255, 0.88); }
-    body.mode-dark .english            { color: rgba(255, 255, 255, 0.35); }
-    body.mode-dark .line-num           { color: rgba(255, 255, 255, 0.28); }
+    body.mode-dark { background: #1c1a17; }
+    body.mode-dark h1                   { color: rgba(255, 255, 255, 0.88); }
+    body.mode-dark .subtitle            { color: rgba(255, 255, 255, 0.48); }
+    body.mode-dark .latin               { color: rgba(255, 255, 255, 0.88); }
+    body.mode-dark .english             { color: rgba(255, 255, 255, 0.35); }
+    body.mode-dark .line-num            { color: rgba(255, 255, 255, 0.28); }
     body.mode-dark .eng-word {
       background-image: linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75));
     }
     body.mode-dark .eng-word.eng-active {
       color: rgba(255, 255, 255, 0.82);
-      text-shadow:
-        0 0 0.5px rgba(255, 255, 255, 0.7),
-        0 0 0.5px rgba(255, 255, 255, 0.7);
+      text-shadow: 0 0 0.5px rgba(255, 255, 255, 0.7), 0 0 0.5px rgba(255, 255, 255, 0.7);
     }
-    body.mode-dark .mode-toggle        { color: rgba(255, 255, 255, 0.3); }
-    body.mode-dark .mode-toggle:hover  { color: rgba(255, 255, 255, 0.6); }
-    body.mode-dark .scheme-toggle      { color: rgba(255, 255, 255, 0.3); }
-    body.mode-dark .scheme-toggle:hover{ color: rgba(255, 255, 255, 0.6); }
-    body.mode-dark .nav-label          { color: rgba(255, 255, 255, 0.85); }
-    body.mode-dark .nav-dropdown-item  { color: rgba(255, 255, 255, 0.78); }
+    body.mode-dark .mode-toggle         { color: rgba(255, 255, 255, 0.3); }
+    body.mode-dark .mode-toggle:hover   { color: rgba(255, 255, 255, 0.6); }
+    body.mode-dark .scheme-toggle       { color: rgba(255, 255, 255, 0.3); }
+    body.mode-dark .scheme-toggle:hover { color: rgba(255, 255, 255, 0.6); }
+    body.mode-dark .nav-label           { color: rgba(255, 255, 255, 0.85); }
+    body.mode-dark .nav-dropdown-item   { color: rgba(255, 255, 255, 0.78); }
     body.mode-dark .nav-dropdown-inner {
       background: rgba(255, 255, 255, 0.06);
       border-color: rgba(255, 255, 255, 0.12);
     }
-    body.mode-dark .site-title { color: rgba(255, 255, 255, 0.3); }
   </style>
 </head>
 <body class="scroll-mode mode-mud">
-
-  <div class="site-title">Meredith's Latin Notebook</div>
 
   <button class="scheme-toggle" id="scheme-toggle">mud</button>
 
   <nav class="navbar">
     <div class="nav-item">
-      <span class="nav-label">Latin Texts</span>
+      <span class="nav-label">Latin Translations</span>
       <div class="nav-dropdown">
         <div class="nav-dropdown-inner">
           <a href="v2.html" class="nav-dropdown-item">Apuleius &mdash; Apologia, Chapter 6 (The Toothpaste Poem)</a>
@@ -393,7 +271,7 @@
     <div class="slide active" data-idx="0">
       <div class="title-content">
         <h1>The Toothpaste Poem</h1>
-        <div class="subtitle">Apuleius &mdash; <em>Apologia</em>, Chapter 6</div>
+        <div class="subtitle">Apuleius — Apologia, Chapter 6</div>
       </div>
     </div>
 
@@ -408,9 +286,7 @@
             <span class="lat-word" data-group="a3">versibus.</span>
           </p>
           <p class="english">
-            <span class="eng-word" data-group="a2">Greetings,</span>
-            <span class="eng-word" data-group="a1">Calpurnius</span>
-            <span class="eng-word" data-group="a3">with these swift verses.</span>
+            <span class="eng-word" data-group="a2">Greetings,</span> <span class="eng-word" data-group="a1">Calpurnius</span> <span class="eng-word" data-group="a3">with these swift verses.</span>
           </p>
         </div>
       </div>
@@ -428,11 +304,7 @@
             <span class="lat-word" data-group="b4">dentium</span>
           </p>
           <p class="english">
-            <span class="eng-word" data-group="b1">I sent,</span>
-            <span class="eng-word" data-group="b2">as you asked,</span>
-            <span class="eng-word" data-group="b1">to you,</span>
-            <span class="eng-word" data-group="b3">the cleaning supplies</span>
-            <span class="eng-word" data-group="b4">for your teeth.</span>
+            <span class="eng-word" data-group="b1">I sent,</span> <span class="eng-word" data-group="b2">as you asked,</span> <span class="eng-word" data-group="b1">to you,</span> <span class="eng-word" data-group="b3">the cleaning supplies</span> <span class="eng-word" data-group="b4">for your teeth.</span>
           </p>
         </div>
       </div>
@@ -450,11 +322,7 @@
             <span class="lat-word" data-group="c4">frugibus</span>
           </p>
           <p class="english">
-            <span class="eng-word" data-group="c1">Whitening agents</span>
-            <span class="eng-word" data-group="c2">of the mouth</span>
-            &mdash;
-            <span class="eng-word" data-group="c3">from</span>
-            <span class="eng-word" data-group="c4">Arabic plants.</span>
+            <span class="eng-word" data-group="c1">Whitening agents</span> <span class="eng-word" data-group="c2">of the mouth</span> — <span class="eng-word" data-group="c3">from</span> <span class="eng-word" data-group="c4">Arabic plants.</span>
           </p>
         </div>
       </div>
@@ -503,7 +371,7 @@
             <span class="lat-word" data-group="f2">reliquiae,</span>
           </p>
           <p class="english">
-            <span class="eng-word" data-group="f1">The conqueror/street sweeper</span> <span class="eng-word" data-group="f2">of yesterday's leftovers</span>
+            <span class="eng-word" data-group="f1">The conqueror/street sweeper</span> of yesterday’s leftovers
           </p>
         </div>
       </div>
@@ -522,7 +390,7 @@
             <span class="lat-word" data-group="g4">sordium,</span>
           </p>
           <p class="english">
-            <span class="eng-word" data-group="g1">so that</span>: no <span class="eng-word" data-group="g2">offensive</span> <span class="eng-word" data-group="g3">stain</span> <span class="eng-word" data-group="g4">of dirt</span> <span class="eng-word" data-group="g5">may be seen</span>
+            <span class="eng-word" data-group="g1">So that</span>: no <span class="eng-word" data-group="g2">offensive</span> <span class="eng-word" data-group="g3">stain</span> <span class="eng-word" data-group="g4">of dirt</span> <span class="eng-word" data-group="g5">may be seen</span>
           </p>
         </div>
       </div>
@@ -574,24 +442,23 @@
         </div>
       </div>
     </div>
-
   </div>
 
   <script>
-    // ── Max-width from first English line ────────────────────────────────────
+    // ── Max-width from first poem line ────────────────────────────────────────
     window.addEventListener('load', () => {
       const firstEng = document.querySelector('.slide[data-idx="1"] .english');
-      firstEng.style.display    = 'inline-block';
-      firstEng.style.whiteSpace = 'nowrap';
-      const w = Math.ceil(firstEng.getBoundingClientRect().width);
-      firstEng.style.display    = '';
-      firstEng.style.whiteSpace = '';
-      document.querySelectorAll('.verse').forEach(v => {
-        v.style.width = w + 'px';
-      });
+      if (firstEng) {
+        firstEng.style.display    = 'inline-block';
+        firstEng.style.whiteSpace = 'nowrap';
+        const w = Math.ceil(firstEng.getBoundingClientRect().width);
+        firstEng.style.display    = '';
+        firstEng.style.whiteSpace = '';
+        document.querySelectorAll('.verse').forEach(v => { v.style.width = w + 'px'; });
+      }
     });
 
-    // ── Hover ────────────────────────────────────────────────────────────────
+    // ── Hover ─────────────────────────────────────────────────────────────────
     function clearAll() {
       document.querySelectorAll('.lat-active, .eng-active').forEach(el =>
         el.classList.remove('lat-active', 'eng-active')
@@ -603,28 +470,25 @@
       if (!word) { clearAll(); return; }
       const group = word.dataset.group;
       const slide = word.closest('.slide');
-      slide.querySelectorAll('.lat-word, .eng-word').forEach(el =>
-        el.classList.remove('lat-active', 'eng-active')
-      );
-      slide.querySelectorAll(`.lat-word[data-group="${group}"]`).forEach(el =>
-        el.classList.add('lat-active')
-      );
-      slide.querySelectorAll(`.eng-word[data-group="${group}"]`).forEach(el =>
-        el.classList.add('eng-active')
-      );
+      slide.querySelectorAll('.lat-word, .eng-word')
+           .forEach(el => el.classList.remove('lat-active', 'eng-active'));
+      slide.querySelectorAll(`.lat-word[data-group="${group}"]`)
+           .forEach(el => el.classList.add('lat-active'));
+      slide.querySelectorAll(`.eng-word[data-group="${group}"]`)
+           .forEach(el => el.classList.add('eng-active'));
     });
 
     document.getElementById('slides').addEventListener('mouseleave', clearAll);
 
-    // ── Scroll mode navigation ───────────────────────────────────────────────
-    const slides   = Array.from(document.querySelectorAll('.slide'));
-    let current    = 0;
-    let animating  = false;
-    let mode       = 'scroll'; // 'scroll' | 'noscroll'
+    // ── Scroll mode navigation ────────────────────────────────────────────────
+    const slides  = Array.from(document.querySelectorAll('.slide'));
+    let current   = 0;
+    let animating = false;
+    let mode      = 'scroll';
 
-    const FADE_OUT = 650;   // ms — current line disappears
-    const PAUSE    = 600;   // ms — silence on the empty page
-    const FADE_IN  = 3800;  // ms — next line surfaces, very slowly
+    const FADE_OUT = 650;   // ms — current slide fades out
+    const PAUSE    = 600;   // ms — empty page
+    const FADE_IN  = 3800;  // ms — next slide surfaces slowly
 
     function goTo(next) {
       if (mode !== 'scroll')                  return;
@@ -632,77 +496,50 @@
       if (next === current || animating)      return;
       animating = true;
       clearAll();
-
       const prev = current;
       current = next;
-
-      // Phase 1: current line fades out
       slides[prev].classList.remove('active');
-
-      // Phase 2: silence — empty parchment
       setTimeout(() => {
-
-        // Phase 3: next line surfaces, very slowly
         setTimeout(() => {
           slides[next].classList.add('active');
           setTimeout(() => { animating = false; }, FADE_IN);
         }, PAUSE);
-
       }, FADE_OUT);
     }
 
     window.addEventListener('wheel', e => {
       if (mode !== 'scroll') return;
-      if (e.deltaY > 0) goTo(current + 1);
-      else              goTo(current - 1);
+      e.deltaY > 0 ? goTo(current + 1) : goTo(current - 1);
     }, { passive: true });
 
-    // ── No-scroll mode: fade in on scroll ───────────────────────────────────
+    // ── No-scroll mode ────────────────────────────────────────────────────────
     let observer;
 
     function enterNoScroll() {
-      mode = 'scroll'; // temporarily, so goTo guards don't block
-      // Reset slide classes
       slides.forEach(s => s.classList.remove('active', 'visible'));
-
       document.body.classList.remove('scroll-mode');
       document.body.classList.add('noscroll-mode');
       mode = 'noscroll';
-
-      // First slide visible immediately
       slides[0].classList.add('visible');
-
-      // Rest fade in as they enter the viewport
-      observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-          }
-        });
+      observer = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
       }, { threshold: 0.15 });
-
       slides.slice(1).forEach(s => observer.observe(s));
     }
 
     function enterScroll() {
       if (observer) { observer.disconnect(); observer = null; }
-
       slides.forEach(s => s.classList.remove('active', 'visible'));
-
       document.body.classList.remove('noscroll-mode');
       document.body.classList.add('scroll-mode');
       mode = 'scroll';
-
-      // Restore to whichever slide was most recently visible,
-      // clamped to valid index
       slides[current].classList.add('active');
     }
 
-    // ── Color scheme ─────────────────────────────────────────────────────────
+    // ── Color scheme ──────────────────────────────────────────────────────────
     const schemes     = ['mode-light', 'mode-mud', 'mode-dark'];
     const schemeNames = ['light', 'mud', 'dark'];
-    let schemeIdx = 1; // start on mud
-
+    let schemeIdx = 1;
     const schemeBtn = document.getElementById('scheme-toggle');
 
     function applyScheme(idx) {
@@ -716,17 +553,11 @@
       applyScheme(schemeIdx);
     });
 
-    // ── Mode toggle ──────────────────────────────────────────────────────────
+    // ── Mode toggle ───────────────────────────────────────────────────────────
     const toggleBtn = document.getElementById('mode-toggle');
-
     toggleBtn.addEventListener('click', () => {
-      if (mode === 'scroll') {
-        enterNoScroll();
-        toggleBtn.textContent = 'scroll';
-      } else {
-        enterScroll();
-        toggleBtn.textContent = 'no scroll';
-      }
+      if (mode === 'scroll') { enterNoScroll(); toggleBtn.textContent = 'scroll'; }
+      else                   { enterScroll();   toggleBtn.textContent = 'no scroll'; }
     });
   </script>
 
