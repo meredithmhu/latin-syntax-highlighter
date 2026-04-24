@@ -1,0 +1,509 @@
+{
+  "meta": {
+    "source": "toothpaste.txt",
+    "generated": "2026-04-24"
+  },
+  "words": {
+    "1_Calpurniane": {
+      "summary": "Vocative singular of 2nd declension masculine noun Calpurnianus",
+      "why": "The word is addressed directly in a greeting ('salve'), requiring the vocative case. The -e ending is the standard vocative singular for 2nd declension masculine nouns ending in -anus.",
+      "gloss": "Calpurnianus, -i, m.",
+      "paradigm_label": "2nd declension masculine -anus nouns, vocative singular",
+      "paradigm": "Singular:\n  Nom.  -us\n  Gen.  -i\n  Dat.  -o\n  Acc.  -um\n  Abl.  -o\n  Voc.  -e",
+      "notes": "",
+      "token": "Calpurniane",
+      "slide_idx": 1
+    },
+    "1_salve": {
+      "summary": "imperative singular of 2nd conjugation verb salūō",
+      "why": "The verb salūō means 'to greet' or 'to bid farewell.' In this context, 'salve' is the 2nd person singular imperative form, used as a greeting or salutation directed at Calpurnianus. The imperative mood is appropriate for direct address with an exhortation.",
+      "gloss": "salūō, -āre, -āvī, -ātum",
+      "paradigm_label": "2nd conjugation imperative",
+      "paradigm": "Singular:\n  salūā (2nd pers. sing.)\n  salūte (2nd pers. plur.)\n\nNote: 'salve' is the contracted form of salūē",
+      "notes": "",
+      "token": "salve",
+      "slide_idx": 1
+    },
+    "1_properis": {
+      "summary": "ablative plural of 1st conjugation present active participle properus",
+      "why": "The ablative plural form is used here with the noun versibus (ablative plural of versus, 'verses') to modify how the salutation is given—'with hasty verses.' The participle agrees with versibus in case and number.",
+      "gloss": "properus, -a, -um; propero, -are, -avi, -atum",
+      "paradigm_label": "1st conjugation present active participle, ablative plural",
+      "paradigm": "M.Sg.  propera-ns        Abl: propera-nt-e\nM.Pl.  propera-nt-es     Abl: propera-nt-ib-us\nF.Sg.  propera-ns        Abl: propera-nt-e\nF.Pl.  propera-nt-es     Abl: propera-nt-ib-us\nN.Sg.  propera-ns        Abl: propera-nt-e\nN.Pl.  propera-nt-ia     Abl: propera-nt-ib-us",
+      "notes": "",
+      "token": "properis",
+      "slide_idx": 1
+    },
+    "1_versibus": {
+      "summary": "ablative plural of 2nd declension masculine noun versus",
+      "why": "The ablative plural is used after the preposition 'properis' (with hasty), which governs the ablative case. The plural form agrees with the context of multiple verses.",
+      "gloss": "versus, -us, m.",
+      "paradigm_label": "2nd declension masculine endings",
+      "paradigm": "Singular          Plural\nNom. -us          -i\nGen. -i           -orum\nDat. -o           -is\nAcc. -um          -os\nAbl. -o           -is",
+      "notes": "",
+      "token": "versibus",
+      "slide_idx": 1
+    },
+    "2_Misi": {
+      "summary": "First person singular perfect active indicative of the verb mitto, mittere, misi, missum",
+      "why": "The sentence uses \"Misi\" in the perfect tense to indicate a completed action in the past: \"I sent [as you requested]\". The first person singular perfect active ending \"-i\" is the standard form for this person and tense.",
+      "gloss": "mitto, mittere, misi, missum - to send",
+      "paradigm_label": "3rd conjugation perfect active indicative",
+      "paradigm": "misi      I sent\nmisisti   you sent\nmisit     he/she/it sent\nmisimus   we sent\nmisistis  you (pl.) sent\nmiserunt  they sent",
+      "notes": "",
+      "token": "Misi",
+      "slide_idx": 2
+    },
+    "2_ut": {
+      "summary": "subordinating conjunction introducing a purpose clause",
+      "why": "\"Ut\" introduces a final (purpose) clause explaining why the action was performed. The subjunctive mood (petisti's implied purpose) follows to express the intended result of sending the dental cleaning materials.",
+      "gloss": "ut, conj. so that, in order that, that (introducing purpose clauses)",
+      "paradigm_label": "Subordinating conjunction (invariable)",
+      "paradigm": "ut (invariable - no forms)",
+      "notes": "",
+      "token": "ut",
+      "slide_idx": 2
+    },
+    "2_petisti": {
+      "summary": "2nd person singular perfect active indicative of petō, petere, petīvī, petītum",
+      "why": "The perfect tense stem is petī-, and the 2nd person singular perfect active ending is -stī. This form appears in a relative clause introduced by ut, expressing the action requested.",
+      "gloss": "petō, petere, petīvī, petītum",
+      "paradigm_label": "3rd conjugation perfect active indicative",
+      "paradigm": "Singular\n1st  -ī\n2nd  -istī\n3rd  -it\nPlural\n1st  -imus\n2nd  -istis\n3rd  -ērunt",
+      "notes": "",
+      "token": "petisti",
+      "slide_idx": 2
+    },
+    "2_munditias": {
+      "summary": "accusative plural of 1st declension feminine noun munditia",
+      "why": "The noun munditias is the direct object of the verb 'misi' (I sent), requiring the accusative case. The plural form indicates multiple instances of dental cleanliness.",
+      "gloss": "munditia, -ae, f.",
+      "paradigm_label": "1st declension feminine endings",
+      "paradigm": "Singular    Plural\nNom. -a      -ae\nGen. -ae     -arum\nDat. -ae     -is\nAcc. -am     -as\nAbl. -a      -is",
+      "notes": "",
+      "token": "munditias",
+      "slide_idx": 2
+    },
+    "2_dentium": {
+      "summary": "genitive plural of 2nd declension masculine noun dens",
+      "why": "The noun 'dentium' is in the genitive plural form because it is governed by the accusative 'munditias' (cleanliness), which requires a genitive to express the partitive relationship: 'cleanliness of teeth'.",
+      "gloss": "dens, dentis, m.",
+      "paradigm_label": "3rd declension masculine i-stem endings",
+      "paradigm": "Singular          Plural\nNom. -s           -ēs\nGen. -is          -ium\nDat. -ī           -ibus\nAcc. -em          -ēs\nAbl. -e           -ibus",
+      "notes": "",
+      "token": "dentium",
+      "slide_idx": 2
+    },
+    "3_nitelas": {
+      "summary": "accusative plural of 3rd declension feminine noun nitela",
+      "why": "The word nitelas is the direct object of the preposition 'ex' (from), which governs the ablative case, but here appears in accusative plural form in this context of describing the origin or composition of the substance.",
+      "gloss": "nitela, -ae, f. (or nitela, -ae, f.: a thread-like object, filament)",
+      "paradigm_label": "3rd declension feminine endings",
+      "paradigm": "Singular    Plural\nNom. -a       -ae\nGen. -ae      -arum\nDat. -ae      -is\nAcc. -am      -as\nAbl. -a       -ibus\nVoc. -a       -ae",
+      "notes": "",
+      "token": "nitelas",
+      "slide_idx": 3
+    },
+    "3_oris": {
+      "summary": "Genitive singular of 3rd declension masculine noun os, oris (mouth)",
+      "why": "The genitive case is required here because 'oris' depends on 'nitelas' (brightness/shininess), expressing possession or the quality inherent to the mouth. The genitive construction 'nitelas oris' means 'the brightness of the mouth' or 'the mouth's brightness'.",
+      "gloss": "os, oris, n. (mouth; opening)",
+      "paradigm_label": "3rd declension neuter i-stem noun endings",
+      "paradigm": "Singular:\nnominative  -os\ngenitive    -oris\ndative      -ori\naccusative  -os\nablative    -ore\n\nPlural:\nnominative  -ora\ngenitive    -orum\ndative      -oribus\naccusative  -ora\nablative    -oribus",
+      "notes": "",
+      "token": "oris",
+      "slide_idx": 3
+    },
+    "3_ex": {
+      "summary": "Preposition governing the ablative case",
+      "why": "The preposition 'ex' (from, out of) governs the ablative case in Latin. Here it indicates the source or origin of the nitelas (brightness/elegance), which comes from Arabian fruits.",
+      "gloss": "ex, preposition + ablative",
+      "paradigm_label": "Preposition with ablative",
+      "paradigm": "ex + ablative case\n(no inflection for prepositions)",
+      "notes": "",
+      "token": "ex",
+      "slide_idx": 3
+    },
+    "3_Arabicis": {
+      "summary": "ablative plural of 1st declension feminine adjective Arabicus",
+      "why": "The word modifies 'frugibus' (ablative plural), and must agree with it in case, number, and gender. Since 'frugibus' is ablative plural and 'frugis' is feminine, 'Arabicis' takes the ablative plural feminine form.",
+      "gloss": "Arabicus, -a, -um",
+      "paradigm_label": "1st/2nd declension adjective feminine endings",
+      "paradigm": "Singular        Plural\nNom. -a         -ae\nGen. -ae        -arum\nDat. -ae        -is\nAcc. -am        -as\nAbl. -a         -is",
+      "notes": "",
+      "token": "Arabicis",
+      "slide_idx": 3
+    },
+    "3_frugibus": {
+      "summary": "Ablative plural of 3rd declension feminine noun frux",
+      "why": "The word frugibus is governed by the preposition 'ex' (from/out of), which takes the ablative case. The plural form is required because multiple grains/crops are being referenced.",
+      "gloss": "frux, frugis, f.",
+      "paradigm_label": "3rd declension feminine",
+      "paradigm": "Singular: -x, -gis, -gi, -gem, -ge\nPlural: -ges, -gum, -gibus, -ges, -gibus",
+      "notes": "",
+      "token": "frugibus",
+      "slide_idx": 3
+    },
+    "4_tenuem": {
+      "summary": "Accusative singular of 1st declension feminine adjective tenuis, -e",
+      "why": "The adjective tenuem agrees with pulvisculum in the accusative case to describe the direct object of an implied verb. The three adjectives (tenuem, candidicum, nobilem) are coordinated in parallel accusative form.",
+      "gloss": "tenuis, -e: thin, fine, slender",
+      "paradigm_label": "1st/2nd declension adjective (i-stem) accusative singular",
+      "paradigm": "Singular Accusative\nmasc. -em\nfem. -em\nneut. -e",
+      "notes": "",
+      "token": "tenuem",
+      "slide_idx": 4
+    },
+    "4_candificum": {
+      "summary": "Accusative singular of 1st declension feminine adjective candificus, -a, -um",
+      "why": "The word modifies the accusative singular noun 'pulvisculum' and agrees with it in case, number, and gender. The feminine accusative singular ending -am has been contracted to -um in this poetic or archaic form.",
+      "gloss": "candificus, -a, -um: made of or resembling white powder; whitening",
+      "paradigm_label": "1st/2nd declension adjective",
+      "paradigm": "Masc.    Fem.    Neut.\nNom.Sg.  -us     -a      -um\nAcc.Sg.  -um     -am     -um\nGen.Sg.  -i      -ae     -i\nDat.Sg.  -o      -ae     -o\nAbl.Sg.  -o      -a      -o",
+      "notes": "",
+      "token": "candificum",
+      "slide_idx": 4
+    },
+    "4_nobilem": {
+      "summary": "Accusative singular of 1st declension feminine adjective nobilis, -e",
+      "why": "The adjective nobilem agrees with pulvisculum in the accusative case. Although pulvisculum is neuter, nobilem appears here in feminine accusative form, suggesting agreement with an implied feminine noun or scribal variation in the manuscript tradition.",
+      "gloss": "nobilis, -e, adj.: noble, of high birth",
+      "paradigm_label": "1st/2nd declension adjective (3-termination)",
+      "paradigm": "        Masc.    Fem.    Neut.\nNom.    nobilis  nobilis nobilis\nAcc.    nobilem  nobilem nobilis\nGen.    nobilis  nobilis nobilis\nDat.    nobili   nobili  nobili\nAbl.    nobili   nobili  nobili",
+      "notes": "",
+      "token": "nobilem",
+      "slide_idx": 4
+    },
+    "4_pulvisculum": {
+      "summary": "Accusative singular of 2nd declension masculine noun pulvisculum",
+      "why": "The word is the direct object of an implied verb in this descriptive phrase listing qualities of fine powder. The accusative case is required for the direct object of a transitive verb or in accusative-and-infinitive constructions.",
+      "gloss": "pulvisculum, -i, n.",
+      "paradigm_label": "2nd declension neuter endings",
+      "paradigm": "Sing.          Plur.\nNom. -um        -a\nGen. -i         -orum\nDat. -o         -is\nAcc. -um        -a\nAbl. -o         -is\nVoc. -um        -a",
+      "notes": "",
+      "token": "pulvisculum",
+      "slide_idx": 4
+    },
+    "5_complanatorem": {
+      "summary": "accusative singular of 1st declension feminine noun complanator",
+      "why": "The noun complanatorem is the direct object of an implied verb in this nominal phrase describing a treatment or remedy for a swollen gum (tumidulae gingivulae). The accusative case marks it as the object being acted upon.",
+      "gloss": "complanator, -oris, m. (or -trix, -tricis, f.); one who flattens or smooths",
+      "paradigm_label": "1st declension feminine -trix noun accusative",
+      "paradigm": "Singular\n  nom. -trix\n  acc. -tricem\n  gen. -tricis\n  dat. -trici\n  abl. -trice",
+      "notes": "The word appears to be a medical/dental term from a Latin medical text. The form shows the feminine agentive suffix -trix with regular 1st declension accusative singular ending -em.",
+      "token": "complanatorem",
+      "slide_idx": 5
+    },
+    "5_tumidulae": {
+      "summary": "nominative plural of 1st declension feminine noun tumidula",
+      "why": "The noun tumidula (a small swollen thing) is the object of the preposition or modifier of gingivulae and takes the nominative plural form tumidulae to agree with the feminine noun it modifies.",
+      "gloss": "tumidula, -ae, f.",
+      "paradigm_label": "1st declension feminine endings",
+      "paradigm": "Singular    Plural\nNom. -a      -ae\nGen. -ae     -arum\nDat. -ae     -is\nAcc. -am     -as\nAbl. -a      -is",
+      "notes": "",
+      "token": "tumidulae",
+      "slide_idx": 5
+    },
+    "5_gingivulae": {
+      "summary": "Accusative plural of 1st declension feminine noun gingivula",
+      "why": "The word gingivulae is the direct object of the verb complanatorem (understood as governing the accusative), and appears in the accusative plural form required for a plural feminine noun in the 1st declension.",
+      "gloss": "gingivula, -ae, f.",
+      "paradigm_label": "1st declension feminine endings",
+      "paradigm": "Singular    Plural\nNom  -a      -ae\nGen  -ae     -arum\nDat  -ae     -is\nAcc  -am     -as\nAbl  -a      -is",
+      "notes": "",
+      "token": "gingivulae",
+      "slide_idx": 5
+    },
+    "6_converritorem": {
+      "summary": "Accusative singular of 3rd declension masculine noun converriter",
+      "why": "The word is the direct object of an implied verb (such as 'reliquiae' being governed by a preposition or verbal action), requiring the accusative case to show what is affected by the action.",
+      "gloss": "converriter, -oris, m. (a sweeper)",
+      "paradigm_label": "3rd declension masculine -or nouns",
+      "paradigm": "Singular\nNom  -or\nGen  -oris\nDat  -ori\nAcc  -orem\nAbl  -ore\n\nPlural\nNom  -ores\nGen  -orum\nDat  -oribus\nAcc  -ores\nAbl  -oribus",
+      "notes": "",
+      "token": "converritorem",
+      "slide_idx": 6
+    },
+    "6_pridianae": {
+      "summary": "nominative plural feminine of 1st declension adjective pridianus, -a, -um",
+      "why": "The word agrees with 'reliquiae' (nominative plural feminine noun meaning 'remains'), which is the subject of the implied clause. The adjective pridianus modifies reliquiae, so it must match in case, number, and gender.",
+      "gloss": "pridianus, -a, -um (adjective: of yesterday, from the day before)",
+      "paradigm_label": "1st declension feminine adjective endings",
+      "paradigm": "Singular          Plural\nNom.  -a           -ae\nGen.  -ae          -arum\nDat.  -ae          -is\nAcc.  -am          -as\nAbl.  -a           -is",
+      "notes": "",
+      "token": "pridianae",
+      "slide_idx": 6
+    },
+    "6_reliquiae": {
+      "summary": "nominative plural of 1st declension feminine noun reliquiae",
+      "why": "Reliquiae functions as the subject of the implied verb in this noun phrase, requiring the nominative case. The plural form agrees with the plural sense of 'remains' or 'leftovers'.",
+      "gloss": "reliquiae, -arum, f.",
+      "paradigm_label": "1st declension feminine endings",
+      "paradigm": "Singular    Plural\nNom. -a       -ae\nGen. -ae      -arum\nDat. -ae      -is\nAcc. -am      -as\nAbl. -a       -is",
+      "notes": "",
+      "token": "reliquiae",
+      "slide_idx": 6
+    },
+    "7_ne": {
+      "summary": "Negative conjunction in prohibitive clause with subjunctive",
+      "why": "The particle 'ne' introduces a negative purpose or prohibitive clause, requiring the subjunctive mood. It is used here to negate the following subjunctive verb 'visatur' in the sense of 'so that not' or 'lest.'",
+      "gloss": "ne, conj.; negative particle used with subjunctive in prohibitive and purpose clauses",
+      "paradigm_label": "Particles and conjunctions (invariable)",
+      "paradigm": "ne (negative particle, invariable)",
+      "notes": "",
+      "token": "ne",
+      "slide_idx": 7
+    },
+    "7_qua": {
+      "summary": "ablative singular of the relative pronoun qui, quae, quod",
+      "why": "The ablative case is required by the preposition 'ne' (here used in the sense of 'lest/that not') governing the relative pronoun. The pronoun relates back to 'labes' (feminine singular), so it takes the feminine ablative form.",
+      "gloss": "qui, quae, quod - relative pronoun",
+      "paradigm_label": "relative pronoun feminine singular",
+      "paradigm": "nom. quae\ngen. cuius\ndat. cui\nacc. quam\nabl. qua",
+      "notes": "",
+      "token": "qua",
+      "slide_idx": 7
+    },
+    "7_visatur": {
+      "summary": "3rd person singular present subjunctive passive of 1st conjugation verb viso, -are",
+      "why": "The subjunctive mood is required after 'ne' (lest/that not) to express a negative purpose or prevention clause. The passive voice is used because the subject (labes/stain) is receiving the action of being seen.",
+      "gloss": "viso, -are, -avi, -atum: to see, behold",
+      "paradigm_label": "1st conjugation present subjunctive passive",
+      "paradigm": "1st sg.  -er\n2nd sg. -eris\n3rd sg. -etur\n1st pl. -emur\n2nd pl. -emini\n3rd pl. -entur",
+      "notes": "",
+      "token": "visatur",
+      "slide_idx": 7
+    },
+    "7_tetra": {
+      "summary": "nominative singular of 3rd declension feminine noun labes",
+      "why": "The noun 'labes' is the subject of the passive subjunctive verb 'visatur' in this negative purpose clause introduced by 'ne qua'. As the subject, it requires the nominative case.",
+      "gloss": "labes, -is, f. (stain, spot, blemish, disgrace)",
+      "paradigm_label": "3rd declension feminine i-stem",
+      "paradigm": "Singular          Plural\nNom. -is           -es\nGen. -is           -ium\nDat. -i            -ibus\nAcc. -em           -es\nAbl. -e            -ibus",
+      "notes": "",
+      "token": "tetra",
+      "slide_idx": 7
+    },
+    "7_labes": {
+      "summary": "nominative singular of 3rd declension feminine noun labes",
+      "why": "Labes is the subject of the passive subjunctive verb visatur and must be in the nominative case. The singular form matches the sense of 'stain' or 'blemish' in this context.",
+      "gloss": "labes, -is, f.: stain, blemish, disgrace, spot",
+      "paradigm_label": "3rd declension feminine i-stem",
+      "paradigm": "Singular:\nNom. -es\nGen. -is\nDat. -i\nAcc. -em\nAbl. -e\n\nPlural:\nNom. -es\nGen. -ium\nDat. -ibus\nAcc. -es\nAbl. -ibus",
+      "notes": "",
+      "token": "labes",
+      "slide_idx": 7
+    },
+    "7_sordium": {
+      "summary": "Accusative singular of 2nd declension masculine noun sordium",
+      "why": "The noun sordium is the direct object of the verb 'visatur' (is seen/appears), requiring the accusative case. The negative purpose clause introduced by 'ne qua' governs the accusative object.",
+      "gloss": "sordium, -i, n. (or sordis, -is, f.) - filth, dirt, sordidness",
+      "paradigm_label": "2nd declension neuter endings",
+      "paradigm": "Singular\nNom. -um\nGen. -i\nDat. -o\nAcc. -um\nAbl. -o\n\nPlural\nNom. -a\nGen. -orum\nDat. -is\nAcc. -a\nAbl. -is",
+      "notes": "",
+      "token": "sordium",
+      "slide_idx": 7
+    },
+    "8_restrictis": {
+      "summary": "ablative plural of the perfect passive participle restrictus, -a, -um (from restringō)",
+      "why": "The ablative plural form is required here because 'restrictis labellis' forms an ablative absolute construction, providing the temporal or conditional context for the main clause ('si labellis riseris'). The feminine plural ending agrees with 'labellis' (lips).",
+      "gloss": "restrictus, -a, -um (perfect passive participle of restringō, -ere, -inxi, -ictum: to bind, restrict, restrain)",
+      "paradigm_label": "perfect passive participle (2nd declension mixed endings)",
+      "paradigm": "         Masc.    Fem.    Neut.\nNom.     -us     -a     -um\nGen.     -i      -ae    -i\nDat.     -o      -ae    -o\nAcc.     -um     -am    -um\nAbl.     -o      -a     -o\nNom.Pl.  -i      -ae    -a\nGen.Pl.  -orum   -arum  -orum\nDat.Pl.  -is     -is    -is\nAcc.Pl.  -os     -as    -a\nAbl.Pl.  -is     -is    -is",
+      "notes": "",
+      "token": "restrictis",
+      "slide_idx": 8
+    },
+    "8_forte": {
+      "summary": "adverb, possibly (or by chance)",
+      "why": "In this conditional context, 'forte' functions as an adverb meaning 'perhaps' or 'by chance,' expressing uncertainty about the hypothetical situation. It modifies the conditional clause introduced by 'si'.",
+      "gloss": "forte, adv., by chance, perhaps, perchance",
+      "paradigm_label": "adverbial form (invariable)",
+      "paradigm": "forte (invariable)",
+      "notes": "Derived from the ablative singular of 'fors, fortis, f.' (chance, fortune), but used as a fixed adverb without declensional variation.",
+      "token": "forte",
+      "slide_idx": 8
+    },
+    "8_si": {
+      "summary": "conditional conjunction, protasis marker in present general condition",
+      "why": "In the phrase 'restrictis forte si labellis riseris', 'si' introduces the conditional clause (protasis) paired with the apodosis 'riseris'. It marks the condition upon which the main action depends.",
+      "gloss": "si, conj., if",
+      "paradigm_label": "conditional conjunction (invariable)",
+      "paradigm": "si - if (conditional)\nniisi - if not, unless\nsin - if however",
+      "notes": "",
+      "token": "si",
+      "slide_idx": 8
+    },
+    "8_labellis": {
+      "summary": "ablative plural of 2nd declension masculine noun labellum",
+      "why": "The ablative plural is required after the preposition 'restrictis' (ablative absolute construction). 'Labellis' is the ablative plural form of labellum, meaning the lips are restricted or compressed.",
+      "gloss": "labellum, -i, n.",
+      "paradigm_label": "2nd declension neuter endings",
+      "paradigm": "Singular: -um (nom/acc), -i (gen), -o (dat/abl)\nPlural: -a (nom/acc), -orum (gen), -is (dat/abl)",
+      "notes": "",
+      "token": "labellis",
+      "slide_idx": 8
+    },
+    "8_riseris": {
+      "summary": "2nd person singular future indicative active of the 1st conjugation verb rideo",
+      "why": "The conditional clause uses the future tense to express a hypothetical action that may occur. The 2nd person singular form addresses the reader directly about whether they will laugh if their lips are restricted.",
+      "gloss": "rideo, ridere, risi, risum",
+      "paradigm_label": "1st conjugation future indicative active",
+      "paradigm": "1sg  -bo\n2sg  -bis\n3sg  -bit\n1pl  -bimus\n2pl  -bitis\n3pl  -bunt",
+      "notes": "",
+      "token": "riseris",
+      "slide_idx": 8
+    },
+    "9_Quaeso": {
+      "summary": "1st person singular present indicative active of 1st conjugation verb quaeso",
+      "why": "The verb quaeso (to ask, beseech) is conjugated in the present indicative active voice to match the 1st person singular subject (the speaker). The -o ending is the standard 1st person singular present active ending for 1st conjugation verbs.",
+      "gloss": "quaeso, quaesere, quaesivi, quaesitum",
+      "paradigm_label": "1st conjugation present active indicative",
+      "paradigm": "1sg  -o\n2sg  -as\n3sg  -at\n1pl  -amus\n2pl  -atis\n3pl  -ant",
+      "notes": "",
+      "token": "Quaeso",
+      "slide_idx": 9
+    },
+    "9_quid": {
+      "summary": "Nominative singular neuter of the interrogative pronoun quis, quid",
+      "why": "Quid functions as the direct object of the verb habent, but in Latin interrogative pronouns the neuter nominative/accusative form quid is used as an object. The interrogative here introduces a dependent question clause asking 'what do these verses have...'",
+      "gloss": "quis, quid - who? what? (interrogative pronoun)",
+      "paradigm_label": "Interrogative pronoun",
+      "paradigm": "Masc.    Neut.    Fem.\nquis     quid     quae     (nom. sg.)\nquem     quid     quam     (acc. sg.)\ncuius    cuius    cuius    (gen. sg.)\ncui      cui      cui      (dat. sg.)\nquo      quo      qua      (abl. sg.)",
+      "notes": "",
+      "token": "quid",
+      "slide_idx": 9
+    },
+    "9_habent": {
+      "summary": "3rd person plural present active indicative of the 2nd conjugation verb habeo",
+      "why": "The verb habent agrees with the plural subject isti versus and is in the present tense to describe what these verses possess. The -ent ending marks 3rd person plural in the present active indicative.",
+      "gloss": "habeo, -ere, habui, habitum",
+      "paradigm_label": "2nd conjugation present active indicative",
+      "paradigm": "1sg  -eo      1pl  -emus\n2sg  -es      2pl  -etis\n3sg  -et      3pl  -ent",
+      "notes": "",
+      "token": "habent",
+      "slide_idx": 9
+    },
+    "9_isti": {
+      "summary": "Nominative plural masculine of the demonstrative pronoun is, ea, id",
+      "why": "The word 'isti' is the nominative plural form agreeing with 'versus' (verses/lines), which is the subject of the sentence. The demonstrative pronoun refers to these verses and must agree with them in case, number, and gender.",
+      "gloss": "is, ea, id - this, that (demonstrative pronoun)",
+      "paradigm_label": "Demonstrative pronoun is, ea, id - masculine forms",
+      "paradigm": "Singular          Plural\nNom.  is           ii/i\nGen.  eius         eorum\nDat.  ei           iis/eis\nAcc.  eum          eos\nAbl.  eo           iis/eis\n\nNom. plural: ii, i, or isti (archaic/poetic variant)",
+      "notes": "The form 'isti' is an archaic or poetic variant of the nominative plural 'ii' or 'i', sometimes called the 'old nominative plural' form, found in classical Latin texts especially in more formal or elevated prose.",
+      "token": "isti",
+      "slide_idx": 9
+    },
+    "9_versus": {
+      "summary": "accusative plural of 2nd declension masculine noun versus",
+      "why": "The word versus is the direct object of the verb habent ('they have'), requiring the accusative case. The plural form agrees with the plural subject isti ('these [people]').",
+      "gloss": "versus, -i, m.",
+      "paradigm_label": "2nd declension masculine endings",
+      "paradigm": "Singular    Plural\nNom. -us      -i\nGen. -i       -orum\nDat. -o       -is\nAcc. -um      -os\nAbl. -o       -is",
+      "notes": "",
+      "token": "versus",
+      "slide_idx": 9
+    },
+    "9_re": {
+      "summary": "Ablative singular of the neuter noun 're' (res, rei, n.), used as an ablative of respect/reference",
+      "why": "The ablative case is used here to indicate the respect in which the verses are shameful ('in respect to the thing/matter'). 're' is the ablative form of the neuter noun 'res'.",
+      "gloss": "res, rei, f. (also sometimes treated as neuter)",
+      "paradigm_label": "5th declension feminine noun",
+      "paradigm": "Nom. res\nGen. rei\nDat. rei\nAcc. rem\nAbl. re\nVoc. res",
+      "notes": "",
+      "token": "re",
+      "slide_idx": 9
+    },
+    "9_aut": {
+      "summary": "Conjunction 'aut' (or), coordinating two noun phrases in the accusative case",
+      "why": "The word 'aut' is an indeclinable coordinating conjunction used to present alternatives. It connects 're' (ablative) and 'verbo' (ablative), offering two possible objects of concern in the question.",
+      "gloss": "aut, conj. — or; either...or",
+      "paradigm_label": "Indeclinable conjunction",
+      "paradigm": "aut (invariable)",
+      "notes": "",
+      "token": "aut",
+      "slide_idx": 9
+    },
+    "9_verbo": {
+      "summary": "Ablative singular of 2nd declension masculine noun verbum",
+      "why": "The ablative case is required by the preposition 're' (in the phrase 're aut verbo'), which governs the ablative to express the means or manner by which something is done. Here 'verbo' answers the question 'by what means' alongside 're' (by the thing or by the word).",
+      "gloss": "verbum, -i, n.",
+      "paradigm_label": "2nd declension neuter endings",
+      "paradigm": "Singular\nNom. -um\nGen. -i\nDat. -o\nAcc. -um\nAbl. -o\nVoc. -um\n\nPlural\nNom. -a\nGen. -orum\nDat. -is\nAcc. -a\nAbl. -is\nVoc. -a",
+      "notes": "",
+      "token": "verbo",
+      "slide_idx": 9
+    },
+    "9_pudendum": {
+      "summary": "accusative singular of 2nd declension neuter noun pudendum",
+      "why": "The word is the direct object of the verb 'habent', and neuter accusative singular forms are identical to the nominative in the 2nd declension. The neuter ending -um matches this accusative function.",
+      "gloss": "pudendum, -i, n.",
+      "paradigm_label": "2nd declension neuter endings",
+      "paradigm": "Singular        Plural\nNom.  -um         -a\nGen.  -i          -orum\nDat.  -o          -is\nAcc.  -um         -a\nAbl.  -o          -is",
+      "notes": "",
+      "token": "pudendum",
+      "slide_idx": 9
+    },
+    "9_omnino": {
+      "summary": "Adverb, accusative neuter singular form used as an adverbial modifier meaning 'altogether' or 'at all'",
+      "why": "Omnino is an adverb derived from the neuter accusative of omnis (omne). It functions as an adverbial modifier here, intensifying the question about what the philosophers would not wish to appear.",
+      "gloss": "omnino, adverb: altogether, entirely, at all, in general",
+      "paradigm_label": "Adverbial forms from omnis, -e",
+      "paradigm": "omnis (nom./acc. sing.)\nomne (neut. nom./acc. sing.)\nomnino (adverbial form)",
+      "notes": "",
+      "token": "omnino",
+      "slide_idx": 9
+    },
+    "9_quod": {
+      "summary": "neuter singular nominative of the relative pronoun qui, quae, quod",
+      "why": "The relative pronoun introduces a relative clause modifying the preceding clause. It functions as the nominative subject of the infinitive phrase 'videri', and agrees in gender and number with its antecedent (the implicit object of concern in the sentence).",
+      "gloss": "qui, quae, quod - who, which, what (relative pronoun)",
+      "paradigm_label": "Relative pronoun qui, quae, quod",
+      "paradigm": "        Masc.   Fem.   Neut.\nNom.    qui     quae   quod\nGen.    cuius   cuius  cuius\nDat.    cui     cui    cui\nAcc.    quem    quam   quod\nAbl.    quo     qua    quo",
+      "notes": "",
+      "token": "quod",
+      "slide_idx": 9
+    },
+    "9_philosophus": {
+      "summary": "Nominative singular of 2nd declension masculine noun philosophus",
+      "why": "Philosophus is the subject of the relative clause 'quod philosophus suum nolit videri' (what a philosopher would not want to seem his own). The nominative case is required for the subject of the finite verb nolit.",
+      "gloss": "philosophus, -i, m.",
+      "paradigm_label": "2nd declension masculine endings",
+      "paradigm": "Singular        Plural\nNom. -us         -i\nGen. -i          -orum\nDat. -o          -is\nAcc. -um         -os\nAbl. -o          -is",
+      "notes": "",
+      "token": "philosophus",
+      "slide_idx": 9
+    },
+    "9_suum": {
+      "summary": "Accusative singular of 3rd declension neuter pronoun suus, -a, -um (reflexive possessive adjective)",
+      "why": "The word suum functions as the object of the infinitive videri ('to be seen'), requiring the accusative case. As a neuter accusative singular form of the reflexive possessive adjective, it takes the ending -um.",
+      "gloss": "suus, -a, -um (reflexive possessive adjective: his own, her own, its own, their own)",
+      "paradigm_label": "3rd declension possessive adjective (reflexive) neuter singular",
+      "paradigm": "Nom. -um\nAcc. -um\nGen. -i\nDat. -o\nAbl. -o",
+      "notes": "",
+      "token": "suum",
+      "slide_idx": 9
+    },
+    "9_nolit": {
+      "summary": "3rd person singular present active subjunctive of nōlō, nōlle, nōluī",
+      "why": "The subjunctive mood is used in a relative clause expressing purpose or characteristic. The subject 'philosophus' (a singular masculine noun) requires 3rd person singular agreement.",
+      "gloss": "nōlō, nōlle, nōluī - to be unwilling, to not want",
+      "paradigm_label": "nōlō present active subjunctive",
+      "paradigm": "velim\nvelis\nvelit\nvelīmus\nvelītis\nvelint",
+      "notes": "",
+      "token": "nolit",
+      "slide_idx": 9
+    },
+    "9_videri": {
+      "summary": "Present infinitive active of 1st conjugation verb videre",
+      "why": "The infinitive form is required after the verb 'nolit' (does not wish), which takes an infinitive complement. The present tense indicates the action is viewed as contemporaneous with the main verb.",
+      "gloss": "videō, -ēre, -ī, -sum",
+      "paradigm_label": "1st conjugation present infinitive active",
+      "paradigm": "Present Infinitive Active\n-āre  (1st conjugation)\n-ēre  (2nd conjugation)\n-ere  (3rd conjugation)\n-īre  (4th conjugation)\n\nvidēre (to see)",
+      "notes": "",
+      "token": "videri",
+      "slide_idx": 9
+    }
+  },
+  "constructions": []
+}

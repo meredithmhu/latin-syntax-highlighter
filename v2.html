@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Latin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&display=swap" rel="stylesheet">
   <style>
     html, body {
       margin: 0;
@@ -251,6 +253,8 @@
       display: flex;
       flex-direction: column;
       align-items: flex-start;
+      position: relative;   /* anchor for annotation card + SVG */
+      overflow: visible;
     }
 
     .latin {
@@ -283,7 +287,7 @@
 
     /* ── Hover: Latin glow ── */
     .lat-word {
-      cursor: default;
+      cursor: pointer;
       transition: text-shadow 0.28s ease 0.07s;
     }
 
@@ -366,6 +370,200 @@
       border-color: rgba(255, 255, 255, 0.12);
     }
     body.mode-dark .site-title { color: rgba(255, 255, 255, 0.3); }
+
+    /* ════════════════════════════════════════
+       WORD INFO CARD
+    ════════════════════════════════════════ */
+    .word-card-overlay {
+      position: fixed; inset: 0;
+      z-index: 499; display: none;
+    }
+    .word-card-overlay.visible { display: block; }
+
+    .word-card {
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255, 255, 255, 0.14);
+      backdrop-filter: blur(40px) saturate(180%);
+      -webkit-backdrop-filter: blur(40px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.38);
+      border-radius: 12px;
+      padding: 28px 32px 24px;
+      max-width: 520px; width: 90vw;
+      z-index: 500;
+      font-family: Georgia, "Times New Roman", serif;
+      color: #1a1a1a;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.13);
+      display: none;
+    }
+    .word-card.visible { display: block; }
+
+    .word-card-close {
+      position: absolute; top: 12px; right: 16px;
+      background: none; border: none;
+      font-size: 1.2rem;
+      color: rgba(26, 26, 26, 0.35);
+      cursor: pointer; padding: 0; line-height: 1;
+      transition: color 0.2s;
+    }
+    .word-card-close:hover { color: rgba(26, 26, 26, 0.65); }
+
+    .word-card-word {
+      font-size: 1.7rem; letter-spacing: 0.04em;
+      margin-bottom: 22px; color: #1a1a1a;
+    }
+
+    .word-card-section { margin-bottom: 15px; }
+    .word-card-section:last-child { margin-bottom: 0; }
+
+    .word-card-label {
+      font-size: 0.65rem; letter-spacing: 0.15em;
+      color: rgba(26, 26, 26, 0.42);
+      text-transform: lowercase;
+      margin-bottom: 3px;
+    }
+
+    .word-card-value {
+      font-size: 0.93rem; color: rgba(26, 26, 26, 0.82);
+      line-height: 1.55;
+    }
+
+    .word-card-paradigm {
+      font-family: "Courier New", Courier, monospace;
+      font-size: 0.8rem; color: rgba(26, 26, 26, 0.68);
+      line-height: 1.65; margin: 0; white-space: pre;
+    }
+
+    body.mode-dark .word-card {
+      background: rgba(40, 36, 30, 0.85);
+      border-color: rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.88);
+    }
+    body.mode-dark .word-card-close       { color: rgba(255, 255, 255, 0.3); }
+    body.mode-dark .word-card-close:hover { color: rgba(255, 255, 255, 0.65); }
+    body.mode-dark .word-card-word        { color: rgba(255, 255, 255, 0.9); }
+    body.mode-dark .word-card-label       { color: rgba(255, 255, 255, 0.35); }
+    body.mode-dark .word-card-value       { color: rgba(255, 255, 255, 0.75); }
+    body.mode-dark .word-card-paradigm    { color: rgba(255, 255, 255, 0.55); }
+
+    /* ════════════════════════════════════════
+       ANNOTATIONS MODE
+    ════════════════════════════════════════ */
+    .annotations-toggle {
+      position: fixed;
+      top: 88px; right: 44px;
+      background: none; border: none;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 0.82rem;
+      color: rgba(26, 26, 26, 0.35);
+      cursor: pointer;
+      letter-spacing: 0.08em;
+      z-index: 100; padding: 0;
+      transition: color 0.25s;
+    }
+    .annotations-toggle:hover              { color: rgba(26, 26, 26, 0.65); }
+    body.annotations-mode .annotations-toggle { color: rgba(26, 26, 26, 0.65); }
+
+    /* underline on the clicked word */
+    body.annotations-mode .lat-word.annotated {
+      text-decoration: underline;
+      text-underline-offset: 5px;
+      text-decoration-thickness: 1px;
+      text-decoration-color: rgba(26, 26, 26, 0.45);
+    }
+
+    /* SVG connecting line — lives inside .verse */
+    .annotation-svg {
+      position: absolute;
+      top: 0; left: 0;
+      overflow: visible;
+      pointer-events: none;
+      display: none;
+      z-index: 5;
+    }
+    body.annotations-mode .annotation-svg.visible { display: block; }
+
+    /* Annotation card — handwriting style, lives inside .verse */
+    .annotation-card {
+      position: absolute;
+      z-index: 10;
+      font-family: 'Caveat', cursive;
+      font-size: 1.2rem;
+      color: rgba(26, 26, 26, 0.78);
+      line-height: 1.45;
+      max-width: 320px;
+      display: none;
+      cursor: default;
+    }
+    body.annotations-mode .annotation-card.visible { display: block; }
+
+    .ann-summary      { cursor: pointer; }
+    .ann-expand-hint  {
+      font-size: 0.9rem;
+      color: rgba(26, 26, 26, 0.38);
+      margin-top: 2px;
+      cursor: pointer;
+    }
+
+    .ann-expanded           { display: none; margin-top: 8px; }
+    .ann-expanded.open      { display: block; }
+
+    .ann-why {
+      font-size: 1.05rem;
+      color: rgba(26, 26, 26, 0.62);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .ann-notes {
+      width: 100%; box-sizing: border-box; display: block;
+      background: none; border: none;
+      border-bottom: 1px solid rgba(26, 26, 26, 0.16);
+      font-family: 'Caveat', cursive; font-size: 1.05rem;
+      color: rgba(26, 26, 26, 0.7);
+      resize: none; outline: none;
+      padding: 2px 0 4px; margin-bottom: 12px;
+    }
+    .ann-notes::placeholder { color: rgba(26, 26, 26, 0.26); }
+
+    .ann-buttons { display: flex; gap: 8px; margin-bottom: 6px; }
+
+    .ann-btn {
+      background: none;
+      border: 1px solid rgba(26, 26, 26, 0.2);
+      border-radius: 4px;
+      font-family: 'Caveat', cursive; font-size: 1rem;
+      color: rgba(26, 26, 26, 0.58);
+      cursor: pointer; padding: 3px 10px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .ann-btn:hover {
+      border-color: rgba(26, 26, 26, 0.45);
+      color: rgba(26, 26, 26, 0.85);
+    }
+
+    .ann-detail              { display: none; margin-top: 8px; font-size: 1rem; color: rgba(26, 26, 26, 0.68); line-height: 1.5; }
+    .ann-detail.open         { display: block; }
+    .ann-detail-label        { font-size: 0.82rem; color: rgba(26, 26, 26, 0.42); display: block; margin-bottom: 3px; }
+    .ann-detail pre          { font-family: 'Caveat', cursive; font-size: 1rem; white-space: pre; margin: 0; }
+
+    /* dark mode */
+    body.mode-dark .annotations-toggle           { color: rgba(255, 255, 255, 0.3); }
+    body.mode-dark .annotations-toggle:hover     { color: rgba(255, 255, 255, 0.6); }
+    body.mode-dark.annotations-mode .annotations-toggle { color: rgba(255, 255, 255, 0.6); }
+    body.mode-dark.annotations-mode .lat-word.annotated {
+      text-decoration-color: rgba(255, 255, 255, 0.4);
+    }
+    body.mode-dark .annotation-card              { color: rgba(255, 255, 255, 0.78); }
+    body.mode-dark .ann-expand-hint              { color: rgba(255, 255, 255, 0.32); }
+    body.mode-dark .ann-why                      { color: rgba(255, 255, 255, 0.6); }
+    body.mode-dark .ann-notes                    { border-bottom-color: rgba(255,255,255,0.16); color: rgba(255,255,255,0.65); }
+    body.mode-dark .ann-notes::placeholder       { color: rgba(255, 255, 255, 0.24); }
+    body.mode-dark .ann-btn                      { border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.55); }
+    body.mode-dark .ann-btn:hover                { border-color: rgba(255,255,255,0.5); color: rgba(255,255,255,0.85); }
+    body.mode-dark .ann-detail, body.mode-dark .ann-detail pre { color: rgba(255,255,255,0.62); }
+    body.mode-dark .ann-detail-label             { color: rgba(255,255,255,0.36); }
   </style>
 </head>
 <body class="scroll-mode mode-mud">
@@ -387,6 +585,7 @@
   </nav>
 
   <button class="mode-toggle" id="mode-toggle">no scroll</button>
+  <button class="annotations-toggle" id="annotations-toggle">annotations</button>
 
   <div class="slides" id="slides">
 
@@ -577,6 +776,32 @@
 
   </div>
 
+  <!-- Annotation data: generate with python3 generate_annotations.py toothpaste.txt -->
+  <script>var annotationData = null;</script>
+  <script src="toothpaste_annotations.js" onerror=""></script>
+
+  <div class="word-card-overlay" id="word-card-overlay"></div>
+  <div class="word-card" id="word-card">
+    <button class="word-card-close" id="word-card-close">&times;</button>
+    <div class="word-card-word" id="wc-word"></div>
+    <div class="word-card-section">
+      <div class="word-card-label">grammatical parse</div>
+      <div class="word-card-value" id="wc-parse"></div>
+    </div>
+    <div class="word-card-section">
+      <div class="word-card-label">why this form</div>
+      <div class="word-card-value" id="wc-why"></div>
+    </div>
+    <div class="word-card-section">
+      <div class="word-card-label">quick reference</div>
+      <pre class="word-card-paradigm" id="wc-paradigm"></pre>
+    </div>
+    <div class="word-card-section">
+      <div class="word-card-label">Meredith's notes</div>
+      <div class="word-card-value" id="wc-notes"></div>
+    </div>
+  </div>
+
   <script>
     // ── Max-width from first English line ────────────────────────────────────
     window.addEventListener('load', () => {
@@ -727,6 +952,227 @@
         enterScroll();
         toggleBtn.textContent = 'no scroll';
       }
+    });
+
+    // ── Word info card ────────────────────────────────────────────────────────
+    const wordData = {};  // populate by running: python3 build.py toothpaste.txt --enrich
+
+    const card        = document.getElementById('word-card');
+    const cardOverlay = document.getElementById('word-card-overlay');
+
+    function stripPunct(s) {
+      return s.replace(/^[^a-zA-Z\u00C0-\u024F]+|[^a-zA-Z\u00C0-\u024F]+$/g, '');
+    }
+
+    function showCard(wordEl) {
+      const slideIdx = wordEl.closest('.slide').dataset.idx;
+      const token    = stripPunct(wordEl.textContent.trim());
+      const key      = slideIdx + '_' + token;
+      const info     = wordData[key];
+
+      document.getElementById('wc-word').textContent     = token;
+      document.getElementById('wc-parse').textContent    = info ? (info.parse    || '—') : 'No data — run build.py --enrich to populate.';
+      document.getElementById('wc-why').textContent      = info ? (info.why      || '—') : '—';
+      document.getElementById('wc-paradigm').textContent = info ? (info.paradigm || '—') : '—';
+      document.getElementById('wc-notes').textContent    = info ? (info.notes    || 'N/A') : 'N/A';
+
+      card.classList.add('visible');
+      cardOverlay.classList.add('visible');
+    }
+
+    function hideCard() {
+      card.classList.remove('visible');
+      cardOverlay.classList.remove('visible');
+    }
+
+    document.getElementById('word-card-close').addEventListener('click', hideCard);
+    cardOverlay.addEventListener('click', hideCard);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') hideCard(); });
+
+    document.getElementById('slides').addEventListener('click', e => {
+      const word = e.target.closest('.lat-word');
+      if (!word) return;
+      if (annotationsMode) {
+        showAnnotation(word);
+      } else {
+        showCard(word);
+      }
+    });
+
+    // ── Annotations mode ──────────────────────────────────────────────────────
+    let annotationsMode      = false;
+    let activeAnnotationWord = null;
+
+    // Inject annotation card + SVG into every .verse at page load
+    document.querySelectorAll('.verse').forEach(verse => {
+      const svgEl = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svgEl.classList.add('annotation-svg');
+      verse.appendChild(svgEl);
+
+      const cardEl = document.createElement('div');
+      cardEl.className = 'annotation-card';
+      cardEl.innerHTML =
+        '<div class="ann-summary"></div>' +
+        '<div class="ann-expand-hint">\u2193 expand</div>' +
+        '<div class="ann-expanded">' +
+          '<div class="ann-why"></div>' +
+          '<textarea class="ann-notes" rows="2" placeholder="your notes\u2026"></textarea>' +
+          '<div class="ann-buttons">' +
+            '<button class="ann-btn" data-action="gloss">Dictionary gloss</button>' +
+            '<button class="ann-btn" data-action="drill">Drill this form</button>' +
+          '</div>' +
+          '<div class="ann-detail"></div>' +
+        '</div>';
+      verse.appendChild(cardEl);
+
+      // Expand / collapse
+      function toggleExpand() {
+        const exp  = cardEl.querySelector('.ann-expanded');
+        const hint = cardEl.querySelector('.ann-expand-hint');
+        const opening = !exp.classList.contains('open');
+        exp.classList.toggle('open', opening);
+        hint.style.display = opening ? 'none' : '';
+        adjustEnglishMargin(verse);
+      }
+      cardEl.querySelector('.ann-summary').addEventListener('click', toggleExpand);
+      cardEl.querySelector('.ann-expand-hint').addEventListener('click', toggleExpand);
+
+      // Dictionary gloss / drill buttons
+      cardEl.querySelector('.ann-buttons').addEventListener('click', function(e) {
+        const btn = e.target.closest('.ann-btn');
+        if (!btn) return;
+        const action = btn.dataset.action;
+        const detail = cardEl.querySelector('.ann-detail');
+        const info   = annotationData && cardEl.dataset.wordKey
+          ? (annotationData.words || {})[cardEl.dataset.wordKey] : null;
+
+        // Toggle off if same button clicked twice
+        if (detail.classList.contains('open') && detail.dataset.showing === action) {
+          detail.classList.remove('open');
+        } else {
+          if (action === 'gloss') {
+            detail.innerHTML = info && info.gloss
+              ? '<span class="ann-detail-label">dictionary entry</span>' + info.gloss
+              : '<em>no data loaded</em>';
+          } else {
+            detail.innerHTML = info && info.paradigm
+              ? '<span class="ann-detail-label">' + (info.paradigm_label || 'paradigm') + '</span>' +
+                '<pre>' + info.paradigm + '</pre>'
+              : '<em>no data loaded</em>';
+          }
+          detail.dataset.showing = action;
+          detail.classList.add('open');
+        }
+        adjustEnglishMargin(verse);
+      });
+
+      // Persist notes to localStorage
+      cardEl.querySelector('.ann-notes').addEventListener('input', function(e) {
+        if (cardEl.dataset.wordKey) {
+          localStorage.setItem('ann_notes_' + cardEl.dataset.wordKey, e.target.value);
+        }
+      });
+    });
+
+    function adjustEnglishMargin(verse) {
+      const cardEl  = verse.querySelector('.annotation-card');
+      const english = verse.querySelector('.english');
+      if (!english || !cardEl || !cardEl.classList.contains('visible')) return;
+      const latinH  = verse.querySelector('.latin').offsetHeight;
+      english.style.marginTop = Math.max(24, latinH + cardEl.offsetHeight + 28) + 'px';
+      // Redraw line now that English moved
+      if (activeAnnotationWord && activeAnnotationWord.closest('.verse') === verse) {
+        redrawLine(activeAnnotationWord, cardEl, verse);
+      }
+    }
+
+    function redrawLine(wordEl, cardEl, verse) {
+      const svgEl     = verse.querySelector('.annotation-svg');
+      const verseRect = verse.getBoundingClientRect();
+      const wordRect  = wordEl.getBoundingClientRect();
+      const cardRect  = cardEl.getBoundingClientRect();
+
+      const x1 = (wordRect.left + wordRect.width / 2 - verseRect.left).toFixed(1);
+      const y1 = (wordRect.bottom - verseRect.top).toFixed(1);
+      const x2 = (cardRect.left + 10 - verseRect.left).toFixed(1);
+      const y2 = (cardRect.top - verseRect.top).toFixed(1);
+
+      const dark  = document.body.classList.contains('mode-dark');
+      const color = dark ? 'rgba(255,255,255,0.22)' : 'rgba(26,26,26,0.28)';
+
+      svgEl.setAttribute('width',  verse.offsetWidth + 'px');
+      svgEl.setAttribute('height', (verse.offsetHeight + cardEl.offsetHeight + 60) + 'px');
+      svgEl.innerHTML = '<line x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '"' +
+        ' stroke="' + color + '" stroke-width="1.2" stroke-dasharray="4,3"/>';
+      svgEl.classList.add('visible');
+    }
+
+    function showAnnotation(wordEl) {
+      // Clear previous
+      document.querySelectorAll('.lat-word.annotated').forEach(function(w) { w.classList.remove('annotated'); });
+      document.querySelectorAll('.annotation-card').forEach(function(c) {
+        c.classList.remove('visible');
+        c.querySelector('.ann-expanded').classList.remove('open');
+        c.querySelector('.ann-expand-hint').style.display = '';
+        var det = c.querySelector('.ann-detail');
+        det.classList.remove('open');
+      });
+      document.querySelectorAll('.annotation-svg').forEach(function(s) {
+        s.innerHTML = '';
+        s.classList.remove('visible');
+      });
+      document.querySelectorAll('.verse .english').forEach(function(e) { e.style.marginTop = ''; });
+
+      wordEl.classList.add('annotated');
+      activeAnnotationWord = wordEl;
+
+      var verse    = wordEl.closest('.verse');
+      var slideIdx = wordEl.closest('.slide').dataset.idx;
+      var token    = stripPunct(wordEl.textContent.trim());
+      var key      = slideIdx + '_' + token;
+      var info     = annotationData && annotationData.words ? annotationData.words[key] : null;
+
+      var cardEl = verse.querySelector('.annotation-card');
+      cardEl.dataset.wordKey = key;
+      cardEl.querySelector('.ann-summary').textContent =
+        info && info.summary ? info.summary
+          : token + ' \u2014 run generate_annotations.py to load data';
+      cardEl.querySelector('.ann-why').textContent = info && info.why ? info.why : '';
+      cardEl.querySelector('.ann-notes').value =
+        localStorage.getItem('ann_notes_' + key) || (info && info.notes) || '';
+
+      // Position card: horizontally near word, vertically just below Latin line
+      var verseRect  = verse.getBoundingClientRect();
+      var wordRect   = wordEl.getBoundingClientRect();
+      var latinH     = verse.querySelector('.latin').offsetHeight;
+      var rawLeft    = wordRect.left - verseRect.left;
+      cardEl.style.left = Math.max(0, Math.min(rawLeft, verseRect.width - 320)) + 'px';
+      cardEl.style.top  = (latinH + 20) + 'px';
+
+      cardEl.classList.add('visible');
+      adjustEnglishMargin(verse);
+      requestAnimationFrame(function() { redrawLine(wordEl, cardEl, verse); });
+    }
+
+    function hideAnnotations() {
+      document.querySelectorAll('.lat-word.annotated').forEach(function(w) { w.classList.remove('annotated'); });
+      document.querySelectorAll('.annotation-card').forEach(function(c) {
+        c.classList.remove('visible');
+        c.querySelector('.ann-expanded').classList.remove('open');
+        c.querySelector('.ann-expand-hint').style.display = '';
+        c.querySelector('.ann-detail').classList.remove('open');
+      });
+      document.querySelectorAll('.annotation-svg').forEach(function(s) { s.innerHTML = ''; s.classList.remove('visible'); });
+      document.querySelectorAll('.verse .english').forEach(function(e) { e.style.marginTop = ''; });
+      activeAnnotationWord = null;
+    }
+
+    var annToggleBtn = document.getElementById('annotations-toggle');
+    annToggleBtn.addEventListener('click', function() {
+      annotationsMode = !annotationsMode;
+      document.body.classList.toggle('annotations-mode', annotationsMode);
+      annToggleBtn.textContent = annotationsMode ? 'close annotations' : 'annotations';
+      if (!annotationsMode) hideAnnotations();
     });
   </script>
 
