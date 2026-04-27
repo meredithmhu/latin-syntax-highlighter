@@ -54,19 +54,32 @@ def parse_file(text):
         english  = lines[2].strip()
 
         mappings = []
+        phrases  = None
         for line in lines[3:]:
-            if '->' not in line:
-                continue
-            lat_side, eng_side = line.split('->', 1)
-            lat_tokens  = lat_side.strip().split()
-            eng_chunks  = [c.strip() for c in eng_side.split('|') if c.strip()]
-            mappings.append({'lat': lat_tokens, 'eng': eng_chunks})
+            if line.strip().upper().startswith('PHRASES:'):
+                raw = line.split(':', 1)[1]
+                groups = []
+                for seg in re.split(r'[,|]', raw):
+                    seg = seg.strip()
+                    if not seg:
+                        continue
+                    tokens = [_strip_punct(t) for t in seg.split()]
+                    tokens = [t for t in tokens if t]
+                    if tokens:
+                        groups.append(tokens)
+                phrases = groups or None
+            elif '->' in line:
+                lat_side, eng_side = line.split('->', 1)
+                lat_tokens  = lat_side.strip().split()
+                eng_chunks  = [c.strip() for c in eng_side.split('|') if c.strip()]
+                mappings.append({'lat': lat_tokens, 'eng': eng_chunks})
 
         blocks.append({
             'num':      line_num,
             'latin':    latin,
             'english':  english,
             'mappings': mappings,
+            'phrases':  phrases,
         })
 
     return blocks
@@ -415,7 +428,7 @@ HTML = """\
     body.scroll-mode .slide {{
       position: absolute; inset: 0;
       display: flex; align-items: center; justify-content: center;
-      padding-bottom: 18vh;
+      padding-bottom: 30vh;
       opacity: 0; pointer-events: none;
       transition: opacity 0.6s ease;
     }}
@@ -467,6 +480,7 @@ HTML = """\
     .english {{
       font-size: 2.4rem; color: rgba(26, 26, 26, 0.42);
       font-style: italic; margin: 20px 0 0 0;
+      transition: transform 1.55s ease;
     }}
 
     /* ── Hover: Latin glow ── */
@@ -707,6 +721,9 @@ HTML = """\
   <button class="mode-toggle" id="mode-toggle">no scroll</button>
   <button class="annotations-toggle" id="annotations-toggle">annotations</button>
 
+  <!-- Phrase data: parsed from PHRASES: lines in {input_stem}.txt -->
+  <script>__PHRASE_DATA__</script>
+
   <!-- Annotation data: generate with python3 generate_annotations.py {input_stem}.txt -->
   <script>var annotationData = null;</script>
   <script src="{annotations_js}" onerror=""></script>
@@ -905,6 +922,7 @@ HTML = """\
     // ── Annotations mode ──────────────────────────────────────────────────────
     var annotationsMode      = false;
     var activeAnnotationWord = null;
+    var ANN_BASE_MARGIN      = 280; // px — space opened when entering annotations mode
 
     document.querySelectorAll('.verse').forEach(function(verse) {{
       var svgEl = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -976,7 +994,7 @@ HTML = """\
       var english = verse.querySelector('.english');
       if (!english || !cardEl || !cardEl.classList.contains('visible')) return;
       var latinH  = verse.querySelector('.latin').offsetHeight;
-      english.style.marginTop = Math.max(24, latinH + cardEl.offsetHeight + 28) + 'px';
+      english.style.transform = 'translateY(' + Math.max(ANN_BASE_MARGIN, latinH + cardEl.offsetHeight + 28) + 'px)';
       if (activeAnnotationWord && activeAnnotationWord.closest('.verse') === verse) {{
         redrawLine(activeAnnotationWord, cardEl, verse);
       }}
@@ -1009,7 +1027,7 @@ HTML = """\
         c.querySelector('.ann-detail').classList.remove('open');
       }});
       document.querySelectorAll('.annotation-svg').forEach(function(s) {{ s.innerHTML = ''; s.classList.remove('visible'); }});
-      document.querySelectorAll('.verse .english').forEach(function(e) {{ e.style.marginTop = ''; }});
+      document.querySelectorAll('.verse .english').forEach(function(e) {{ e.style.transform = ''; }});
 
       wordEl.classList.add('annotated');
       activeAnnotationWord = wordEl;
@@ -1049,7 +1067,7 @@ HTML = """\
         c.querySelector('.ann-detail').classList.remove('open');
       }});
       document.querySelectorAll('.annotation-svg').forEach(function(s) {{ s.innerHTML = ''; s.classList.remove('visible'); }});
-      document.querySelectorAll('.verse .english').forEach(function(e) {{ e.style.marginTop = ''; }});
+      document.querySelectorAll('.verse .english').forEach(function(e) {{ e.style.transform = ''; }});
       activeAnnotationWord = null;
     }}
 
@@ -1058,7 +1076,13 @@ HTML = """\
       annotationsMode = !annotationsMode;
       document.body.classList.toggle('annotations-mode', annotationsMode);
       annToggleBtn.textContent = annotationsMode ? 'close annotations' : 'annotations';
-      if (!annotationsMode) hideAnnotations();
+      if (annotationsMode) {{
+        document.querySelectorAll('.english').forEach(function(e) {{
+          e.style.transform = 'translateY(' + ANN_BASE_MARGIN + 'px)';
+        }});
+      }} else {{
+        hideAnnotations();
+      }}
     }});
   </script>
 
@@ -1072,7 +1096,7 @@ HTML = """\
 
 # Navbar links — update when you add new poems to the site.
 NAV_ITEMS = """\
-          <a href="v2.html" class="nav-dropdown-item">Apuleius &mdash; Apologia, Chapter 6 (The Toothpaste Poem)</a>
+          <a href="toothpaste.html" class="nav-dropdown-item">Apuleius &mdash; Apologia, Chapter 6 (The Toothpaste Poem)</a>
           <a href="perpetua.html" class="nav-dropdown-item">Perpetua&rsquo;s Diary &mdash; Paragraphs 1 &amp; 2</a>"""
 
 
@@ -1132,6 +1156,11 @@ def main():
         annotations_js  = input_path.stem + '_annotations.js',
     )
     html = html.replace('__WORD_DATA__', word_data_js)
+
+    phrase_data    = {str(idx + 1): block['phrases']
+                      for idx, block in enumerate(blocks) if block.get('phrases')}
+    phrase_data_js = 'const phraseData = ' + json.dumps(phrase_data, ensure_ascii=False) + ';'
+    html = html.replace('__PHRASE_DATA__', phrase_data_js)
 
     output_path = input_path.with_suffix('.html')
     output_path.write_text(html, encoding='utf-8')

@@ -64,11 +64,14 @@ I ask (oh please), what do these verses have in subject or language that should 
 Quaeso -> I ask (oh please)
 quid habent -> what do, have
 isti versus -> these verses
-verbo -> in subject or language
+re -> in subject
+aut -> or
+verbo -> language
 pudendum -> that should make me ashamed; 
-quid omino -> what, at all, do they have
+quid omnino -> what, at all, do they have
 quod -> which 
 philosophus -> a philosopher 
 nolit -> would not want
 videri -> to seem
 suum -> his own?
+PHRASES: quaeso, quid habent isti versus | re aut verbo pudendum | quid omnino quod philosophus | suum nolit videri

@@ -1,0 +1,15 @@
+# Cursor rules for Meredith's Latin Notebook
+
+See CLAUDE.md for the full conventions. Key points:
+
+- Pure static HTML/CSS/JS. No frameworks, no npm, no bundler.
+- Each poem is one self-contained .html file built by build.py from a .txt source.
+- Python build.py uses str.format() — all CSS braces in the HTML template must be doubled ({{ }}).
+  Word data JSON is injected via .replace('__WORD_DATA__', ...) AFTER .format() to avoid brace collisions.
+- JS template literals (${var}) are forbidden inside the build.py HTML template — use string concatenation.
+- Slide 0 = title card. Poem slides start at data-idx=1. Word keys: "{slide_idx}_{stripped_token}".
+- Annotation notes persist to localStorage: key = ann_notes_{slideIdx}_{token}.
+- ANN_BASE_MARGIN = 200 — minimum px gap opened in annotations mode.
+- Do not change the aesthetic (marble background, Georgia font, frosted glass navbar, 3.8s fade-in) without being asked.
+- NAV_ITEMS in build.py must be updated manually when adding a new poem page.
+- Do not add a server or database. This is a static site.

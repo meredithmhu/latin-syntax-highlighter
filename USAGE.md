@@ -21,13 +21,14 @@ This writes a file called `toothpaste.html` in the same directory as the input. 
 
 ## Input file format
 
-Blocks are separated by blank lines. Each block represents one line of the poem and has four parts:
+Blocks are separated by blank lines. Each block represents one line of the poem and has four parts (plus an optional fifth):
 
 ```
 <line number>
 <latin text>
 <english text>
 <mappings>
+PHRASES: <optional phrase group declaration>
 ```
 
 ### Example block
@@ -75,6 +76,32 @@ Separate the English chunks with ` | `. Both English chunks will light up when t
 ```
 Misi -> I sent, | to you,
 ```
+
+---
+
+## Phrase groups (optional)
+
+A block can have an optional `PHRASES:` line (anywhere after the English line) that marks syntactic phrase groups within the Latin line:
+
+```
+PHRASES: quaeso | quid habent isti versus | re aut verbo pudendum | quid omnino quod philosophus | suum nolit videri
+```
+
+**Format rules:**
+- Both `|` (pipe) and `,` (comma) separate phrase groups. Use whichever reads naturally.
+- Words are written as they appear in the Latin line; leading/trailing punctuation is stripped automatically.
+- Groups are listed in left-to-right order across the Latin line.
+- The `PHRASES:` field is **optional** — lines without it behave exactly as before.
+
+This produces a `phraseData` variable in the generated HTML (keyed by slide index):
+```json
+{
+  "9": [["quaeso"], ["quid", "habent", "isti", "versus"], ["re", "aut", "verbo", "pudendum"],
+        ["quid", "omnino", "quod", "philosophus"], ["suum", "nolit", "videri"]]
+}
+```
+
+The phrase data is embedded in the page for use by the annotation reflow layout.
 
 ---
 
