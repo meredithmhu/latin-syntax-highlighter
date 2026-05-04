@@ -209,14 +209,13 @@
       transition: opacity 3.8s ease;   /* fade-in — very slow, deliberate */
     }
 
-    /* annotations mode overrides scroll-mode constraints so the page can grow */
-    body.scroll-mode.annotations-mode {
+    /* annotations mode + phrase groups: restructure layout so the page grows and scrolls */
+    body.scroll-mode.annotations-mode:has(.slide.active .latin.has-phrase-groups) {
       overflow: auto;
       height: auto;
       min-height: 100vh;
     }
-
-    body.scroll-mode.annotations-mode .slides {
+    body.scroll-mode.annotations-mode:has(.slide.active .latin.has-phrase-groups) .slides {
       position: static;
       display: flex;
       flex-direction: column;
@@ -224,12 +223,10 @@
       padding-top: 90px;
       padding-bottom: 120px;
     }
-
-    body.scroll-mode.annotations-mode .slide:not(.active) {
+    body.scroll-mode.annotations-mode:has(.slide.active .latin.has-phrase-groups) .slide:not(.active) {
       display: none;
     }
-
-    body.scroll-mode.annotations-mode .slide.active {
+    body.scroll-mode.annotations-mode:has(.slide.active .latin.has-phrase-groups) .slide.active {
       position: static;
       inset: auto;
       width: auto;
@@ -239,6 +236,9 @@
       pointer-events: auto;
       transition: none;
     }
+    /* Non-phrase-grouped slides in annotations mode: keep centered layout,
+       allow annotation cards to overflow the slide without clipping */
+    body.scroll-mode.annotations-mode .slide.active { overflow: visible; }
 
     /* ════════════════════════════════════════
        NO-SCROLL MODE
@@ -599,41 +599,80 @@
       text-decoration: none;
     }
 
-    .ann-expand-hint  {
+    .ann-expand-hint, .ann-collapse-hint {
       font-size: 0.9rem;
       color: rgba(26, 26, 26, 0.38);
       margin-top: 2px;
       cursor: pointer;
     }
 
-    .ann-expanded           { display: none; margin-top: 8px; }
-    .ann-expanded.open      { display: block; }
+    /* Arrowhead pointing toward the expansion panel */
+    .ann-arrow {
+      position: absolute;
+      top: 10px;
+      width: 0; height: 0;
+      pointer-events: none;
+      display: none;
+    }
+    .annotation-card[data-dir="right"] .ann-arrow {
+      display: block;
+      left: calc(100% + 3px);
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      border-left: 8px solid rgba(26, 26, 26, 0.28);
+    }
+    .annotation-card[data-dir="left"] .ann-arrow {
+      display: block;
+      right: calc(100% + 3px);
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      border-right: 8px solid rgba(26, 26, 26, 0.28);
+    }
+
+    /* Expansion panel — opens to the side */
+    .ann-expansion {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      min-width: 200px;
+      display: none;
+      overflow: visible;
+    }
+    .ann-expansion.open { display: block; }
+    .annotation-card[data-dir="right"] .ann-expansion { left: calc(100% + 14px); }
+    .annotation-card[data-dir="left"]  .ann-expansion { right: calc(100% + 14px); }
 
     .ann-why {
-      font-size: 1.05rem;
-      color: rgba(26, 26, 26, 0.62);
+      font-size: 1.8rem;
+      color: rgba(26, 26, 26, 0.55);
       margin-bottom: 10px;
-      line-height: 1.4;
+      line-height: 1.35;
+    }
+
+    .ann-notes-label {
+      font-size: 0.85rem;
+      color: rgba(26, 26, 26, 0.38);
+      margin-bottom: 3px;
     }
 
     .ann-notes {
       width: 100%; box-sizing: border-box; display: block;
       background: none; border: none;
       border-bottom: 1px solid rgba(26, 26, 26, 0.16);
-      font-family: 'Caveat', cursive; font-size: 1.05rem;
+      font-family: 'Caveat', cursive; font-size: 1.5rem;
       color: rgba(26, 26, 26, 0.7);
       resize: none; outline: none;
       padding: 2px 0 4px; margin-bottom: 12px;
     }
-    .ann-notes::placeholder { color: rgba(26, 26, 26, 0.26); }
+    .ann-notes::placeholder { color: rgba(26, 26, 26, 0.22); }
 
-    .ann-buttons { display: flex; gap: 8px; margin-bottom: 6px; }
+    .ann-buttons { display: flex; gap: 8px; margin-bottom: 6px; flex-wrap: wrap; }
 
     .ann-btn {
       background: none;
       border: 1px solid rgba(26, 26, 26, 0.2);
       border-radius: 4px;
-      font-family: 'Caveat', cursive; font-size: 1rem;
+      font-family: 'Caveat', cursive; font-size: 1.05rem;
       color: rgba(26, 26, 26, 0.58);
       cursor: pointer; padding: 3px 10px;
       transition: border-color 0.2s, color 0.2s;
@@ -643,10 +682,55 @@
       color: rgba(26, 26, 26, 0.85);
     }
 
-    .ann-detail              { display: none; margin-top: 8px; font-size: 1rem; color: rgba(26, 26, 26, 0.68); line-height: 1.5; }
-    .ann-detail.open         { display: block; }
-    .ann-detail-label        { font-size: 0.82rem; color: rgba(26, 26, 26, 0.42); display: block; margin-bottom: 3px; }
-    .ann-detail pre          { font-family: 'Caveat', cursive; font-size: 1rem; white-space: pre; margin: 0; }
+    /* Detail panels container — sits to the side of the expansion panel */
+    .ann-detail-panels {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      min-width: 200px;
+    }
+    .annotation-card[data-dir="right"] .ann-detail-panels { left: calc(100% + 14px); }
+    .annotation-card[data-dir="left"]  .ann-detail-panels { right: calc(100% + 14px); }
+
+    /* Individual panels stack vertically inside the container */
+    .ann-detail-panel {
+      position: absolute; /* absolute = zero height, invisible when closed */
+      top: 0;
+      width: 100%;
+      font-family: 'Caveat', cursive;
+      font-size: 1.8rem;
+      line-height: 1.35;
+      color: rgba(26, 26, 26, 0.55);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .ann-detail-panel.open {
+      position: static; /* re-enters flow so panels stack naturally */
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .ann-detail-panel.open + .ann-detail-panel.open { margin-top: 14px; }
+
+    .ann-detail-label {
+      font-size: 0.9rem;
+      color: rgba(26, 26, 26, 0.38);
+      display: block;
+      margin-bottom: 4px;
+    }
+    .ann-detail-panel pre {
+      font-family: 'Caveat', cursive;
+      font-size: 1.8rem;
+      white-space: pre;
+      margin: 0;
+      line-height: 1.4;
+    }
+
+    /* Dimmed sibling cards when one is expanded */
+    .annotation-card.dimmed {
+      opacity: 0.1 !important;
+      pointer-events: none !important;
+    }
 
     /* dark mode */
     body.mode-dark .annotations-toggle           { color: rgba(255, 255, 255, 0.3); }
@@ -656,10 +740,16 @@
       text-decoration-color: rgba(255, 255, 255, 0.4);
     }
     body.mode-dark .annotation-card              { color: rgba(255, 255, 255, 0.78); }
-    body.mode-dark .ann-expand-hint              { color: rgba(255, 255, 255, 0.32); }
-    body.mode-dark .ann-why                      { color: rgba(255, 255, 255, 0.6); }
+    body.mode-dark .ann-expand-hint,
+    body.mode-dark .ann-collapse-hint            { color: rgba(255, 255, 255, 0.32); }
+    body.mode-dark .ann-why                      { color: rgba(255, 255, 255, 0.58); }
+    body.mode-dark .ann-notes-label              { color: rgba(255, 255, 255, 0.3); }
     body.mode-dark .ann-notes                    { border-bottom-color: rgba(255,255,255,0.16); color: rgba(255,255,255,0.65); }
-    body.mode-dark .ann-notes::placeholder       { color: rgba(255, 255, 255, 0.24); }
+    body.mode-dark .ann-notes::placeholder       { color: rgba(255, 255, 255, 0.22); }
+    body.mode-dark .ann-detail-panel  { color: rgba(255, 255, 255, 0.58); }
+    body.mode-dark .ann-detail-label  { color: rgba(255, 255, 255, 0.3); }
+    body.mode-dark .annotation-card[data-dir="right"] .ann-arrow { border-left-color:  rgba(255,255,255,0.28); }
+    body.mode-dark .annotation-card[data-dir="left"]  .ann-arrow { border-right-color: rgba(255,255,255,0.28); }
     body.mode-dark .ann-btn                      { border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.55); }
     body.mode-dark .ann-btn:hover                { border-color: rgba(255,255,255,0.5); color: rgba(255,255,255,0.85); }
     body.mode-dark .ann-detail, body.mode-dark .ann-detail pre { color: rgba(255,255,255,0.62); }
@@ -693,6 +783,25 @@
       from { opacity: 0; transform: translateY(-16px); }
       to   { opacity: 1; transform: none; }
     }
+
+    /* Phrase English rows — the actual .english content split per phrase group */
+    .phrase-eng-row { display: none; }
+
+    body.annotations-mode .phrase-eng-row {
+      display: block;
+      position: absolute;
+      bottom: 20px;
+      left: 0;
+      font-size: 2.4rem;
+      font-style: italic;
+      color: rgba(26, 26, 26, 0.42);
+      white-space: nowrap;
+    }
+    body.mode-dark.annotations-mode .phrase-eng-row {
+      color: rgba(255, 255, 255, 0.35);
+    }
+    /* Hide original .english div when phrase-eng-rows are shown */
+    body.annotations-mode .verse:has(.latin.has-phrase-groups) .english { display: none; }
   </style>
 </head>
 <body class="noscroll-mode mode-mud">
@@ -713,7 +822,7 @@
     </div>
   </nav>
 
-  <button class="mode-toggle" id="mode-toggle">line-by-line</button>
+  <button class="mode-toggle" id="mode-toggle">all lines</button>
   <button class="annotations-toggle" id="annotations-toggle">annotations</button>
 
   <button class="slide-nav" id="prev-slide">&#8592;</button>
@@ -883,16 +992,16 @@
         <div class="verse">
           <p class="latin">
             <span class="lat-word" data-group="i1">Quaeso,</span>
-            <span class="lat-word" data-group="i6">quid</span>
-            <span class="lat-word" data-group="i2">habent</span>
-            <span class="lat-word" data-group="i3">isti</span>
-            <span class="lat-word" data-group="i3">versus</span>
-            <span class="lat-word">re</span>
-            <span class="lat-word">aut</span>
+            <span class="lat-word" data-group="i_quid1">quid</span>
+            <span class="lat-word" data-group="i_hab">habent</span>
+            <span class="lat-word" data-group="i_isti">isti</span>
+            <span class="lat-word" data-group="i_versus">versus</span>
+            <span class="lat-word" data-group="i_re">re</span>
+            <span class="lat-word" data-group="i_aut">aut</span>
             <span class="lat-word" data-group="i4">verbo</span>
             <span class="lat-word" data-group="i5">pudendum,</span>
-            <span class="lat-word" data-group="i6">quid</span>
-            <span class="lat-word">omnino</span>
+            <span class="lat-word" data-group="i_qo">quid</span>
+            <span class="lat-word" data-group="i_qo">omnino</span>
             <span class="lat-word" data-group="i7">quod</span>
             <span class="lat-word" data-group="i8">philosophus</span>
             <span class="lat-word" data-group="i11">suum</span>
@@ -900,7 +1009,7 @@
             <span class="lat-word" data-group="i10">videri?</span>
           </p>
           <p class="english">
-            <span class="eng-word" data-group="i1">I ask (oh please)</span>, what do <span class="eng-word" data-group="i3">these verses</span> have <span class="eng-word" data-group="i4">in subject or language</span> <span class="eng-word" data-group="i5">that should make me ashamed;</span> <span class="eng-word" data-group="i6">what, at all, do they have</span>, <span class="eng-word" data-group="i7">which</span> <span class="eng-word" data-group="i8">a philosopher</span> <span class="eng-word" data-group="i9">would not want</span> <span class="eng-word" data-group="i10">to seem</span> <span class="eng-word" data-group="i11">his own?</span>
+            <span class="eng-word" data-group="i1">I ask (oh please)</span>, <span class="eng-word" data-group="i_quid1">what do</span> <span class="eng-word" data-group="i_isti">these</span> <span class="eng-word" data-group="i_versus">verses</span> <span class="eng-word" data-group="i_hab">have</span> <span class="eng-word" data-group="i_re">in subject</span> <span class="eng-word" data-group="i_aut">or</span> <span class="eng-word" data-group="i4">language</span> <span class="eng-word" data-group="i5">that should make me ashamed;</span> <span class="eng-word" data-group="i_qo">what, at all, do they have</span>, <span class="eng-word" data-group="i7">which</span> <span class="eng-word" data-group="i8">a philosopher</span> <span class="eng-word" data-group="i9">would not want</span> <span class="eng-word" data-group="i10">to seem</span> <span class="eng-word" data-group="i11">his own?</span>
           </p>
         </div>
       </div>
@@ -1002,7 +1111,7 @@
         // Phase 3: next line surfaces, very slowly
         setTimeout(() => {
           slides[next].classList.add('active');
-          setTimeout(() => { animating = false; }, FADE_IN);
+          animating = false;
         }, PAUSE);
 
       }, FADE_OUT);
@@ -1091,8 +1200,8 @@
     document.getElementById('prev-slide').addEventListener('click', () => goTo(current - 1));
     document.getElementById('next-slide').addEventListener('click', () => goTo(current + 1));
 
-    // ── Initialize in all-lines mode ─────────────────────────────────────────
-    enterNoScroll();
+    // ── Initialize in line-by-line mode ──────────────────────────────────────
+    enterScroll();
 
     // ── Word info card ────────────────────────────────────────────────────────
     const wordData = {};  // populate by running: python3 build.py toothpaste.txt --enrich
@@ -1170,6 +1279,52 @@
       });
     }
 
+    function applyPhraseEnglish(verse) {
+      var latinEl = verse.querySelector('.latin');
+      var engEl   = verse.querySelector('.english');
+      if (!latinEl || !engEl || !latinEl.classList.contains('has-phrase-groups')) return;
+      if (verse.querySelector('.phrase-eng-row')) return;
+
+      // Map each data-group value to the index of its phrase-group span
+      var groupToPhrase = {};
+      var phraseGroupSpans = Array.from(latinEl.querySelectorAll('.phrase-group'));
+      phraseGroupSpans.forEach(function(pgSpan, phraseIdx) {
+        Array.from(pgSpan.querySelectorAll('.lat-word')).forEach(function(wEl) {
+          if (wEl.dataset.group) groupToPhrase[wEl.dataset.group] = phraseIdx;
+        });
+      });
+
+      // Partition .english child nodes into per-phrase buckets (text nodes follow the previous eng-word)
+      var buckets = phraseGroupSpans.map(function() { return []; });
+      var currentPhrase = 0;
+      Array.from(engEl.childNodes).forEach(function(node) {
+        if (node.nodeType === Node.ELEMENT_NODE && node.classList.contains('eng-word')) {
+          var pg = groupToPhrase[node.dataset.group];
+          if (pg !== undefined) currentPhrase = pg;
+        }
+        buckets[currentPhrase].push(node);
+      });
+
+      // Move each bucket into a .phrase-eng-row appended to its phrase-group span
+      phraseGroupSpans.forEach(function(pgSpan, phraseIdx) {
+        if (buckets[phraseIdx].length === 0) return;
+        var row = document.createElement('span');
+        row.className = 'phrase-eng-row';
+        buckets[phraseIdx].forEach(function(node) { row.appendChild(node); });
+        pgSpan.appendChild(row);
+      });
+    }
+
+    function removePhraseEnglish(verse) {
+      var engEl = verse.querySelector('.english');
+      if (!engEl) return;
+      // Move nodes back to .english in bucket order (restores original document order)
+      Array.from(verse.querySelectorAll('.phrase-eng-row')).forEach(function(row) {
+        while (row.firstChild) engEl.appendChild(row.firstChild);
+        row.parentNode.removeChild(row);
+      });
+    }
+
     function teardownAnnotations() {
       // Hide open cards and lines
       openCards.forEach(function(wordEl) {
@@ -1193,7 +1348,10 @@
       });
       verseLayouts.clear();
       document.querySelectorAll('.english').forEach(function(e) { e.style.transform = ''; });
-      document.querySelectorAll('.verse').forEach(function(v) { v.style.minHeight = ''; });
+      document.querySelectorAll('.verse').forEach(function(v) {
+        removePhraseEnglish(v);
+        v.style.minHeight = '';
+      });
       removePhraseGroups();
       layoutsBuilt = false;
       phraseGroupsApplied = false;
@@ -1240,7 +1398,7 @@
     var phraseGroupsApplied = false;
     const verseLayouts   = new Map(); // verse → Map(wordEl → { cardEl, lineEl })
     const openCards      = new Set(); // wordEl elements whose cards are currently visible
-    const ANN_BASE_MARGIN = 280;
+    const ANN_BASE_MARGIN = 440;
 
     var phraseData = {"9":[["quaeso"],["quid","habent","isti","versus"],["re","aut","verbo","pudendum"],["quid","omnino","quod","philosophus"],["suum","nolit","videri"]]};
 
@@ -1258,15 +1416,21 @@
       cardEl.dataset.wordKey = key;
       cardEl.innerHTML =
         '<div class="ann-summary"></div>' +
-        '<div class="ann-expand-hint">\u2193 expand</div>' +
-        '<div class="ann-expanded">' +
+        '<div class="ann-expand-hint">\u2192 expand</div>' +
+        '<div class="ann-arrow"></div>' +
+        '<div class="ann-expansion">' +
+          '<div class="ann-collapse-hint">\u2191 collapse</div>' +
           '<div class="ann-why"></div>' +
-          '<textarea class="ann-notes" rows="2" placeholder="your notes\u2026"></textarea>' +
+          '<div class="ann-notes-label">Personal notes:</div>' +
+          '<textarea class="ann-notes" rows="2" placeholder="\u2026"></textarea>' +
           '<div class="ann-buttons">' +
             '<button class="ann-btn" data-action="gloss">Dictionary gloss</button>' +
             '<button class="ann-btn" data-action="drill">Drill this form</button>' +
           '</div>' +
-          '<div class="ann-detail"></div>' +
+          '<div class="ann-detail-panels">' +
+            '<div class="ann-detail-panel" data-type="gloss"></div>' +
+            '<div class="ann-detail-panel" data-type="drill"></div>' +
+          '</div>' +
         '</div>';
 
       cardEl.querySelector('.ann-summary').textContent =
@@ -1276,40 +1440,91 @@
       cardEl.querySelector('.ann-notes').value =
         localStorage.getItem('ann_notes_' + key) || (info && info.notes) || '';
 
-      function toggleExpand() {
-        var exp  = cardEl.querySelector('.ann-expanded');
-        var hint = cardEl.querySelector('.ann-expand-hint');
-        var opening = !exp.classList.contains('open');
-        exp.classList.toggle('open', opening);
-        hint.style.display = opening ? 'none' : '';
+      var computedDir = 'right';
+
+      cardEl._updateExpandHint = function() {
+        var cardRect = cardEl.getBoundingClientRect();
+        computedDir = (cardRect.left + cardEl.offsetWidth / 2 < window.innerWidth / 2) ? 'right' : 'left';
+        var arrow = computedDir === 'right' ? '\u2192' : '\u2190';
+        cardEl.querySelector('.ann-expand-hint').textContent = arrow + ' expand';
+      };
+
+      function openExpansion() {
+        cardEl.dataset.dir = computedDir;
+        cardEl.querySelector('.ann-expansion').classList.add('open');
+        cardEl.querySelector('.ann-expand-hint').style.display = 'none';
+        var verse = wordEl.closest('.verse');
+        verse.querySelectorAll('.annotation-card.visible').forEach(function(c) {
+          if (c !== cardEl) c.classList.add('dimmed');
+        });
       }
-      cardEl.querySelector('.ann-summary').addEventListener('click', toggleExpand);
-      cardEl.querySelector('.ann-expand-hint').addEventListener('click', toggleExpand);
+
+      function closeExpansion() {
+        cardEl.querySelector('.ann-expansion').classList.remove('open');
+        var hint = cardEl.querySelector('.ann-expand-hint');
+        hint.textContent = (computedDir === 'right' ? '\u2192' : '\u2190') + ' expand';
+        hint.style.display = '';
+        cardEl.querySelectorAll('.ann-detail-panel').forEach(function(p) {
+          p.classList.remove('open'); p.innerHTML = '';
+        });
+        var verse = wordEl.closest('.verse');
+        verse.querySelectorAll('.annotation-card.dimmed').forEach(function(c) {
+          c.classList.remove('dimmed');
+        });
+        delete cardEl.dataset.dir;
+      }
+
+      cardEl.querySelector('.ann-summary').addEventListener('click', function() {
+        if (cardEl.querySelector('.ann-expansion').classList.contains('open')) {
+          closeExpansion();
+        } else {
+          openExpansion();
+        }
+      });
+      cardEl.querySelector('.ann-expand-hint').addEventListener('click', openExpansion);
+      cardEl.querySelector('.ann-collapse-hint').addEventListener('click', closeExpansion);
 
       cardEl.querySelector('.ann-buttons').addEventListener('click', function(e) {
         var btn = e.target.closest('.ann-btn');
         if (!btn) return;
-        var action  = btn.dataset.action;
-        var detail  = cardEl.querySelector('.ann-detail');
-        var curInfo = annotationData && key ? (annotationData.words || {})[key] : null;
-        if (detail.classList.contains('open') && detail.dataset.showing === action) {
-          detail.classList.remove('open');
+        var action   = btn.dataset.action;
+        var curInfo  = annotationData && key ? (annotationData.words || {})[key] : null;
+        var target   = cardEl.querySelector('.ann-detail-panel[data-type="' + action + '"]');
+
+        if (target.classList.contains('open')) {
+          // Toggle off
+          target.classList.remove('open');
+          target.innerHTML = '';
         } else {
-          detail.innerHTML = action === 'gloss'
+          // Check if the panel container fits in the viewport — if not, close any
+          // other open panel first (rare narrow-screen case)
+          var container = cardEl.querySelector('.ann-detail-panels');
+          var cRect = container.getBoundingClientRect();
+          var fitsHorizontally = computedDir === 'right'
+            ? cRect.right <= window.innerWidth - 24
+            : cRect.left >= 24;
+          if (!fitsHorizontally) {
+            cardEl.querySelectorAll('.ann-detail-panel.open').forEach(function(p) {
+              p.classList.remove('open');
+              p.innerHTML = '';
+            });
+          }
+          target.innerHTML = action === 'gloss'
             ? (curInfo && curInfo.gloss
-                ? '<span class="ann-detail-label">dictionary entry</span>' + curInfo.gloss
+                ? '<div class="ann-detail-label">dictionary entry</div>' + curInfo.gloss
                 : '<em>no data loaded</em>')
             : (curInfo && curInfo.paradigm
-                ? '<span class="ann-detail-label">' + (curInfo.paradigm_label || 'paradigm') + '</span><pre>' + curInfo.paradigm + '</pre>'
+                ? '<div class="ann-detail-label">' + (curInfo.paradigm_label || 'paradigm') + '</div><pre>' + curInfo.paradigm + '</pre>'
                 : '<em>no data loaded</em>');
-          detail.dataset.showing = action;
-          detail.classList.add('open');
+          target.classList.add('open');
         }
       });
 
       cardEl.querySelector('.ann-notes').addEventListener('input', function() {
         localStorage.setItem('ann_notes_' + key, cardEl.querySelector('.ann-notes').value);
       });
+
+      cardEl._closeAll = closeExpansion;
 
       verse.appendChild(cardEl);
       return cardEl;
@@ -1466,7 +1681,7 @@
             wordMap.forEach(function(item) { maxH = Math.max(maxH, item.cardEl.offsetHeight); });
             var engEl = verse.querySelector('.english');
             if (engEl) {
-              engEl.style.transform = 'translateY(' + Math.max(ANN_BASE_MARGIN, latinH + maxH + 28) + 'px)';
+              engEl.style.transform = 'translateY(' + Math.max(ANN_BASE_MARGIN, latinH + maxH + 220) + 'px)';
             }
           });
         }
@@ -1481,7 +1696,8 @@
       if (!item) return;
 
       if (openCards.has(wordEl)) {
-        // Hide — word clicked again
+        // Hide — word clicked again; close any expansion first so siblings get undimmed
+        if (item.cardEl._closeAll) item.cardEl._closeAll();
         wordEl.classList.remove('annotated');
         item.cardEl.classList.remove('visible');
         item.lineEl.style.opacity = '0';
@@ -1492,6 +1708,7 @@
         item.cardEl.classList.add('visible');
         item.lineEl.style.opacity = '1';
         openCards.add(wordEl);
+        if (item.cardEl._updateExpandHint) item.cardEl._updateExpandHint();
       }
     }
 
@@ -1520,7 +1737,10 @@
       if (annotationsMode) {
         // Apply phrase groups now (body.annotations-mode is active so CSS layout kicks in)
         if (!phraseGroupsApplied) {
-          document.querySelectorAll('.verse').forEach(function(verse) { applyPhraseGroups(verse); });
+          document.querySelectorAll('.verse').forEach(function(verse) {
+            applyPhraseGroups(verse);
+            applyPhraseEnglish(verse);
+          });
           phraseGroupsApplied = true;
         }
         // Set base English offset for non-phrase-group slides

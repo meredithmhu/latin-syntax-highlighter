@@ -62,8 +62,10 @@ restrictis, labellis -> (with your lips pulled back).
 Quaeso, quid habent isti versus re aut verbo pudendum, quid omnino quod philosophus suum nolit videri? 
 I ask (oh please), what do these verses have in subject or language that should make me ashamed; what, at all, do they have, which a philosopher would not want to seem his own? 
 Quaeso -> I ask (oh please)
-quid habent -> what do, have
-isti versus -> these verses
+quid habent -> what do
+habent -> have
+isti -> these
+versus -> verses
 re -> in subject
 aut -> or
 verbo -> language
@@ -74,4 +76,10 @@ philosophus -> a philosopher
 nolit -> would not want
 videri -> to seem
 suum -> his own?
-PHRASES: quaeso, quid habent isti versus | re aut verbo pudendum | quid omnino quod philosophus | suum nolit videri
+LATIN PHRASES: quaeso | quid habent isti versus | re aut verbo pudendum | quid omnino quod philosophus | suum nolit videri
+ENGLISH PHRASES: I ask (oh please) | what do these verses have | in subject or language that should make me ashamed; | what, at all, do they have, which a philosopher | would not want to seem his own?
+Quaeso -> I ask (oh please)
+quid habent isti versus -> what do these verses have
+re aut verbo pudendum -> in subject or language that should make me ashamed;
+quid omnino quod philosophus -> what, at all, do they have, which a philosopher
+suum nolit videri -> would not want to seem his own?
