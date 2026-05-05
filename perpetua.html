@@ -24,7 +24,8 @@
       left: 0; right: 0;
       text-align: center;
       z-index: 200;
-      pointer-events: none;
+      pointer-events: auto;
+      text-decoration: none;
       font-family: Georgia, "Times New Roman", serif;
       font-size: 1.1rem;
       letter-spacing: 0.18em;
@@ -38,6 +39,7 @@
       z-index: 200;
       display: flex;
       justify-content: center;
+      gap: 52px;
       padding-top: 46px;
       pointer-events: none;
     }
@@ -118,15 +120,31 @@
 </head>
 <body>
 
-  <div class="site-title">Meredith's Latin Notebook</div>
+  <a class="site-title" href="index.html">Meredith's Latin Notebook</a>
 
   <nav class="navbar">
+    <div class="nav-item">
+      <span class="nav-label">Build Your Own</span>
+      <div class="nav-dropdown">
+        <div class="nav-dropdown-inner">
+          <a href="build_your_own.html" class="nav-dropdown-item">Build Your Own &mdash; Latin</a>
+        </div>
+      </div>
+    </div>
     <div class="nav-item">
       <span class="nav-label">Latin Texts</span>
       <div class="nav-dropdown">
         <div class="nav-dropdown-inner">
           <a href="toothpaste.html" class="nav-dropdown-item">Apuleius &mdash; Apologia, Chapter 6 (The Toothpaste Poem)</a>
           <a href="perpetua.html" class="nav-dropdown-item">Perpetua&rsquo;s Diary &mdash; Paragraphs 1 &amp; 2</a>
+        </div>
+      </div>
+    </div>
+    <div class="nav-item">
+      <span class="nav-label">Tutorial</span>
+      <div class="nav-dropdown">
+        <div class="nav-dropdown-inner">
+          <a href="tutorial.html" class="nav-dropdown-item">Tutorial</a>
         </div>
       </div>
     </div>

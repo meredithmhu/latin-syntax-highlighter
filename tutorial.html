@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tutorial &mdash; Meredith's Latin Notebook</title>
+  <style>
+    html, body {
+      margin: 0;
+      min-height: 100%;
+    }
+
+    body {
+      background:
+        linear-gradient(rgba(200, 175, 148, 0.54), rgba(200, 175, 148, 0.54)),
+        url('marble.jpg') center / cover no-repeat fixed;
+      font-family: Georgia, "Times New Roman", serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 130px;
+      padding-bottom: 80px;
+      box-sizing: border-box;
+    }
+
+    /* ── Site title ── */
+    .site-title {
+      position: fixed;
+      top: 14px;
+      left: 0; right: 0;
+      text-align: center;
+      z-index: 200;
+      pointer-events: auto;
+      text-decoration: none;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.18em;
+      color: rgba(26, 26, 26, 0.55);
+    }
+
+    /* ── Navbar ── */
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      display: flex;
+      justify-content: center;
+      gap: 52px;
+      padding-top: 46px;
+      pointer-events: none;
+    }
+
+    .nav-item {
+      position: relative;
+      display: inline-block;
+      pointer-events: auto;
+    }
+
+    .nav-label {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 18pt;
+      color: #1a1a1a;
+      letter-spacing: 0.04em;
+      cursor: default;
+      background-image: linear-gradient(currentColor, currentColor);
+      background-size: 0% 1px;
+      background-repeat: no-repeat;
+      background-position: left bottom;
+      transition: background-size 0.7s ease 0.3s;
+    }
+
+    .nav-item:hover .nav-label {
+      background-size: 100% 1px;
+    }
+
+    .nav-dropdown {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      min-width: 320px;
+      padding-top: 14px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease 0.85s;
+    }
+
+    .nav-dropdown-inner {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(40px) saturate(180%);
+      -webkit-backdrop-filter: blur(40px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 8px;
+      padding: 6px 0;
+      box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    }
+
+    .nav-item:hover .nav-dropdown {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .nav-dropdown-item {
+      display: block;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 0.92rem;
+      color: #1a1a1a;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      white-space: nowrap;
+      padding: 10px 22px;
+      cursor: pointer;
+      background-image: linear-gradient(currentColor, currentColor);
+      background-size: 0% 1px;
+      background-repeat: no-repeat;
+      background-position: 22px bottom;
+      transition: background-size 0.35s ease 0.05s;
+    }
+
+    .nav-dropdown-item:hover {
+      background-size: calc(100% - 44px) 1px;
+    }
+
+    /* ── Scheme toggle ── */
+    .scheme-toggle {
+      position: fixed;
+      top: 36px;
+      right: 44px;
+      background: none; border: none;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 0.82rem;
+      color: rgba(26, 26, 26, 0.35);
+      cursor: pointer;
+      letter-spacing: 0.08em;
+      z-index: 100; padding: 0;
+      transition: color 0.25s;
+    }
+    .scheme-toggle:hover { color: rgba(26, 26, 26, 0.65); }
+
+    /* ── Page content ── */
+    .page-content {
+      width: 90%;
+      max-width: 900px;
+    }
+
+    /* ── Page-specific styles ── */
+    .page-content {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: rgba(26, 26, 26, 0.82);
+    }
+
+    .page-content .nb {
+      font-size: 0.9rem;
+      color: rgba(26, 26, 26, 0.6);
+      margin-bottom: 2.4em;
+    }
+
+    .page-content .nb a {
+      color: rgba(26, 26, 26, 0.6);
+    }
+
+    .page-content h1 {
+      font-size: 2rem;
+      font-weight: normal;
+      letter-spacing: 0.06em;
+      margin: 0 0 0.2em 0;
+      color: rgba(26, 26, 26, 0.88);
+    }
+
+    .page-content .tagline {
+      font-style: italic;
+      color: rgba(26, 26, 26, 0.55);
+      margin: 0 0 2em 0;
+      font-size: 1rem;
+    }
+
+    .page-content hr {
+      border: none;
+      border-top: 1px solid rgba(26, 26, 26, 0.15);
+      margin: 2em 0;
+    }
+
+    .page-content h2 {
+      font-size: 1.25rem;
+      font-weight: normal;
+      letter-spacing: 0.05em;
+      margin: 1.8em 0 0.6em 0;
+      color: rgba(26, 26, 26, 0.88);
+    }
+
+    .page-content p {
+      margin: 0 0 1em 0;
+    }
+
+    .page-content ul {
+      margin: 0.4em 0 1em 0;
+      padding-left: 1.6em;
+    }
+
+    .page-content li {
+      margin-bottom: 0.35em;
+    }
+
+    .page-content pre, .page-content code {
+      font-family: monospace;
+      font-size: 0.88rem;
+      background: rgba(26, 26, 26, 0.06);
+      border-radius: 3px;
+    }
+
+    .page-content code {
+      padding: 1px 5px;
+    }
+
+    .page-content pre {
+      padding: 12px 16px;
+      overflow-x: auto;
+      margin: 0.6em 0 1em 0;
+    }
+
+    .page-content pre code {
+      background: none;
+      padding: 0;
+    }
+
+    /* ── Color modes ── */
+    body.mode-light {
+      background:
+        linear-gradient(rgba(255, 248, 235, 0.2), rgba(255, 248, 235, 0.2)),
+        url('marble.jpg') center / cover no-repeat fixed;
+    }
+
+    body.mode-dark {
+      background: #1c1a17;
+    }
+
+    body.mode-dark .site-title         { color: rgba(255, 255, 255, 0.3); }
+    body.mode-dark .nav-label          { color: rgba(255, 255, 255, 0.85); }
+    body.mode-dark .nav-dropdown-item  { color: rgba(255, 255, 255, 0.78); }
+    body.mode-dark .nav-dropdown-inner {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+    body.mode-dark .scheme-toggle      { color: rgba(255, 255, 255, 0.3); }
+    body.mode-dark .scheme-toggle:hover{ color: rgba(255, 255, 255, 0.6); }
+
+    /* ── Page-specific dark mode overrides ── */
+    body.mode-dark .page-content              { color: rgba(255, 255, 255, 0.72); }
+    body.mode-dark .page-content .nb          { color: rgba(255, 255, 255, 0.4); }
+    body.mode-dark .page-content .nb a        { color: rgba(255, 255, 255, 0.4); }
+    body.mode-dark .page-content h1           { color: rgba(255, 255, 255, 0.82); }
+    body.mode-dark .page-content .tagline     { color: rgba(255, 255, 255, 0.38); }
+    body.mode-dark .page-content h2           { color: rgba(255, 255, 255, 0.82); }
+    body.mode-dark .page-content hr           { border-top-color: rgba(255, 255, 255, 0.12); }
+    body.mode-dark .page-content pre,
+    body.mode-dark .page-content code         { background: rgba(255, 255, 255, 0.07); }
+    body.mode-dark .page-content pre code     { background: none; }
+
+  </style>
+</head>
+<body class="mode-mud">
+
+  <a class="site-title" href="index.html">Meredith's Latin Notebook</a>
+
+  <nav class="navbar">
+    <div class="nav-item">
+      <span class="nav-label">Build Your Own</span>
+      <div class="nav-dropdown">
+        <div class="nav-dropdown-inner">
+          <a href="build_your_own.html" class="nav-dropdown-item">Build Your Own &mdash; Latin</a>
+        </div>
+      </div>
+    </div>
+    <div class="nav-item">
+      <span class="nav-label">Latin Texts</span>
+      <div class="nav-dropdown">
+        <div class="nav-dropdown-inner">
+          <a href="toothpaste.html" class="nav-dropdown-item">Apuleius &mdash; Apologia, Chapter 6 (The Toothpaste Poem)</a>
+          <a href="perpetua.html"   class="nav-dropdown-item">Perpetua&rsquo;s Diary &mdash; Paragraphs 1 &amp; 2</a>
+        </div>
+      </div>
+    </div>
+    <div class="nav-item">
+      <span class="nav-label">Tutorial</span>
+      <div class="nav-dropdown">
+        <div class="nav-dropdown-inner">
+          <a href="tutorial.html" class="nav-dropdown-item">Tutorial</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <button class="scheme-toggle" id="scheme-toggle">mud</button>
+
+  <div class="page-content">
+
+    <p class="nb">N.B. If you prefer reading the markdown version or having the option to download it, the Github repo (where both options are available) can be found here: <a href="https://github.com/meredithmhu/latin-syntax-highlighter/tree/main" target="_blank" rel="noopener">https://github.com/meredithmhu/latin-syntax-highlighter/tree/main</a></p>
+
+    <h1>Meredith's Latin Notebook</h1>
+    <p class="tagline">An interactive viewer for Latin translations, built with plain HTML/CSS/JS. Each poem lives on its own page, presented against a marble background, and lets you explore the Latin word by word.</p>
+
+    <hr>
+
+    <h2>What the pages look like</h2>
+    <p>Every poem page shares the same aesthetic: a marble parchment background with a warm beige overlay, a frosted-glass navbar fixed at the top, and the poem presented in large, unhurried text.</p>
+    <p><strong>Hover interaction</strong> &mdash; hover over any Latin word and it glows with a soft text-shadow. Simultaneously, the corresponding English word or phrase below brightens and receives a slow left-to-right underline. Multiple Latin words can share a group (hovering any one lights up all of them), and one Latin word can map to non-adjacent English chunks (both light up at once). Moving off a word fades everything back out.</p>
+    <p><strong>Line-by-line mode (default)</strong> &mdash; the poem is presented one line at a time, navigated with &larr; / &rarr; arrow buttons at the bottom-right of the screen. Transitioning between lines uses a three-phase fade: 0.65s fade-out, a 0.6s breath of empty page, then a slow 3.8s fade-in. The first slide is always a title card with the poem name and source.</p>
+    <p><strong>All-lines mode</strong> &mdash; a toggle button in the top-right switches to a continuous scrolling layout where all lines are stacked vertically and fade in as they enter the viewport.</p>
+    <p><strong>Three color schemes</strong> &mdash; a second button cycles between:</p>
+    <ul>
+      <li><em>mud</em> (default) &mdash; marble with a warm beige overlay; white glow on hover</li>
+      <li><em>light</em> &mdash; marble with a lighter translucent overlay; cyan-blue glow on hover</li>
+      <li><em>dark</em> &mdash; near-black background; white glow; all text shifted to light values</li>
+    </ul>
+
+    <hr>
+
+    <h2>Annotations mode</h2>
+    <p>Each poem page has an <strong>annotations</strong> toggle button. Clicking it enters a margin-annotation view inspired by handwritten notes in a manuscript.</p>
+    <p>In annotations mode, the English translation slides down to make room. Clicking any Latin word opens a floating annotation card written in a handwriting font (Caveat), showing:</p>
+    <ul>
+      <li>A one-sentence grammatical summary of the word&rsquo;s form</li>
+      <li>An expand arrow (pointing left or right depending on which side has space) &mdash; clicking it reveals the full detail panel to the side of the card:
+        <ul>
+          <li>Why this particular form appears in context</li>
+          <li>A personal notes textarea (saved to <code>localStorage</code>)</li>
+          <li>Two buttons: <strong>Dictionary gloss</strong> and <strong>Drill this form</strong>, each opening a further panel that stacks beside the card</li>
+        </ul>
+      </li>
+      <li>Clicking the Latin word again closes that card; all other open cards stay open</li>
+    </ul>
+    <p>Any number of cards can be open simultaneously. When one card&rsquo;s detail panel is expanded, sibling cards on the same line dim to keep focus.</p>
+    <p>For lines with syntactic phrase groupings defined in the source text, annotations mode also reflows the line into phrase-group rows &mdash; each phrase of Latin sits above its corresponding English, making the structure of the sentence visually explicit.</p>
+    <p>Annotation data (summaries, glosses, paradigms) is generated separately via <code>generate_annotations.py</code>, which calls the Anthropic API once per word and caches results.</p>
+
+    <hr>
+
+    <h2>Current pages</h2>
+    <ul>
+      <li><strong>toothpaste.html</strong> &mdash; Apuleius, <em>Apologia</em> Chapter 6 (the Toothpaste Poem, lines 3&ndash;11). Fully annotated.</li>
+      <li><strong>perpetua.html</strong> &mdash; Perpetua&rsquo;s Diary, Paragraphs 1 &amp; 2. Placeholder &mdash; content coming soon.</li>
+      <li><strong>build_your_own.html</strong> &mdash; Upload your own <code>.txt</code> file and get back a formatted HTML page in the same style.</li>
+      <li><strong>tutorial.html</strong> &mdash; This page.</li>
+    </ul>
+
+    <hr>
+
+    <h2>Build your own</h2>
+    <p>You can generate a page for any Latin text you have a translation for. Write a <code>.txt</code> source file following the format in <a href="https://github.com/meredithmhu/latin-syntax-highlighter/blob/main/USAGE.md" target="_blank" rel="noopener">USAGE.md</a>, then either:</p>
+    <p><strong>Use the web interface</strong> &mdash; go to the Build Your Own page in the navbar, upload your <code>.txt</code> file, fill in a title and author/source, and download the generated HTML.</p>
+    <p><strong>Use the CLI directly:</strong></p>
+    <pre><code>python3 build.py mypoem.txt "My Poem Title" "Author &mdash; Source"</code></pre>
+    <p>This generates <code>mypoem.html</code> in the same directory. Drop <code>marble.jpg</code> in the same folder (shared by all pages) and open in any browser.</p>
+    <p>To also generate annotation data:</p>
+    <pre><code>python3 generate_annotations.py mypoem.txt</code></pre>
+    <p>Requires <code>ANTHROPIC_API_KEY</code> in the environment and <code>pip install anthropic</code>. Only missing words are fetched on re-runs (cached in <code>mypoem_annotations.json</code>).</p>
+
+    <hr>
+
+    <h2>Adding a new poem to the site</h2>
+    <ol style="padding-left:1.6em; margin: 0.4em 0 1em 0;">
+      <li style="margin-bottom:0.35em">Write <code>newpoem.txt</code> in the input format (see USAGE.md).</li>
+      <li style="margin-bottom:0.35em">Run <code>python3 build.py newpoem.txt "Title" "Author &mdash; Source"</code>.</li>
+      <li style="margin-bottom:0.35em">Optionally run <code>python3 generate_annotations.py newpoem.txt</code> for annotation data.</li>
+      <li style="margin-bottom:0.35em">Update <code>NAV_ITEMS</code> in <code>build.py</code> and rebuild existing pages so their navbars include the new link.</li>
+      <li style="margin-bottom:0.35em">Add the new page to the navbar in <code>template.html</code> for future pages.</li>
+    </ol>
+
+    <hr>
+
+    <h2>Running locally</h2>
+    <pre><code>npm install
+npm start</code></pre>
+    <p>Opens at <code>http://localhost:3000</code>. The Express server serves all static files and handles the <code>/api/build</code> endpoint used by the Build Your Own page.</p>
+
+  </div>
+
+  <script>
+    var schemes     = ['mode-light', 'mode-mud', 'mode-dark'];
+    var schemeNames = ['light', 'mud', 'dark'];
+    var schemeIdx = 1;
+
+    var schemeBtn = document.getElementById('scheme-toggle');
+
+    function applyScheme(idx) {
+      document.body.classList.remove.apply(document.body.classList, schemes);
+      document.body.classList.add(schemes[idx]);
+      schemeBtn.textContent = schemeNames[idx];
+    }
+
+    schemeBtn.addEventListener('click', function() {
+      schemeIdx = (schemeIdx + 1) % 3;
+      applyScheme(schemeIdx);
+    });
+
+    // PAGE-SPECIFIC JS GOES HERE
+  </script>
+
+</body>
+</html>

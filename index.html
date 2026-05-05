@@ -27,7 +27,8 @@
       left: 0; right: 0;
       text-align: center;
       z-index: 200;
-      pointer-events: none;
+      pointer-events: auto;
+      text-decoration: none;
       font-family: Georgia, "Times New Roman", serif;
       font-size: 1.1rem;
       letter-spacing: 0.18em;
@@ -41,6 +42,7 @@
       z-index: 200;
       display: flex;
       justify-content: center;
+      gap: 52px;
       padding-top: 46px;
       pointer-events: none;
     }
@@ -135,29 +137,25 @@
     .scheme-toggle:hover { color: rgba(26, 26, 26, 0.65); }
 
     /* ── Index content ── */
+    /* ── Index content ── */
     .index-content {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 20px;
+      width: 90%;
+      max-width: 1100px;
+      padding: 0 16px;
+      text-align: center;
+      margin-top: -180px;
     }
 
-    .poem-link {
+    .welcome-text {
       font-family: Georgia, "Times New Roman", serif;
-      font-size: 20pt;
-      color: rgba(26, 26, 26, 0.65);
-      text-decoration: none;
-      letter-spacing: 0.04em;
-      background-image: linear-gradient(currentColor, currentColor);
-      background-size: 0% 1px;
-      background-repeat: no-repeat;
-      background-position: left bottom;
-      transition: background-size 0.5s ease 0.1s, color 0.25s;
-    }
-
-    .poem-link:hover {
-      color: rgba(26, 26, 26, 0.88);
-      background-size: 100% 1px;
+      font-size: 22px;
+      color: rgba(26, 26, 26, 1);
+      line-height: 1.6;
+      letter-spacing: 0.01em;
+      margin: 0;
     }
 
     /* ── Color modes ── */
@@ -180,15 +178,22 @@
     }
     body.mode-dark .scheme-toggle      { color: rgba(255, 255, 255, 0.3); }
     body.mode-dark .scheme-toggle:hover{ color: rgba(255, 255, 255, 0.6); }
-    body.mode-dark .poem-link          { color: rgba(255, 255, 255, 0.55); }
-    body.mode-dark .poem-link:hover    { color: rgba(255, 255, 255, 0.88); }
+    body.mode-dark .welcome-text       { color: rgba(255, 255, 255, 0.55); }
   </style>
 </head>
 <body class="mode-mud">
 
-  <div class="site-title">Meredith's Latin Notebook</div>
+  <a class="site-title" href="index.html">Meredith's Latin Notebook</a>
 
   <nav class="navbar">
+    <div class="nav-item">
+      <span class="nav-label">Build Your Own</span>
+      <div class="nav-dropdown">
+        <div class="nav-dropdown-inner">
+          <a href="build_your_own.html" class="nav-dropdown-item">Build Your Own &mdash; Latin</a>
+        </div>
+      </div>
+    </div>
     <div class="nav-item">
       <span class="nav-label">Latin Texts</span>
       <div class="nav-dropdown">
@@ -198,12 +203,20 @@
         </div>
       </div>
     </div>
+    <div class="nav-item">
+      <span class="nav-label">Tutorial</span>
+      <div class="nav-dropdown">
+        <div class="nav-dropdown-inner">
+          <a href="tutorial.html" class="nav-dropdown-item">Tutorial</a>
+        </div>
+      </div>
+    </div>
   </nav>
 
   <button class="scheme-toggle" id="scheme-toggle">mud</button>
 
   <div class="index-content">
-    <a href="toothpaste.html" class="poem-link">Toothpaste Poem</a>
+    <p class="welcome-text">Hi! Welcome to my interactive Latin notebook tool. This is a tool I built to display my Latin translations in a beautiful and intuitive way. You can choose to view my translations in the navbar up top, or build your own HTML webpages in the style of this tool by using the &ldquo;Build Your Own&rdquo; page. Have fun and happy translating!</p>
   </div>
 
   <script>

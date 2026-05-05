@@ -314,6 +314,1190 @@ HTML = """\
       left: 0; right: 0;
       text-align: center;
       z-index: 200;
+      pointer-events: auto;
+      text-decoration: none;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.18em;
+      color: rgba(26, 26, 26, 0.55);
+    }}
+
+    /* ── Navbar ── */
+    .navbar {{
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      display: flex;
+      justify-content: center;
+      gap: 52px;
+      padding-top: 46px;
+      pointer-events: none;
+    }}
+    .nav-item {{ position: relative; display: inline-block; pointer-events: auto; }}
+    .nav-label {{
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 18pt; color: #1a1a1a; letter-spacing: 0.04em; cursor: default;
+      background-image: linear-gradient(currentColor, currentColor);
+      background-size: 0% 1px; background-repeat: no-repeat;
+      background-position: left bottom; transition: background-size 0.7s ease 0.3s;
+    }}
+    .nav-item:hover .nav-label {{ background-size: 100% 1px; }}
+    .nav-dropdown {{
+      position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+      min-width: 360px; padding-top: 14px; opacity: 0;
+      pointer-events: none; transition: opacity 0.35s ease 0.85s;
+    }}
+    .nav-dropdown-inner {{
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(40px) saturate(180%);
+      -webkit-backdrop-filter: blur(40px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 8px; padding: 6px 0;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    }}
+    .nav-item:hover .nav-dropdown {{ opacity: 1; pointer-events: auto; }}
+    .nav-dropdown-item {{
+      display: block; font-family: Georgia, "Times New Roman", serif;
+      font-size: 0.92rem; color: #1a1a1a; letter-spacing: 0.02em;
+      text-decoration: none; white-space: nowrap; padding: 10px 22px; cursor: pointer;
+      background-image: linear-gradient(currentColor, currentColor);
+      background-size: 0% 1px; background-repeat: no-repeat;
+      background-position: 22px bottom; transition: background-size 0.35s ease 0.05s;
+    }}
+    .nav-dropdown-item:hover {{ background-size: calc(100% - 44px) 1px; }}
+
+    /* ── Scheme toggle ── */
+    .scheme-toggle {{
+      position: fixed; top: 36px; right: 44px;
+      background: none; border: none;
+      font-family: Georgia, "Times New Roman", serif; font-size: 0.82rem;
+      color: rgba(26, 26, 26, 0.35); cursor: pointer;
+      letter-spacing: 0.08em; z-index: 100; padding: 0; transition: color 0.25s;
+    }}
+    .scheme-toggle:hover {{ color: rgba(26, 26, 26, 0.65); }}
+
+    /* ── Mode toggle ── */
+    .mode-toggle {{
+      position: fixed; top: 62px; right: 44px;
+      background: none; border: none;
+      font-family: Georgia, "Times New Roman", serif; font-size: 0.82rem;
+      color: rgba(26, 26, 26, 0.35); cursor: pointer;
+      letter-spacing: 0.08em; z-index: 100; padding: 0; transition: color 0.25s;
+    }}
+    .mode-toggle:hover {{ color: rgba(26, 26, 26, 0.65); }}
+
+    /* ── Slide navigation arrows ── */
+    .slide-nav {{
+      position: fixed; bottom: 44px;
+      background: none; border: none;
+      font-family: Georgia, "Times New Roman", serif; font-size: 1.5rem;
+      color: rgba(26, 26, 26, 0.32); cursor: pointer;
+      z-index: 100; padding: 0; line-height: 1; transition: color 0.25s; display: none;
+    }}
+    .slide-nav:hover {{ color: rgba(26, 26, 26, 0.65); }}
+    #prev-slide {{ right: 80px; }}
+    #next-slide {{ right: 44px; }}
+    body.scroll-mode .slide-nav {{ display: block; }}
+    body.mode-dark .slide-nav       {{ color: rgba(255, 255, 255, 0.28); }}
+    body.mode-dark .slide-nav:hover {{ color: rgba(255, 255, 255, 0.6); }}
+
+    /* ════════════════════════════════════════
+       SCROLL MODE
+    ════════════════════════════════════════ */
+    body.scroll-mode {{ overflow: hidden; height: 100vh; }}
+    body.scroll-mode .slides {{ position: absolute; inset: 0; }}
+    body.scroll-mode .slide {{
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      padding-bottom: 30vh; opacity: 0; pointer-events: none;
+      transition: opacity 0.6s ease;
+    }}
+    body.scroll-mode .slide.active {{
+      opacity: 1; pointer-events: auto; transition: opacity 3.8s ease;
+    }}
+
+    /* annotations mode + phrase groups: allow page to grow and scroll */
+    body.scroll-mode.annotations-mode:has(.slide.active .latin.has-phrase-groups) {{
+      overflow: auto; height: auto; min-height: 100vh;
+    }}
+    body.scroll-mode.annotations-mode:has(.slide.active .latin.has-phrase-groups) .slides {{
+      position: static; display: flex; flex-direction: column;
+      align-items: center; padding-top: 90px; padding-bottom: 120px;
+    }}
+    body.scroll-mode.annotations-mode:has(.slide.active .latin.has-phrase-groups) .slide:not(.active) {{
+      display: none;
+    }}
+    body.scroll-mode.annotations-mode:has(.slide.active .latin.has-phrase-groups) .slide.active {{
+      position: static; inset: auto; width: auto; height: auto;
+      padding-bottom: 0; opacity: 1; pointer-events: auto; transition: none;
+    }}
+    body.scroll-mode.annotations-mode .slide.active {{ overflow: visible; }}
+
+    /* ════════════════════════════════════════
+       NO-SCROLL MODE
+    ════════════════════════════════════════ */
+    body.noscroll-mode {{ overflow: auto; height: auto; min-height: 100vh; }}
+    body.noscroll-mode .slides {{
+      position: static; display: flex; flex-direction: column;
+      align-items: center; padding-top: 90px; padding-bottom: 120px; gap: 120px;
+    }}
+    body.noscroll-mode .slide {{
+      position: static; width: auto; height: auto;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.7s ease;
+    }}
+    body.noscroll-mode .slide.visible {{ opacity: 1; pointer-events: auto; }}
+
+    /* ════════════════════════════════════════
+       SHARED
+    ════════════════════════════════════════ */
+    h1 {{
+      font-size: 3.2rem; font-weight: bold; color: #1a1a1a;
+      letter-spacing: 0.01em; line-height: 1.2; margin: 0; text-align: center;
+    }}
+    .subtitle {{ font-size: 1.1rem; color: #555; font-style: italic; text-align: center; }}
+    .title-content {{ display: flex; flex-direction: column; align-items: center; gap: 1.1rem; }}
+    .verse-wrapper {{ display: flex; align-items: flex-start; gap: 0.7em; }}
+    .line-num {{
+      font-size: 0.85em; color: rgba(26, 26, 26, 0.45);
+      padding-top: 0.18em; flex-shrink: 0; letter-spacing: 0;
+    }}
+    .verse {{
+      display: flex; flex-direction: column; align-items: flex-start;
+      position: relative; overflow: visible;
+    }}
+    .latin {{ font-size: 2.4rem; color: #1a1a1a; letter-spacing: 0.04em; margin: 0; }}
+    .english {{
+      font-size: 2.4rem; color: rgba(26, 26, 26, 0.42);
+      font-style: italic; margin: 20px 0 0 0; transition: transform 1.55s ease;
+    }}
+
+    /* ── Hover: Latin glow ── */
+    .lat-word {{ cursor: pointer; transition: text-shadow 0.28s ease 0.07s; }}
+    .lat-word.lat-active {{
+      text-shadow:
+        0 0  1px #fff,
+        0 0  3px #fff,
+        0 0  6px #fff,
+        0 0 12px rgba(255, 255, 255, 0.95),
+        0 0 22px rgba(255, 255, 255, 0.85),
+        0 0 40px rgba(255, 255, 255, 0.6),
+        0 0 65px rgba(255, 255, 255, 0.35);
+    }}
+
+    /* ── Hover: English reveal ── */
+    .eng-word {{
+      transition: color 0.35s ease, text-shadow 0.35s ease, background-size 0.15s ease;
+      background-image: linear-gradient(rgba(26, 26, 26, 0.75), rgba(26, 26, 26, 0.75));
+      background-size: 0% 1px; background-repeat: no-repeat; background-position: left bottom;
+    }}
+    .eng-word.eng-active {{
+      transition: color 0.65s ease 0.12s, text-shadow 0.65s ease 0.12s, background-size 0.65s ease 0.12s;
+      color: rgba(26, 26, 26, 0.75);
+      text-shadow: 0 0 0.5px rgba(26, 26, 26, 0.7), 0 0 0.5px rgba(26, 26, 26, 0.7);
+      background-size: 100% 1px;
+    }}
+
+    /* ════════════════════════════════════════
+       MODE 1 — LIGHT
+    ════════════════════════════════════════ */
+    body.mode-light {{
+      background:
+        linear-gradient(rgba(255, 248, 235, 0.2), rgba(255, 248, 235, 0.2)),
+        url('marble.jpg') center / cover no-repeat fixed;
+    }}
+    body.mode-light .lat-word.lat-active {{
+      text-shadow:
+        0 0  1px rgba(178, 228, 242, 1),
+        0 0  3px rgba(145, 212, 232, 1),
+        0 0  5px rgba(110, 195, 218, 0.95),
+        0 0  9px rgba( 78, 174, 204, 0.75),
+        0 0 15px rgba( 48, 152, 188, 0.4);
+    }}
+
+    /* ════════════════════════════════════════
+       MODE 3 — DARK
+    ════════════════════════════════════════ */
+    body.mode-dark {{ background: #1c1a17; }}
+    body.mode-dark h1                   {{ color: rgba(255, 255, 255, 0.88); }}
+    body.mode-dark .subtitle            {{ color: rgba(255, 255, 255, 0.48); }}
+    body.mode-dark .latin               {{ color: rgba(255, 255, 255, 0.88); }}
+    body.mode-dark .english             {{ color: rgba(255, 255, 255, 0.35); }}
+    body.mode-dark .line-num            {{ color: rgba(255, 255, 255, 0.28); }}
+    body.mode-dark .site-title          {{ color: rgba(255, 255, 255, 0.3); }}
+    body.mode-dark .eng-word {{
+      background-image: linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75));
+    }}
+    body.mode-dark .eng-word.eng-active {{
+      color: rgba(255, 255, 255, 0.82);
+      text-shadow: 0 0 0.5px rgba(255, 255, 255, 0.7), 0 0 0.5px rgba(255, 255, 255, 0.7);
+    }}
+    body.mode-dark .mode-toggle         {{ color: rgba(255, 255, 255, 0.3); }}
+    body.mode-dark .mode-toggle:hover   {{ color: rgba(255, 255, 255, 0.6); }}
+    body.mode-dark .scheme-toggle       {{ color: rgba(255, 255, 255, 0.3); }}
+    body.mode-dark .scheme-toggle:hover {{ color: rgba(255, 255, 255, 0.6); }}
+    body.mode-dark .nav-label           {{ color: rgba(255, 255, 255, 0.85); }}
+    body.mode-dark .nav-dropdown-item   {{ color: rgba(255, 255, 255, 0.78); }}
+    body.mode-dark .nav-dropdown-inner {{
+      background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.12);
+    }}
+
+    /* ════════════════════════════════════════
+       WORD INFO CARD
+    ════════════════════════════════════════ */
+    .word-card-overlay {{ position: fixed; inset: 0; z-index: 499; display: none; }}
+    .word-card-overlay.visible {{ display: block; }}
+    .word-card {{
+      position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      background: rgba(255, 255, 255, 0.14);
+      backdrop-filter: blur(40px) saturate(180%);
+      -webkit-backdrop-filter: blur(40px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.38); border-radius: 12px;
+      padding: 28px 32px 24px; max-width: 520px; width: 90vw;
+      z-index: 500; font-family: Georgia, "Times New Roman", serif; color: #1a1a1a;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.13); display: none;
+    }}
+    .word-card.visible {{ display: block; }}
+    .word-card-close {{
+      position: absolute; top: 12px; right: 16px;
+      background: none; border: none; font-size: 1.2rem;
+      color: rgba(26, 26, 26, 0.35); cursor: pointer; padding: 0; line-height: 1;
+      transition: color 0.2s;
+    }}
+    .word-card-close:hover {{ color: rgba(26, 26, 26, 0.65); }}
+    .word-card-word {{ font-size: 1.7rem; letter-spacing: 0.04em; margin-bottom: 22px; color: #1a1a1a; }}
+    .word-card-section {{ margin-bottom: 15px; }}
+    .word-card-section:last-child {{ margin-bottom: 0; }}
+    .word-card-label {{
+      font-size: 0.65rem; letter-spacing: 0.15em;
+      color: rgba(26, 26, 26, 0.42); text-transform: lowercase; margin-bottom: 3px;
+    }}
+    .word-card-value {{ font-size: 0.93rem; color: rgba(26, 26, 26, 0.82); line-height: 1.55; }}
+    .word-card-paradigm {{
+      font-family: "Courier New", Courier, monospace;
+      font-size: 0.8rem; color: rgba(26, 26, 26, 0.68); line-height: 1.65; margin: 0; white-space: pre;
+    }}
+    body.mode-dark .word-card {{
+      background: rgba(40, 36, 30, 0.85); border-color: rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.88);
+    }}
+    body.mode-dark .word-card-close       {{ color: rgba(255, 255, 255, 0.3); }}
+    body.mode-dark .word-card-close:hover {{ color: rgba(255, 255, 255, 0.65); }}
+    body.mode-dark .word-card-word        {{ color: rgba(255, 255, 255, 0.9); }}
+    body.mode-dark .word-card-label       {{ color: rgba(255, 255, 255, 0.35); }}
+    body.mode-dark .word-card-value       {{ color: rgba(255, 255, 255, 0.75); }}
+    body.mode-dark .word-card-paradigm    {{ color: rgba(255, 255, 255, 0.55); }}
+
+    /* ════════════════════════════════════════
+       ANNOTATIONS MODE
+    ════════════════════════════════════════ */
+    .annotations-toggle {{
+      position: fixed; top: 88px; right: 44px;
+      background: none; border: none;
+      font-family: Georgia, "Times New Roman", serif; font-size: 0.82rem;
+      color: rgba(26, 26, 26, 0.35); cursor: pointer;
+      letter-spacing: 0.08em; z-index: 100; padding: 0; transition: color 0.25s;
+    }}
+    .annotations-toggle:hover                  {{ color: rgba(26, 26, 26, 0.65); }}
+    body.annotations-mode .annotations-toggle  {{ color: rgba(26, 26, 26, 0.65); }}
+
+    body.annotations-mode .lat-word {{
+      background-image: linear-gradient(rgba(26, 26, 26, 0.82), rgba(26, 26, 26, 0.82));
+      background-size: 0% 2.5px; background-repeat: no-repeat; background-position: left bottom;
+      transition: text-shadow 0.28s ease 0.07s, background-size 1s ease;
+    }}
+    body.annotations-mode .lat-word.annotated {{ background-size: 100% 2.5px; }}
+
+    body.annotations-mode .lat-word.annotated,
+    body.annotations-mode .lat-word.annotated.lat-active {{
+      text-shadow:
+        0 0  1px #fff,
+        0 0  3px #fff,
+        0 0  6px #fff,
+        0 0 12px rgba(255, 255, 255, 0.95),
+        0 0 22px rgba(255, 255, 255, 0.85),
+        0 0 40px rgba(255, 255, 255, 0.6),
+        0 0 65px rgba(255, 255, 255, 0.35);
+    }}
+    body.mode-light.annotations-mode .lat-word.annotated,
+    body.mode-light.annotations-mode .lat-word.annotated.lat-active {{
+      text-shadow:
+        0 0  1px rgba(178, 228, 242, 1),
+        0 0  3px rgba(145, 212, 232, 1),
+        0 0  5px rgba(110, 195, 218, 0.95),
+        0 0  9px rgba( 78, 174, 204, 0.75),
+        0 0 15px rgba( 48, 152, 188, 0.4);
+    }}
+
+    .annotation-svg {{
+      position: absolute; top: 0; left: 0;
+      overflow: visible; pointer-events: none; display: none; z-index: 5;
+    }}
+    body.annotations-mode .annotation-svg {{ display: block; }}
+
+    .annotation-card {{
+      position: absolute; z-index: 10;
+      font-family: 'Caveat', cursive; font-size: 1.2rem;
+      color: rgba(26, 26, 26, 0.50); line-height: 1.45;
+      display: none; cursor: default; text-decoration: none;
+    }}
+    .annotation-card * {{ text-decoration: none; }}
+    body.annotations-mode .annotation-card {{
+      display: block; opacity: 0; transform: translateY(10px);
+      pointer-events: none; transition: opacity 0.45s ease, transform 0.45s ease;
+    }}
+    body.annotations-mode .annotation-card.visible {{
+      opacity: 1; transform: translateY(0); pointer-events: auto;
+    }}
+
+    .ann-summary {{
+      cursor: pointer; font-family: 'Caveat', cursive;
+      font-size: 1.8rem; line-height: 1.2; text-decoration: none;
+    }}
+    .ann-expand-hint, .ann-collapse-hint {{
+      font-size: 0.9rem; color: rgba(26, 26, 26, 0.38); margin-top: 2px; cursor: pointer;
+    }}
+
+    .ann-arrow {{
+      position: absolute; top: 10px; width: 0; height: 0; pointer-events: none; display: none;
+    }}
+    .annotation-card[data-dir="right"] .ann-arrow {{
+      display: block; left: calc(100% + 3px);
+      border-top: 5px solid transparent; border-bottom: 5px solid transparent;
+      border-left: 8px solid rgba(26, 26, 26, 0.28);
+    }}
+    .annotation-card[data-dir="left"] .ann-arrow {{
+      display: block; right: calc(100% + 3px);
+      border-top: 5px solid transparent; border-bottom: 5px solid transparent;
+      border-right: 8px solid rgba(26, 26, 26, 0.28);
+    }}
+
+    .ann-expansion {{
+      position: absolute; top: 0; width: 100%; min-width: 200px; display: none; overflow: visible;
+    }}
+    .ann-expansion.open {{ display: block; }}
+    .annotation-card[data-dir="right"] .ann-expansion {{ left: calc(100% + 14px); }}
+    .annotation-card[data-dir="left"]  .ann-expansion {{ right: calc(100% + 14px); }}
+
+    .ann-why {{ font-size: 1.8rem; color: rgba(26, 26, 26, 0.55); margin-bottom: 10px; line-height: 1.35; }}
+    .ann-notes-label {{ font-size: 0.85rem; color: rgba(26, 26, 26, 0.38); margin-bottom: 3px; }}
+    .ann-notes {{
+      width: 100%; box-sizing: border-box; display: block;
+      background: none; border: none; border-bottom: 1px solid rgba(26, 26, 26, 0.16);
+      font-family: 'Caveat', cursive; font-size: 1.5rem; color: rgba(26, 26, 26, 0.7);
+      resize: none; outline: none; padding: 2px 0 4px; margin-bottom: 12px;
+    }}
+    .ann-notes::placeholder {{ color: rgba(26, 26, 26, 0.22); }}
+    .ann-buttons {{ display: flex; gap: 8px; margin-bottom: 6px; flex-wrap: wrap; }}
+    .ann-btn {{
+      background: none; border: 1px solid rgba(26, 26, 26, 0.2); border-radius: 4px;
+      font-family: 'Caveat', cursive; font-size: 1.05rem; color: rgba(26, 26, 26, 0.58);
+      cursor: pointer; padding: 3px 10px; transition: border-color 0.2s, color 0.2s;
+    }}
+    .ann-btn:hover {{ border-color: rgba(26, 26, 26, 0.45); color: rgba(26, 26, 26, 0.85); }}
+
+    .ann-detail-panels {{ position: absolute; top: 0; width: 100%; min-width: 200px; }}
+    .annotation-card[data-dir="right"] .ann-detail-panels {{ left: calc(100% + 14px); }}
+    .annotation-card[data-dir="left"]  .ann-detail-panels {{ right: calc(100% + 14px); }}
+
+    .ann-detail-panel {{
+      position: absolute; top: 0; width: 100%;
+      font-family: 'Caveat', cursive; font-size: 1.8rem; line-height: 1.35;
+      color: rgba(26, 26, 26, 0.55); opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+    }}
+    .ann-detail-panel.open {{ position: static; opacity: 1; pointer-events: auto; }}
+    .ann-detail-panel.open + .ann-detail-panel.open {{ margin-top: 14px; }}
+    .ann-detail-label {{ font-size: 0.9rem; color: rgba(26, 26, 26, 0.38); display: block; margin-bottom: 4px; }}
+    .ann-detail-panel pre {{
+      font-family: 'Caveat', cursive; font-size: 1.8rem; white-space: pre; margin: 0; line-height: 1.4;
+    }}
+
+    .annotation-card.dimmed {{ opacity: 0.1 !important; pointer-events: none !important; }}
+
+    body.mode-dark .annotations-toggle               {{ color: rgba(255, 255, 255, 0.3); }}
+    body.mode-dark .annotations-toggle:hover         {{ color: rgba(255, 255, 255, 0.6); }}
+    body.mode-dark.annotations-mode .annotations-toggle {{ color: rgba(255, 255, 255, 0.6); }}
+    body.mode-dark.annotations-mode .lat-word.annotated {{ text-decoration-color: rgba(255, 255, 255, 0.4); }}
+    body.mode-dark .annotation-card                  {{ color: rgba(255, 255, 255, 0.78); }}
+    body.mode-dark .ann-expand-hint,
+    body.mode-dark .ann-collapse-hint                {{ color: rgba(255, 255, 255, 0.32); }}
+    body.mode-dark .ann-why                          {{ color: rgba(255, 255, 255, 0.58); }}
+    body.mode-dark .ann-notes-label                  {{ color: rgba(255, 255, 255, 0.3); }}
+    body.mode-dark .ann-notes                        {{ border-bottom-color: rgba(255,255,255,0.16); color: rgba(255,255,255,0.65); }}
+    body.mode-dark .ann-notes::placeholder           {{ color: rgba(255, 255, 255, 0.22); }}
+    body.mode-dark .ann-detail-panel                 {{ color: rgba(255, 255, 255, 0.58); }}
+    body.mode-dark .ann-detail-label                 {{ color: rgba(255, 255, 255, 0.3); }}
+    body.mode-dark .annotation-card[data-dir="right"] .ann-arrow {{ border-left-color:  rgba(255,255,255,0.28); }}
+    body.mode-dark .annotation-card[data-dir="left"]  .ann-arrow {{ border-right-color: rgba(255,255,255,0.28); }}
+    body.mode-dark .ann-btn                          {{ border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.55); }}
+    body.mode-dark .ann-btn:hover                    {{ border-color: rgba(255,255,255,0.5); color: rgba(255,255,255,0.85); }}
+
+    /* ════════════════════════════════════════
+       PHRASE GROUP REFLOW (annotations mode)
+    ════════════════════════════════════════ */
+    .phrase-group {{ display: inline; }}
+
+    body.annotations-mode .latin.has-phrase-groups {{
+      display: flex; flex-direction: column; align-items: flex-start;
+    }}
+    body.annotations-mode .phrase-group {{
+      display: inline-flex; flex-wrap: wrap; gap: 0.35em;
+      align-items: baseline; position: relative; overflow: visible; opacity: 0;
+    }}
+    body.annotations-mode .phrase-group.animate-in {{
+      animation: phraseGroupIn 0.55s ease-out both;
+    }}
+    @keyframes phraseGroupIn {{
+      from {{ opacity: 0; transform: translateY(-16px); }}
+      to   {{ opacity: 1; transform: none; }}
+    }}
+
+    .phrase-eng-row {{ display: none; }}
+    body.annotations-mode .phrase-eng-row {{
+      display: block; position: absolute; bottom: 20px; left: 0;
+      font-size: 2.4rem; font-style: italic; color: rgba(26, 26, 26, 0.42); white-space: nowrap;
+    }}
+    body.mode-dark.annotations-mode .phrase-eng-row {{ color: rgba(255, 255, 255, 0.35); }}
+    body.annotations-mode .verse:has(.latin.has-phrase-groups) .english {{ display: none; }}
+  </style>
+</head>
+<body class="noscroll-mode mode-mud">
+
+  <a class="site-title" href="index.html">Meredith's Latin Notebook</a>
+
+  <button class="scheme-toggle" id="scheme-toggle">mud</button>
+
+  <nav class="navbar">
+    <div class="nav-item">
+      <span class="nav-label">Build Your Own</span>
+      <div class="nav-dropdown">
+        <div class="nav-dropdown-inner">
+          <a href="build_your_own.html" class="nav-dropdown-item">Build Your Own &mdash; Latin</a>
+        </div>
+      </div>
+    </div>
+    <div class="nav-item">
+      <span class="nav-label">Latin Texts</span>
+      <div class="nav-dropdown">
+        <div class="nav-dropdown-inner">
+{nav_items}
+        </div>
+      </div>
+    </div>
+    <div class="nav-item">
+      <span class="nav-label">Tutorial</span>
+      <div class="nav-dropdown">
+        <div class="nav-dropdown-inner">
+          <a href="tutorial.html" class="nav-dropdown-item">Tutorial</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <button class="mode-toggle" id="mode-toggle">all lines</button>
+  <button class="annotations-toggle" id="annotations-toggle">annotations</button>
+
+  <button class="slide-nav" id="prev-slide">&#8592;</button>
+  <button class="slide-nav" id="next-slide">&#8594;</button>
+
+  <div class="slides" id="slides">
+
+    <div class="slide" data-idx="0">
+      <div class="title-content">
+        <h1>{title}</h1>
+        <div class="subtitle">{subtitle}</div>
+      </div>
+    </div>
+
+{slides}
+  </div>
+
+  <!-- Annotation data: generate with python3 generate_annotations.py {input_stem}.txt -->
+  <script>var annotationData = null;</script>
+  <script src="{annotations_js}" onerror=""></script>
+
+  <div class="word-card-overlay" id="word-card-overlay"></div>
+  <div class="word-card" id="word-card">
+    <button class="word-card-close" id="word-card-close">&times;</button>
+    <div class="word-card-word" id="wc-word"></div>
+    <div class="word-card-section">
+      <div class="word-card-label">grammatical parse</div>
+      <div class="word-card-value" id="wc-parse"></div>
+    </div>
+    <div class="word-card-section">
+      <div class="word-card-label">why this form</div>
+      <div class="word-card-value" id="wc-why"></div>
+    </div>
+    <div class="word-card-section">
+      <div class="word-card-label">quick reference</div>
+      <pre class="word-card-paradigm" id="wc-paradigm"></pre>
+    </div>
+    <div class="word-card-section">
+      <div class="word-card-label">Meredith's notes</div>
+      <div class="word-card-value" id="wc-notes"></div>
+    </div>
+  </div>
+
+  <script>
+    // ── Max-width from first English line ────────────────────────────────────
+    window.addEventListener('load', () => {{
+      const firstEng = document.querySelector('.slide[data-idx="1"] .english');
+      if (firstEng) {{
+        firstEng.style.display    = 'inline-block';
+        firstEng.style.whiteSpace = 'nowrap';
+        const w = Math.ceil(firstEng.getBoundingClientRect().width);
+        firstEng.style.display    = '';
+        firstEng.style.whiteSpace = '';
+        document.querySelectorAll('.verse').forEach(v => {{ v.style.width = w + 'px'; }});
+      }}
+    }});
+
+    // ── Hover ────────────────────────────────────────────────────────────────
+    function clearAll() {{
+      document.querySelectorAll('.lat-active, .eng-active').forEach(el =>
+        el.classList.remove('lat-active', 'eng-active')
+      );
+    }}
+
+    document.getElementById('slides').addEventListener('mouseover', e => {{
+      const word = e.target.closest('[data-group]');
+      if (!word) {{ clearAll(); return; }}
+      const group = word.dataset.group;
+      const slide = word.closest('.slide');
+      slide.querySelectorAll('.lat-word, .eng-word')
+           .forEach(el => el.classList.remove('lat-active', 'eng-active'));
+      slide.querySelectorAll(`.lat-word[data-group="${{group}}"]`)
+           .forEach(el => el.classList.add('lat-active'));
+      slide.querySelectorAll(`.eng-word[data-group="${{group}}"]`)
+           .forEach(el => el.classList.add('eng-active'));
+    }});
+
+    document.getElementById('slides').addEventListener('mouseleave', clearAll);
+
+    // ── Scroll mode navigation ───────────────────────────────────────────────
+    const slides   = Array.from(document.querySelectorAll('.slide'));
+    let current    = 0;
+    let animating  = false;
+    let mode       = 'noscroll';
+
+    const FADE_OUT = 650;
+    const PAUSE    = 600;
+    const FADE_IN  = 3800;
+
+    function goTo(next) {{
+      if (mode !== 'scroll')                  return;
+      if (next < 0 || next >= slides.length) return;
+      if (next === current || animating)      return;
+      animating = true;
+      clearAll();
+      const prev = current;
+      current = next;
+      slides[prev].classList.remove('active');
+      setTimeout(() => {{
+        setTimeout(() => {{
+          slides[next].classList.add('active');
+          animating = false;
+        }}, PAUSE);
+      }}, FADE_OUT);
+    }}
+
+    window.addEventListener('wheel', e => {{
+      return; /* navigation is arrow-buttons only */
+    }}, {{ passive: true }});
+
+    // ── No-scroll mode ────────────────────────────────────────────────────────
+    let observer;
+
+    function enterNoScroll() {{
+      if (observer) {{ observer.disconnect(); observer = null; }}
+      slides.forEach(s => s.classList.remove('active', 'visible'));
+      document.body.classList.remove('scroll-mode');
+      document.body.classList.add('noscroll-mode');
+      mode = 'noscroll';
+      slides[0].classList.add('visible');
+      observer = new IntersectionObserver((entries) => {{
+        entries.forEach(entry => {{
+          if (entry.isIntersecting) entry.target.classList.add('visible');
+        }});
+      }}, {{ threshold: 0.15 }});
+      slides.slice(1).forEach(s => observer.observe(s));
+    }}
+
+    function enterScroll() {{
+      if (observer) {{ observer.disconnect(); observer = null; }}
+      slides.forEach(s => s.classList.remove('active', 'visible'));
+      document.body.classList.remove('noscroll-mode');
+      document.body.classList.add('scroll-mode');
+      mode = 'scroll';
+      slides[current].classList.add('active');
+    }}
+
+    // ── Color scheme ─────────────────────────────────────────────────────────
+    const schemes     = ['mode-light', 'mode-mud', 'mode-dark'];
+    const schemeNames = ['light', 'mud', 'dark'];
+    let schemeIdx = 1;
+    const schemeBtn = document.getElementById('scheme-toggle');
+
+    function applyScheme(idx) {{
+      document.body.classList.remove(...schemes);
+      document.body.classList.add(schemes[idx]);
+      schemeBtn.textContent = schemeNames[idx];
+    }}
+
+    schemeBtn.addEventListener('click', () => {{
+      schemeIdx = (schemeIdx + 1) % 3;
+      applyScheme(schemeIdx);
+    }});
+
+    // ── Mode toggle ──────────────────────────────────────────────────────────
+    const toggleBtn = document.getElementById('mode-toggle');
+    toggleBtn.addEventListener('click', () => {{
+      if (mode === 'noscroll') {{
+        enterScroll();
+        toggleBtn.textContent = 'all lines';
+      }} else {{
+        enterNoScroll();
+        toggleBtn.textContent = 'line-by-line';
+      }}
+    }});
+
+    // ── Slide navigation arrows ──────────────────────────────────────────────
+    document.getElementById('prev-slide').addEventListener('click', () => goTo(current - 1));
+    document.getElementById('next-slide').addEventListener('click', () => goTo(current + 1));
+
+    // ── Initialize in line-by-line mode ──────────────────────────────────────
+    enterScroll();
+
+    // ── Word info card ────────────────────────────────────────────────────────
+    __WORD_DATA__
+
+    const card        = document.getElementById('word-card');
+    const cardOverlay = document.getElementById('word-card-overlay');
+
+    function stripPunct(s) {{
+      return s.replace(/^[^a-zA-Z\u00C0-\u024F]+|[^a-zA-Z\u00C0-\u024F]+$/g, '');
+    }}
+
+    function showCard(wordEl) {{
+      const slideIdx = wordEl.closest('.slide').dataset.idx;
+      const token    = stripPunct(wordEl.textContent.trim());
+      const key      = slideIdx + '_' + token;
+      const info     = wordData[key];
+      document.getElementById('wc-word').textContent     = token;
+      document.getElementById('wc-parse').textContent    = info ? (info.parse    || '\u2014') : 'No data \u2014 run build.py --enrich to populate.';
+      document.getElementById('wc-why').textContent      = info ? (info.why      || '\u2014') : '\u2014';
+      document.getElementById('wc-paradigm').textContent = info ? (info.paradigm || '\u2014') : '\u2014';
+      document.getElementById('wc-notes').textContent    = info ? (info.notes    || 'N/A') : 'N/A';
+      card.classList.add('visible');
+      cardOverlay.classList.add('visible');
+    }}
+
+    function hideCard() {{
+      card.classList.remove('visible');
+      cardOverlay.classList.remove('visible');
+    }}
+
+    document.getElementById('word-card-close').addEventListener('click', hideCard);
+    cardOverlay.addEventListener('click', hideCard);
+    document.addEventListener('keydown', e => {{ if (e.key === 'Escape') hideCard(); }});
+
+    document.getElementById('slides').addEventListener('click', e => {{
+      const word = e.target.closest('.lat-word');
+      if (!word) return;
+      if (annotationsMode) {{ showAnnotation(word); }} else {{ showCard(word); }}
+    }});
+
+    // ── Annotations mode ──────────────────────────────────────────────────────
+    let annotationsMode     = false;
+    let layoutsBuilt        = false;
+    var phraseGroupsApplied = false;
+    const verseLayouts      = new Map();
+    const openCards         = new Set();
+    const ANN_BASE_MARGIN   = 440;
+
+    __PHRASE_DATA__
+
+    // Pre-inject one SVG canvas per verse
+    document.querySelectorAll('.verse').forEach(function(verse) {{
+      var svgEl = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svgEl.classList.add('annotation-svg');
+      verse.appendChild(svgEl);
+    }});
+
+    // Build a card element with all handlers wired; append to verse
+    function createCard(verse, wordEl, key, info) {{
+      var cardEl = document.createElement('div');
+      cardEl.className = 'annotation-card';
+      cardEl.dataset.wordKey = key;
+      cardEl.innerHTML =
+        '<div class="ann-summary"></div>' +
+        '<div class="ann-expand-hint">\u2192 expand</div>' +
+        '<div class="ann-arrow"></div>' +
+        '<div class="ann-expansion">' +
+          '<div class="ann-collapse-hint">\u2191 collapse</div>' +
+          '<div class="ann-why"></div>' +
+          '<div class="ann-notes-label">Personal notes:</div>' +
+          '<textarea class="ann-notes" rows="2" placeholder="\u2026"></textarea>' +
+          '<div class="ann-buttons">' +
+            '<button class="ann-btn" data-action="gloss">Dictionary gloss</button>' +
+            '<button class="ann-btn" data-action="drill">Drill this form</button>' +
+          '</div>' +
+          '<div class="ann-detail-panels">' +
+            '<div class="ann-detail-panel" data-type="gloss"></div>' +
+            '<div class="ann-detail-panel" data-type="drill"></div>' +
+          '</div>' +
+        '</div>';
+
+      cardEl.querySelector('.ann-summary').textContent =
+        info && info.summary ? info.summary
+          : stripPunct(wordEl.textContent.trim()) + ' \u2014 run generate_annotations.py to load data';
+      cardEl.querySelector('.ann-why').textContent = info && info.why ? info.why : '';
+      cardEl.querySelector('.ann-notes').value =
+        localStorage.getItem('ann_notes_' + key) || (info && info.notes) || '';
+
+      var computedDir = 'right';
+
+      cardEl._updateExpandHint = function() {{
+        var cardRect = cardEl.getBoundingClientRect();
+        computedDir = (cardRect.left + cardEl.offsetWidth / 2 < window.innerWidth / 2) ? 'right' : 'left';
+        cardEl.querySelector('.ann-expand-hint').textContent =
+          (computedDir === 'right' ? '\u2192' : '\u2190') + ' expand';
+      }};
+
+      function openExpansion() {{
+        cardEl.dataset.dir = computedDir;
+        cardEl.querySelector('.ann-expansion').classList.add('open');
+        cardEl.querySelector('.ann-expand-hint').style.display = 'none';
+        var verse = wordEl.closest('.verse');
+        verse.querySelectorAll('.annotation-card.visible').forEach(function(c) {{
+          if (c !== cardEl) c.classList.add('dimmed');
+        }});
+      }}
+
+      function closeExpansion() {{
+        cardEl.querySelector('.ann-expansion').classList.remove('open');
+        var hint = cardEl.querySelector('.ann-expand-hint');
+        hint.textContent = (computedDir === 'right' ? '\u2192' : '\u2190') + ' expand';
+        hint.style.display = '';
+        cardEl.querySelectorAll('.ann-detail-panel').forEach(function(p) {{
+          p.classList.remove('open'); p.innerHTML = '';
+        }});
+        var verse = wordEl.closest('.verse');
+        verse.querySelectorAll('.annotation-card.dimmed').forEach(function(c) {{
+          c.classList.remove('dimmed');
+        }});
+        delete cardEl.dataset.dir;
+      }}
+
+      cardEl.querySelector('.ann-summary').addEventListener('click', function() {{
+        if (cardEl.querySelector('.ann-expansion').classList.contains('open')) {{
+          closeExpansion();
+        }} else {{
+          openExpansion();
+        }}
+      }});
+      cardEl.querySelector('.ann-expand-hint').addEventListener('click', openExpansion);
+      cardEl.querySelector('.ann-collapse-hint').addEventListener('click', closeExpansion);
+
+      cardEl.querySelector('.ann-buttons').addEventListener('click', function(e) {{
+        var btn = e.target.closest('.ann-btn');
+        if (!btn) return;
+        var action  = btn.dataset.action;
+        var curInfo = annotationData && key ? (annotationData.words || {{}})[key] : null;
+        var target  = cardEl.querySelector('.ann-detail-panel[data-type="' + action + '"]');
+        if (target.classList.contains('open')) {{
+          target.classList.remove('open'); target.innerHTML = '';
+        }} else {{
+          var container = cardEl.querySelector('.ann-detail-panels');
+          var cRect = container.getBoundingClientRect();
+          var fitsHorizontally = computedDir === 'right'
+            ? cRect.right <= window.innerWidth - 24
+            : cRect.left >= 24;
+          if (!fitsHorizontally) {{
+            cardEl.querySelectorAll('.ann-detail-panel.open').forEach(function(p) {{
+              p.classList.remove('open'); p.innerHTML = '';
+            }});
+          }}
+          target.innerHTML = action === 'gloss'
+            ? (curInfo && curInfo.gloss
+                ? '<div class="ann-detail-label">dictionary entry</div>' + curInfo.gloss
+                : '<em>no data loaded</em>')
+            : (curInfo && curInfo.paradigm
+                ? '<div class="ann-detail-label">' + (curInfo.paradigm_label || 'paradigm') + '</div><pre>' + curInfo.paradigm + '</pre>'
+                : '<em>no data loaded</em>');
+          target.classList.add('open');
+        }}
+      }});
+
+      cardEl.querySelector('.ann-notes').addEventListener('input', function() {{
+        localStorage.setItem('ann_notes_' + key, cardEl.querySelector('.ann-notes').value);
+      }});
+
+      cardEl._closeAll = closeExpansion;
+      verse.appendChild(cardEl);
+      return cardEl;
+    }}
+
+    function buildVerseLayouts() {{
+      document.querySelectorAll('.verse').forEach(function(verse) {{
+        var svgEl    = verse.querySelector('.annotation-svg');
+        var latinEl  = verse.querySelector('.latin');
+        var allWords = Array.from(verse.querySelectorAll('.lat-word'));
+        if (allWords.length === 0) return;
+
+        var vW        = verse.offsetWidth;
+        var GAP       = 12;
+        var verseRect = verse.getBoundingClientRect();
+        var dark      = document.body.classList.contains('mode-dark');
+        var color     = dark ? 'rgba(255,255,255,0.65)' : 'rgba(26,26,26,0.78)';
+        var wordMap   = new Map();
+
+        var pageW     = document.documentElement.clientWidth;
+        var pagePad   = 24;
+        var pageLeft  = -verseRect.left + pagePad;
+        var pageRight = pageW - verseRect.left - pagePad;
+
+        svgEl.setAttribute('width',  vW + 'px');
+        svgEl.setAttribute('height', (verse.offsetHeight + 1200) + 'px');
+        svgEl.style.overflow = 'visible';
+
+        function placeCards(words, cardWidth, cardTop, leftEdge, rightEdge) {{
+          var sorted   = words.slice().sort(function(a, b) {{
+            return a.getBoundingClientRect().left - b.getBoundingClientRect().left;
+          }});
+          var positions = [];
+          var prevRight = leftEdge;
+          sorted.forEach(function(wordEl, i) {{
+            var wRect     = wordEl.getBoundingClientRect();
+            var idealLeft = (wRect.left + wRect.width / 2 - verseRect.left) - cardWidth / 2;
+            var minLeft   = prevRight + (i > 0 ? GAP : 0);
+            var actual    = Math.max(minLeft, Math.min(idealLeft, rightEdge - cardWidth));
+            positions.push(actual);
+            prevRight = actual + cardWidth;
+          }});
+          var overflow = prevRight - rightEdge;
+          if (overflow > 0) {{
+            positions = positions.map(function(p) {{ return Math.max(leftEdge, p - overflow); }});
+          }}
+          return {{ sorted: sorted, positions: positions }};
+        }}
+
+        if (latinEl && latinEl.classList.contains('has-phrase-groups')) {{
+          var cardWidth = 260;
+
+          Array.from(latinEl.querySelectorAll('.phrase-group')).forEach(function(group) {{
+            var words     = Array.from(group.querySelectorAll('.lat-word'));
+            if (words.length === 0) return;
+            var groupRect = group.getBoundingClientRect();
+            var padBottom = parseFloat(group.style.paddingBottom) || 0;
+            var textH     = group.offsetHeight - padBottom;
+            var cardTop   = (groupRect.top - verseRect.top) + textH + 18;
+            var placed    = placeCards(words, cardWidth, cardTop, pageLeft, pageRight);
+
+            placed.sorted.forEach(function(wordEl, i) {{
+              var slideIdx = wordEl.closest('.slide').dataset.idx;
+              var token    = stripPunct(wordEl.textContent.trim());
+              var key      = slideIdx + '_' + token;
+              var info     = annotationData && annotationData.words ? annotationData.words[key] : null;
+
+              var cardEl = createCard(verse, wordEl, key, info);
+              cardEl.style.width = cardWidth + 'px';
+              cardEl.style.left  = placed.positions[i] + 'px';
+              cardEl.style.top   = cardTop + 'px';
+
+              var wRect  = wordEl.getBoundingClientRect();
+              var x1     = (placed.positions[i] + cardWidth / 2).toFixed(1);
+              var y1     = cardTop.toFixed(1);
+              var x2     = (wRect.left + wRect.width / 2 - verseRect.left).toFixed(1);
+              var y2     = (wRect.bottom - verseRect.top).toFixed(1);
+              var lineEl = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+              lineEl.setAttribute('x1', x1); lineEl.setAttribute('y1', y1);
+              lineEl.setAttribute('x2', x2); lineEl.setAttribute('y2', y2);
+              lineEl.setAttribute('stroke', color);
+              lineEl.setAttribute('stroke-width', '2.5');
+              lineEl.style.opacity    = '0';
+              lineEl.style.transition = 'opacity 0.45s ease';
+              svgEl.appendChild(lineEl);
+              wordMap.set(wordEl, {{ cardEl: cardEl, lineEl: lineEl }});
+            }});
+          }});
+
+          verseLayouts.set(verse, wordMap);
+
+          var engEl = verse.querySelector('.english');
+          if (engEl) {{
+            engEl.style.transform = 'translateY(' + Math.max(ANN_BASE_MARGIN, latinEl.offsetHeight + 28) + 'px)';
+          }}
+          verse.style.minHeight = (latinEl.offsetHeight + 80) + 'px';
+
+        }} else {{
+          var latinH    = latinEl ? latinEl.offsetHeight : 0;
+          var cardTop   = latinH + 20;
+          var n         = allWords.length;
+          var cardWidth = Math.min(320, Math.max(180, Math.floor((pageRight - pageLeft - (n - 1) * GAP) / n)));
+          var placed    = placeCards(allWords, cardWidth, cardTop, pageLeft, pageRight);
+
+          placed.sorted.forEach(function(wordEl, i) {{
+            var slideIdx = wordEl.closest('.slide').dataset.idx;
+            var token    = stripPunct(wordEl.textContent.trim());
+            var key      = slideIdx + '_' + token;
+            var info     = annotationData && annotationData.words ? annotationData.words[key] : null;
+
+            var cardEl = createCard(verse, wordEl, key, info);
+            cardEl.style.width = cardWidth + 'px';
+            cardEl.style.left  = placed.positions[i] + 'px';
+            cardEl.style.top   = cardTop + 'px';
+
+            var wRect  = wordEl.getBoundingClientRect();
+            var x1     = (placed.positions[i] + cardWidth / 2).toFixed(1);
+            var y1     = cardTop.toFixed(1);
+            var x2     = (wRect.left + wRect.width / 2 - verseRect.left).toFixed(1);
+            var y2     = (wRect.bottom - verseRect.top).toFixed(1);
+            var lineEl = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            lineEl.setAttribute('x1', x1); lineEl.setAttribute('y1', y1);
+            lineEl.setAttribute('x2', x2); lineEl.setAttribute('y2', y2);
+            lineEl.setAttribute('stroke', color);
+            lineEl.setAttribute('stroke-width', '2.5');
+            lineEl.style.opacity    = '0';
+            lineEl.style.transition = 'opacity 0.45s ease';
+            svgEl.appendChild(lineEl);
+            wordMap.set(wordEl, {{ cardEl: cardEl, lineEl: lineEl }});
+          }});
+
+          verseLayouts.set(verse, wordMap);
+
+          requestAnimationFrame(function() {{
+            var maxH = 0;
+            wordMap.forEach(function(item) {{ maxH = Math.max(maxH, item.cardEl.offsetHeight); }});
+            var engEl = verse.querySelector('.english');
+            if (engEl) {{
+              engEl.style.transform = 'translateY(' + Math.max(ANN_BASE_MARGIN, latinH + maxH + 220) + 'px)';
+            }}
+          }});
+        }}
+      }});
+    }}
+
+    function showAnnotation(wordEl) {{
+      var verse   = wordEl.closest('.verse');
+      var wordMap = verseLayouts.get(verse);
+      if (!wordMap) return;
+      var item = wordMap.get(wordEl);
+      if (!item) return;
+      if (openCards.has(wordEl)) {{
+        if (item.cardEl._closeAll) item.cardEl._closeAll();
+        wordEl.classList.remove('annotated');
+        item.cardEl.classList.remove('visible');
+        item.lineEl.style.opacity = '0';
+        openCards.delete(wordEl);
+      }} else {{
+        wordEl.classList.add('annotated');
+        item.cardEl.classList.add('visible');
+        item.lineEl.style.opacity = '1';
+        openCards.add(wordEl);
+        if (item.cardEl._updateExpandHint) item.cardEl._updateExpandHint();
+      }}
+    }}
+
+    function hideAnnotations() {{
+      openCards.forEach(function(wordEl) {{
+        wordEl.classList.remove('annotated');
+        var verse   = wordEl.closest('.verse');
+        var wordMap = verseLayouts.get(verse);
+        if (wordMap) {{
+          var item = wordMap.get(wordEl);
+          if (item) {{ item.cardEl.classList.remove('visible'); item.lineEl.style.opacity = '0'; }}
+        }}
+      }});
+      openCards.clear();
+      document.querySelectorAll('.english').forEach(function(e) {{ e.style.transform = ''; }});
+    }}
+
+    function teardownAnnotations() {{
+      openCards.forEach(function(wordEl) {{
+        wordEl.classList.remove('annotated');
+        var verse   = wordEl.closest('.verse');
+        var wordMap = verseLayouts.get(verse);
+        if (wordMap) {{
+          var item = wordMap.get(wordEl);
+          if (item) {{ item.cardEl.classList.remove('visible'); item.lineEl.style.opacity = '0'; }}
+        }}
+      }});
+      openCards.clear();
+      verseLayouts.forEach(function(wordMap, verse) {{
+        wordMap.forEach(function(item) {{
+          if (item.cardEl.parentNode) item.cardEl.parentNode.removeChild(item.cardEl);
+          if (item.lineEl.parentNode) item.lineEl.parentNode.removeChild(item.lineEl);
+        }});
+        var svgEl = verse.querySelector('.annotation-svg');
+        if (svgEl) while (svgEl.firstChild) svgEl.removeChild(svgEl.firstChild);
+      }});
+      verseLayouts.clear();
+      document.querySelectorAll('.english').forEach(function(e) {{ e.style.transform = ''; }});
+      document.querySelectorAll('.verse').forEach(function(v) {{
+        removePhraseEnglish(v);
+        v.style.minHeight = '';
+      }});
+      removePhraseGroups();
+      layoutsBuilt        = false;
+      phraseGroupsApplied = false;
+    }}
+
+    function applyPhraseGroups(verse) {{
+      var slide = verse.closest('.slide');
+      if (!slide) return;
+      var idx    = slide.dataset.idx;
+      var groups = phraseData[idx];
+      if (!groups) return;
+      if (verse.querySelector('.phrase-group')) return;
+      var latinEl = verse.querySelector('.latin');
+      if (!latinEl) return;
+      var words = Array.from(latinEl.querySelectorAll('.lat-word'));
+      if (words.length === 0) return;
+      var sequence = [];
+      groups.forEach(function(group, gIdx) {{
+        group.forEach(function(tok) {{ sequence.push({{ gIdx: gIdx, tok: tok.toLowerCase() }}); }});
+      }});
+      var seqPos    = 0;
+      var wordToGroup = new Map();
+      words.forEach(function(wordEl) {{
+        var stripped = stripPunct(wordEl.textContent.trim()).toLowerCase();
+        while (seqPos < sequence.length && sequence[seqPos].tok !== stripped) seqPos++;
+        if (seqPos < sequence.length) {{ wordToGroup.set(wordEl, sequence[seqPos].gIdx); seqPos++; }}
+      }});
+      var i = 0;
+      while (i < words.length) {{
+        if (!wordToGroup.has(words[i])) {{ i++; continue; }}
+        var gIdx = wordToGroup.get(words[i]);
+        var j = i + 1;
+        while (j < words.length && wordToGroup.get(words[j]) === gIdx) j++;
+        var span = document.createElement('span');
+        span.className = 'phrase-group';
+        span.style.paddingBottom = '300px';
+        latinEl.insertBefore(span, words[i]);
+        for (var k = i; k < j; k++) span.appendChild(words[k]);
+        i = j;
+      }}
+      latinEl.classList.add('has-phrase-groups');
+    }}
+
+    function removePhraseGroups() {{
+      document.querySelectorAll('.verse').forEach(function(verse) {{
+        var latinEl = verse.querySelector('.latin');
+        if (!latinEl || !latinEl.classList.contains('has-phrase-groups')) return;
+        Array.from(latinEl.querySelectorAll('.phrase-group')).forEach(function(group) {{
+          while (group.firstChild) latinEl.insertBefore(group.firstChild, group);
+          latinEl.removeChild(group);
+        }});
+        latinEl.classList.remove('has-phrase-groups');
+        Array.from(latinEl.querySelectorAll('.lat-word')).forEach(function(wordEl) {{
+          var prev = wordEl.previousSibling;
+          if (prev && prev.nodeType === Node.ELEMENT_NODE && prev.classList.contains('lat-word')) {{
+            latinEl.insertBefore(document.createTextNode(' '), wordEl);
+          }}
+        }});
+      }});
+    }}
+
+    function applyPhraseEnglish(verse) {{
+      var latinEl = verse.querySelector('.latin');
+      var engEl   = verse.querySelector('.english');
+      if (!latinEl || !engEl || !latinEl.classList.contains('has-phrase-groups')) return;
+      if (verse.querySelector('.phrase-eng-row')) return;
+      var groupToPhrase  = {{}};
+      var phraseGroupSpans = Array.from(latinEl.querySelectorAll('.phrase-group'));
+      phraseGroupSpans.forEach(function(pgSpan, phraseIdx) {{
+        Array.from(pgSpan.querySelectorAll('.lat-word')).forEach(function(wEl) {{
+          if (wEl.dataset.group) groupToPhrase[wEl.dataset.group] = phraseIdx;
+        }});
+      }});
+      var buckets      = phraseGroupSpans.map(function() {{ return []; }});
+      var currentPhrase = 0;
+      Array.from(engEl.childNodes).forEach(function(node) {{
+        if (node.nodeType === Node.ELEMENT_NODE && node.classList.contains('eng-word')) {{
+          var pg = groupToPhrase[node.dataset.group];
+          if (pg !== undefined) currentPhrase = pg;
+        }}
+        buckets[currentPhrase].push(node);
+      }});
+      phraseGroupSpans.forEach(function(pgSpan, phraseIdx) {{
+        if (buckets[phraseIdx].length === 0) return;
+        var row = document.createElement('span');
+        row.className = 'phrase-eng-row';
+        buckets[phraseIdx].forEach(function(node) {{ row.appendChild(node); }});
+        pgSpan.appendChild(row);
+      }});
+    }}
+
+    function removePhraseEnglish(verse) {{
+      var engEl = verse.querySelector('.english');
+      if (!engEl) return;
+      Array.from(verse.querySelectorAll('.phrase-eng-row')).forEach(function(row) {{
+        while (row.firstChild) engEl.appendChild(row.firstChild);
+        row.parentNode.removeChild(row);
+      }});
+    }}
+
+    var annToggleBtn = document.getElementById('annotations-toggle');
+    annToggleBtn.addEventListener('click', function() {{
+      annotationsMode = !annotationsMode;
+      document.body.classList.toggle('annotations-mode', annotationsMode);
+      annToggleBtn.textContent = annotationsMode ? 'close annotations' : 'annotations';
+      if (annotationsMode) {{
+        if (!phraseGroupsApplied) {{
+          document.querySelectorAll('.verse').forEach(function(verse) {{
+            applyPhraseGroups(verse);
+            applyPhraseEnglish(verse);
+          }});
+          phraseGroupsApplied = true;
+        }}
+        document.querySelectorAll('.english').forEach(function(e) {{
+          e.style.transform = 'translateY(' + ANN_BASE_MARGIN + 'px)';
+        }});
+        requestAnimationFrame(function() {{
+          buildVerseLayouts();
+          layoutsBuilt = true;
+          requestAnimationFrame(function() {{
+            document.querySelectorAll('.latin.has-phrase-groups .phrase-group').forEach(function(span, idx) {{
+              span.style.animationDelay = (idx * 0.1) + 's';
+              span.classList.add('animate-in');
+            }});
+          }});
+        }});
+      }} else {{
+        teardownAnnotations();
+      }}
+    }});
+  </script>
+
+</body>
+</html>"""
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Main
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Navbar links — update when you add new poems to the site.
+NAV_ITEMS = """\
+          <a href="toothpaste.html" class="nav-dropdown-item">Apuleius &mdash; Apologia, Chapter 6 (The Toothpaste Poem)</a>
+          <a href="perpetua.html" class="nav-dropdown-item">Perpetua&rsquo;s Diary &mdash; Paragraphs 1 &amp; 2</a>"""
+  <style>
+    html, body {{ margin: 0; height: 100%; }}
+
+    body {{
+      background:
+        linear-gradient(rgba(200, 175, 148, 0.54), rgba(200, 175, 148, 0.54)),
+        url('marble.jpg') center / cover no-repeat fixed;
+      font-family: Georgia, "Times New Roman", serif;
+    }}
+
+    /* ── Site title ── */
+    .site-title {{
+      position: fixed;
+      top: 14px;
+      left: 0; right: 0;
+      text-align: center;
+      z-index: 200;
       pointer-events: none;
       font-family: Georgia, "Times New Roman", serif;
       font-size: 1.1rem;
