@@ -1479,8 +1479,7 @@ HTML = """\
 
 # Navbar links — update when you add new poems to the site.
 NAV_ITEMS = """\
-          <a href="toothpaste.html" class="nav-dropdown-item">Apuleius &mdash; Apologia, Chapter 6 (The Toothpaste Poem)</a>
-          <a href="perpetua.html" class="nav-dropdown-item">Perpetua&rsquo;s Diary &mdash; Paragraphs 1 &amp; 2</a>"""
+          <a href="toothpaste.html" class="nav-dropdown-item">Apuleius &mdash; Apologia, Chapter 6 (The Toothpaste Poem)</a>"""
   <style>
     html, body {{ margin: 0; height: 100%; }}
 
@@ -2280,8 +2279,7 @@ NAV_ITEMS = """\
 
 # Navbar links — update when you add new poems to the site.
 NAV_ITEMS = """\
-          <a href="toothpaste.html" class="nav-dropdown-item">Apuleius &mdash; Apologia, Chapter 6 (The Toothpaste Poem)</a>
-          <a href="perpetua.html" class="nav-dropdown-item">Perpetua&rsquo;s Diary &mdash; Paragraphs 1 &amp; 2</a>"""
+          <a href="toothpaste.html" class="nav-dropdown-item">Apuleius &mdash; Apologia, Chapter 6 (The Toothpaste Poem)</a>"""
 
 
 def main():
